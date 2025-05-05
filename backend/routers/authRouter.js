@@ -58,5 +58,29 @@ router.post('/signup', async (req, res) => {
   }
   res.status(200).json({ token, user: { id: newUser.id, email: newUser.email } });
 });
+router.get('/validate-token', async (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json('No token provided');
+  }
+  //todo det her kan være redundant
+  const nonverifiedUser = jwt.verify(token, process.env.JWT_SECRET, err => {
+    if (err) {
+      return res.status(401).json('Invalid token');
+    }
+  });
+
+  const verifiedUser = await prisma.user.findUnique({
+    where: { id: nonverifiedUser.id },
+  });
+
+  jwt.verify(token, process.env.JWT_SECRET, err => {
+    if (err) {
+      return res.status(401).json('Invalid token');
+    }
+    res.status(200).json({ token, user: { id: verifiedUser.id, email: verifiedUser.email } });
+  });
+});
 
 export default router;
