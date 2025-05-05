@@ -65,14 +65,16 @@ router.get('/validate-token', async (req, res) => {
     return res.status(401).json('No token provided');
   }
   //todo det her kan være redundant
-  const nonverifiedUser = jwt.verify(token, process.env.JWT_SECRET, err => {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json('Invalid token');
     }
+    return decoded;
   });
 
+  console.log('Decoded JWT:', decoded); // Log the decoded token to check its structure
   const verifiedUser = await prisma.user.findUnique({
-    where: { id: nonverifiedUser.id },
+    where: { id: decoded.id },
   });
 
   jwt.verify(token, process.env.JWT_SECRET, err => {
