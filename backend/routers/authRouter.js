@@ -14,12 +14,12 @@ router.post('/login', async (req, res) => {
   });
 
   if (!user) {
-    return res.status(400).json({ data: 'Invalid credentials' });
+    return res.status(400).json('Invalid credentials');
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    return res.status(400).json({ data: 'Invalid credentials' });
+    return res.status(400).json('Invalid credentials');
   }
 
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
@@ -37,7 +37,7 @@ router.post('/signup', async (req, res) => {
   });
 
   if (existingUser) {
-    return res.status(400).json({ data: 'User already exists' });
+    return res.status(400).json('User already exists');
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -54,7 +54,7 @@ router.post('/signup', async (req, res) => {
   if (token) {
     //await sendSignupEmail(newUser.email); todo
   } else {
-    return res.status(500).json({ data: 'Error signing up' });
+    return res.status(500).json('Error signing up');
   }
   res.status(200).json({ token, user: { id: newUser.id, email: newUser.email } });
 });
