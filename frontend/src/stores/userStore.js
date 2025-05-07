@@ -7,6 +7,7 @@ export const user = writable(savedUser || null);
 export const token = writable(savedToken || null);
 
 user.subscribe(value => {
+  //todo fjern det her !!!!
   if (value) {
     localStorage.setItem('user', JSON.stringify(value));
   } else {
