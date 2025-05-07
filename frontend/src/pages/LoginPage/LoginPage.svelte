@@ -1,5 +1,5 @@
 <script>
-    import {user} from "../../stores/userStore.js";
+    import {user, token} from "../../stores/userStore.js";
 
     let form = $state({
         email: 'admin@test.com',
@@ -29,6 +29,7 @@
         console.log(resJson);
         if (res.status === 200) {
             user.set(resJson.user);
+            token.set(resJson.token);
             loading = false
             setTimeout(() => {
                 window.location.href = "/";
