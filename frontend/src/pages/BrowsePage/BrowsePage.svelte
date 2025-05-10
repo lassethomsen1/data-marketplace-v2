@@ -3,7 +3,7 @@
 
     const datasets = [
         {
-            imageUrl: "https://placehold.co/600x400",
+            id: 1,
             title: "Open Images AI Dataset",
             shortDescription: "A large collection of labeled images useful for computer vision tasks like object detection and image classification.",
             tags: ["images", "vision", "open"],
@@ -11,7 +11,7 @@
             price: 49
         },
         {
-            imageUrl: "https://placehold.co/600x400",
+            id: 2,
             title: "Text Corpus for NLP",
             shortDescription: "Millions of cleaned text entries for training language models, chatbots, and other NLP tools.",
             tags: ["text", "nlp", "language"],
@@ -19,7 +19,7 @@
             price: 35
         },
         {
-            imageUrl: "https://placehold.co/600x400",
+            id: 3,
             title: "Healthcare Analytics Dataset",
             shortDescription: "Structured and anonymized patient data for machine learning applications in healthcare.",
             tags: ["healthcare", "analytics", "structured"],
@@ -27,7 +27,7 @@
             price: 75
         },
         {
-            imageUrl: "https://placehold.co/600x400",
+            id: 4,
             title: "Financial Transactions Dataset",
             shortDescription: "Detailed financial records for anomaly detection and fraud detection models.",
             tags: ["finance", "transactions", "fraud"],
