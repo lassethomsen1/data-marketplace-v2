@@ -17,7 +17,7 @@
             <span class="bg-[#F3F4F6] text-xs text-[#1F2937] px-2 py-1 rounded-full">{tag}</span>
         {/each}
     </div>
-    <a href="/dataset/:id" class="bg-[#3B82F6] hover:bg-[#1E40AF] text-white text-sm py-2 px-4 rounded-md font-medium transition-all duration-150">
+    <a href={`/dataset/${item.id}`} class="bg-[#3B82F6] hover:bg-[#1E40AF] text-white text-sm py-2 px-4 rounded-md font-medium">
         Buy Now
     </a>
 </div>
