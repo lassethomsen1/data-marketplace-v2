@@ -42,6 +42,7 @@ model Dataset {
   title       String
   description String
   fileUrl     String
+  sampleData  String
   price       Int // in cents for Stripe compatibility
   sellerId    String
   seller      User       @relation("UserDatasets", fields: [sellerId], references: [id])
