@@ -1,6 +1,6 @@
 <script>
     import clsx from 'clsx';
-    const { stat, className = ' '} = $props();
+    const { children ,className = ' '} = $props();
     // todo change font too bold
 
     // to avoid bg-gray-300 being overridden by custom bg classes
@@ -14,5 +14,5 @@
     className
   )}
 >
-    <p>{stat}</p>
+    {@render children?.()}
 </div>
