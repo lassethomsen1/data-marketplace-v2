@@ -16,7 +16,10 @@
 </div>
 
 {#if selectedTab === 'Overview'}
-    <p>Here is an overview of the product.</p>
+    <article class="text-wrap w-full">
+        <h1>{selectedTab}</h1>
+        <p class="text-left whitespace-normal break-words"></p>
+    </article>
 {:else if selectedTab === 'Features'}
     <p>Here are the features.</p>
 {:else if selectedTab === 'Pricing'}
