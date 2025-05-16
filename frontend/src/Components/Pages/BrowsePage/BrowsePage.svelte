@@ -1,5 +1,5 @@
 <script>
-    import ItemCard from "../platform/ItemCard.svelte";
+    import ItemCard from "../../platform/ItemCard.svelte";
 
     const datasets = [
         {

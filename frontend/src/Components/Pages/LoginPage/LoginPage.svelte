@@ -1,5 +1,5 @@
 <script>
-    import {user, token} from "../../stores/userStore.js";
+    import {user, token} from "../../../stores/userStore.js";
 
     let form = $state({
         email: 'admin@test.com',
