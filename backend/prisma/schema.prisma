@@ -41,7 +41,10 @@ model Dataset {
   id          String     @id @default(uuid())
   title       String
   description String
-  fileUrl     String
+  filekey     String
+  filetype    String
+  filesize    Int
+  tags        String[]
   sampleData  String
   price       Int // in cents for Stripe compatibility
   sellerId    String
