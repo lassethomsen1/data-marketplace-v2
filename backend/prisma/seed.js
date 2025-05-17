@@ -29,8 +29,25 @@ async function main() {
       password: await bcrypt.hash('admin', 10),
     },
   });
+  const userNotOnboarded = await prisma.user.upsert({
+    where: { email: 'user-not-onboarded@test.com' },
+    update: {
+      stripeAccountId: null,
+      stripeOnboardingCompleted: false,
+    },
+    create: {
+      email: 'user-not-onboarded@test.com',
+      name: 'UserNotOnboarded',
+      role: 'USER',
+      password: await bcrypt.hash('user', 10),
+      stripeAccountId: null,
+      stripeOnboardingCompleted: false,
+    },
+  });
+
   console.log(user ? 'User created' : 'User already exists');
   console.log(admin ? 'admin created' : 'admin already exists');
+  console.log(userNotOnboarded ? 'userNotOnboarded created' : 'userNotOnboarded already exists');
 }
 
 main()
