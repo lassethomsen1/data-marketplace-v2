@@ -27,15 +27,15 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
 
     accountId = account.id;
   }
-
+  //todo set refresh_url up correctly
   const origin = req.headers.origin || process.env.FRONTEND_URL;
   const accountLink = await stripe.accountLinks.create({
     account: accountId,
     refresh_url: `${origin}/onboarding/refresh`,
-    return_url: `${origin}/onboarding/complete`,
+    return_url: `${origin}/dataset/1`,
     type: 'account_onboarding',
   });
 
-  res.redirect(accountLink.url);
+  res.json({ url: accountLink.url });
 });
 export default router;
