@@ -4,6 +4,7 @@
     import LoginPage from "./Components/Pages/LoginPage/LoginPage.svelte";
     import BrowsePage from "./Components/Pages/BrowsePage/BrowsePage.svelte";
     import ProductPage from "./Components/Pages/ProductPage/ProductPage.svelte";
+    import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
 </script>
 <Router>
     <div>
@@ -13,6 +14,9 @@
         </Route>
         <Route path="/login">
             <LoginPage/>
+        </Route>
+        <Route path="/profile">
+            <ProfilePage/>
         </Route>
         <Route path="/dataset/:id" let:params>
             <ProductPage datesetId={params.id}/>
