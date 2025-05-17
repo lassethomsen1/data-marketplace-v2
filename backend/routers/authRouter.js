@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { PrismaClient } from '../generated/prisma/index.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = new Router();
 const prisma = new PrismaClient();
@@ -83,5 +84,23 @@ router.get('/validate-token', async (req, res) => {
     res.status(200).json({ token, user: { id: verifiedUser.id, email: verifiedUser.email } });
   });
 });
+router.get('/user', authenticateToken, (req, res) => {
+  const userId = req.user.id;
 
+  prisma.user
+    .findUnique({
+      where: { id: userId },
+    })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json('User not found');
+      }
+      const { password, ...userWithoutPassword } = user;
+      res.status(200).json({ user: userWithoutPassword });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json('Internal server error');
+    });
+});
 export default router;
