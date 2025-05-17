@@ -23,10 +23,11 @@ export async function onboardUser() {
   });
 
   await handleError(response);
+  const { url } = await response.json();
 
-  const userData = await response.json();
-  return userData;
+  window.location.href = url;
 }
+
 async function handleError(response) {
   if (!response.ok) {
     const errorMessage = await response.text();
