@@ -2,8 +2,8 @@
     import {user, token} from "../../../stores/userStore.js";
 
     let form = $state({
-        email: 'admin@test.com',
-        password: 'admin',
+        email: 'user-not-onboarded@test.com',
+        password: 'user',
         error: '',
     })
     let loading = $state(false);
