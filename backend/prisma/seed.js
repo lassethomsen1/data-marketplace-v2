@@ -6,7 +6,10 @@ const prisma = new PrismaClient();
 async function main() {
   const user = await prisma.user.upsert({
     where: { email: 'user@test.com' },
-    update: {},
+    update: {
+      stripeAccountId: 'acct_1RPhmiPSElnGH7h5',
+      stripeOnboardingCompleted: true,
+    },
     create: {
       email: 'user@test.com',
       name: 'User',
