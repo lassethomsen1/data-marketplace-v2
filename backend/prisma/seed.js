@@ -12,6 +12,8 @@ async function main() {
       name: 'User',
       role: 'USER',
       password: await bcrypt.hash('user', 10),
+      stripeAccountId: 'acct_1RPhmiPSElnGH7h5',
+      stripeOnboardingCompleted: true,
     },
   });
   const admin = await prisma.user.upsert({
