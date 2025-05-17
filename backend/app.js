@@ -1,13 +1,15 @@
-import express from 'express';
 import 'dotenv/config';
-import authRouter from './routers/authRouter.js';
+import express from 'express';
 import cors from 'cors';
+import datasetRouter from './routers/datasetRouter.js';
+import authRouter from './routers/authRouter.js';
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 app.use('/auth', authRouter);
+app.use('/api', datasetRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
