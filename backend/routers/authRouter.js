@@ -72,7 +72,6 @@ router.get('/validate-token', async (req, res) => {
     return decoded;
   });
 
-  console.log('Decoded JWT:', decoded); // Log the decoded token to check its structure
   const verifiedUser = await prisma.user.findUnique({
     where: { id: decoded.id },
   });
