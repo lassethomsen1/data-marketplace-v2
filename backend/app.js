@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import datasetRouter from './routers/datasetRouter.js';
 import authRouter from './routers/authRouter.js';
+import stripeRouter from './routers/stripeRouter.js';
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use('/auth', authRouter);
 app.use('/api', datasetRouter);
+app.use('/api/stripe', stripeRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
