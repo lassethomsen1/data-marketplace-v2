@@ -39,10 +39,10 @@
         }
 
         // Add unique ID to each file
-        const filesWithIds = validFiles.map(file => ({
-            ...file,
-            id: crypto.randomUUID()
-        }));
+        const filesWithIds = validFiles.map(file =>
+            Object.assign(file, { id: crypto.randomUUID() })
+        );
+
 
         $uploadedFiles = [...$uploadedFiles, ...filesWithIds];
         $errors.upload = null;
@@ -92,11 +92,11 @@
     </div>
 
     {#if $errors.upload}
-        <p class="text-[#EF4444] text-sm mt-2">{errors.upload}</p>
+        <p class="text-[#EF4444] text-sm mt-2">{$errors.upload}</p>
     {/if}
 
     {#if $errors.files}
-        <p class="text-[#EF4444] text-sm mt-2">{errors.files}</p>
+        <p class="text-[#EF4444] text-sm mt-2">{$errors.files}</p>
     {/if}
 
     {#if $uploadedFiles.length > 0}
