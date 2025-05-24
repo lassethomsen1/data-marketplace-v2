@@ -45,7 +45,6 @@
                 setTimeout(() => {
                     $isUploading = false;
                     $showSuccess = true;
-                    // Reset form
                     $formData = {
                         title: '',
                         description: '',
@@ -89,10 +88,8 @@
 
             <DatasetInfomationForm/>
 
-            <!-- Upload Progress -->
             <UploadProgress/>
 
-            <!-- Submit Button -->
             <div class="flex justify-end space-x-4">
                 <button
                         type="submit"
