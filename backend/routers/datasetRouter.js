@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import multer from 'multer';
 import crypto from 'crypto';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth.js';
 import { PrismaClient } from '../generated/prisma/index.js';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 const router = new Router();
 const prisma = new PrismaClient();
@@ -75,7 +76,7 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
       return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const { title, description, price, tags } = req.body;
+    const { title, description, price, tags, category } = req.body;
 
     if (!title || !description || !price) {
       return res.status(400).json({ error: 'Missing required fields' });
@@ -106,7 +107,7 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
         ContentType: fileType,
       })
     );
-
+    // todo grim kode: fix filekey osv...
     const dataset = await prisma.dataset.create({
       data: {
         title,
@@ -115,6 +116,7 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
         filetype: fileType,
         filesize: fileSize,
         tags: parsedTags,
+        category,
         sampleData,
         price: parseInt(price, 10), // Convert price to integer (cents)
         sellerId: userId,
@@ -136,6 +138,55 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
     console.error('Upload error:', error);
     return res.status(500).json({
       error: 'Failed to upload dataset',
+      message: error.message,
+    });
+  }
+});
+router.get('/download/:datasetId', authenticateToken, async (req, res) => {
+  try {
+    const { datasetId } = req.params;
+    const userId = req.user.id;
+
+    const dataset = await prisma.dataset.findUnique({
+      where: { id: datasetId },
+      include: {
+        purchases: {
+          where: { buyerId: userId },
+        },
+      },
+    });
+
+    if (!dataset) {
+      return res.status(404).json({ error: 'Dataset not found' });
+    }
+
+    // Check if user has access (is seller OR has purchased)
+    const isSeller = dataset.sellerId === userId;
+    const hasPurchased = dataset.purchases.length > 0;
+
+    if (!isSeller && !hasPurchased) {
+      return res.status(403).json({
+        error: 'Access denied. You must purchase this dataset to download it.',
+      });
+    }
+
+    // Generate secure download URL (expires in 1 hour)
+    const command = new GetObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: dataset.filekey,
+    });
+
+    const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+
+    return res.json({
+      downloadUrl,
+      filename: `${dataset.title}.${dataset.filetype.split('/')[1]}`,
+      expiresIn: 3600,
+    });
+  } catch (error) {
+    console.error('Download error:', error);
+    return res.status(500).json({
+      error: 'Failed to generate download link',
       message: error.message,
     });
   }
