@@ -1,6 +1,6 @@
 <script>
     import {logout, user} from "../../stores/userStore.js";
-    import {Search} from "lucide-svelte";
+    import {CircleUserRound, Search} from "lucide-svelte";
 
     let searchQuery = $state("");
 
@@ -65,12 +65,16 @@
                         </button>
                     </div>
                 {:else}
-                    <div>
+                    <div class="flex items-center space-x-3">
+                        <a href="/profile">
+                            <CircleUserRound class="h-8 w-8 text-white" />
+                        </a>
                         <button onclick={logout}
-                                class="flex items-center space-x-1 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
-                            <span>Logout</span>
+                                class="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
+                            Logout
                         </button>
                     </div>
+
                 {/if}
             </div>
         </div>
