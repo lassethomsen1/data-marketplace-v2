@@ -118,7 +118,7 @@ router.post('/dataset', authenticateToken, upload.single('file'), async (req, re
         tags: parsedTags,
         category,
         sampleData,
-        price: parseInt(price, 10), // Convert price to integer (cents)
+        price: parseInt(price, 10), // cents
         sellerId: userId,
       },
     });
@@ -142,6 +142,7 @@ router.post('/dataset', authenticateToken, upload.single('file'), async (req, re
     });
   }
 });
+
 router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
   try {
     const { datasetId } = req.params;
@@ -160,7 +161,6 @@ router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
       return res.status(404).json({ error: 'Dataset not found' });
     }
 
-    // Check if user has access (is seller OR has purchased)
     const isSeller = dataset.sellerId === userId;
     const hasPurchased = dataset.purchases.length > 0;
 
@@ -170,13 +170,12 @@ router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
       });
     }
 
-    // Generate secure download URL (expires in 1 hour)
     const command = new GetObjectCommand({
       Bucket: process.env.R2_BUCKET_NAME,
       Key: dataset.filekey,
     });
 
-    const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
 
     return res.json({
       downloadUrl,
