@@ -40,6 +40,7 @@
                 </tbody>
             </table>
         </div>
+        {#if !user.stripeOnboardingCompleted}
 
         <div class="flex flex-row space-x-1.5">
             <h2 class="text-xl">
@@ -49,5 +50,15 @@
                 Connect
             </button>
         </div>
+        {:else}
+            <div class="flex flex-row space-x-1.5">
+                <h2 class="text-xl">
+                    Change stripe information
+                </h2>
+                <button onclick={onboardUser} class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-4 py-1 font-semibold">
+                    Change
+                </button>
+            </div>
+            {/if}
     </div>
 </div>
