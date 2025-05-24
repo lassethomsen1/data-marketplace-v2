@@ -1,15 +1,15 @@
 <script>
     import {
-        Upload,
-        Plus,
-        DollarSign,
-        FileText,
-        Database,
-        BarChart3,
-        Brain,
-        Globe,
+        Upload
     } from 'lucide-svelte';
-    import { uploadedFiles, uploadProgress, formData, isUploading, showSuccess, errors} from "@/stores/uploadFormStore.js";
+    import {
+        uploadedFiles,
+        uploadProgress,
+        formData,
+        isUploading,
+        showSuccess,
+        errors
+    } from "@/stores/uploadFormStore.js";
     import TagsInput from "@/Components/Pages/UploadPage/TagsInput.svelte";
     import UploadFileInput from "@/Components/Pages/UploadPage/UploadFileInput.svelte";
     import UploadProgress from "@/Components/Pages/UploadPage/UploadProgress.svelte";
