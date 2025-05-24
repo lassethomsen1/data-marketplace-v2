@@ -12,23 +12,22 @@
     function handleLogin() {
         window.location.href = "/login"
     }
-
 </script>
 <header class="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 shadow-lg">
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-20">
-            <div class="flex items-center space-x-3">
+            <a href="/" class="flex items-center space-x-3">
                 <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
                     <div class="relative">
-                        <img class="h-8 w-8" src="https://placehold.co/600x400" alt="logo"/>
+                        <img class="h-8 w-8" src="/datasetICON.png" alt="logo"/>
                     </div>
                     <div class="text-white">
                         <div class="font-bold text-lg leading-tight">DataFlow</div>
                         <div class="text-xs text-blue-200 leading-tight">Marketplace</div>
                     </div>
                 </div>
-            </div>
+            </a>
 
             <div class="hidden md:flex flex-1 max-w-lg mx-8">
                 <form onsubmit={handleSearch} class="w-full">
