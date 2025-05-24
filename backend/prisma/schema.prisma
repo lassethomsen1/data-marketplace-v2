@@ -27,29 +27,47 @@ enum Role {
 }
 
 model Purchase {
-  id              String   @id @default(uuid())
+  id              String         @id @default(uuid())
   buyerId         String
   datasetId       String
-  buyer           User     @relation("UserPurchases", fields: [buyerId], references: [id])
-  dataset         Dataset  @relation(fields: [datasetId], references: [id])
+  buyer           User           @relation("UserPurchases", fields: [buyerId], references: [id])
+  dataset         Dataset        @relation(fields: [datasetId], references: [id])
   stripeSessionId String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  status          PurchaseStatus @default(PENDING)
+  paidAmount      Int? // amount paid in cents
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
 
 model Dataset {
-  id          String     @id @default(uuid())
-  title       String
-  description String
-  filekey     String
-  filetype    String
-  filesize    Int
-  tags        String[]
-  sampleData  String
-  price       Int // in cents for Stripe compatibility
-  sellerId    String
-  seller      User       @relation("UserDatasets", fields: [sellerId], references: [id])
-  purchases   Purchase[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id              String        @id @default(uuid())
+  title           String
+  description     String
+  filekey         String
+  filetype        String
+  filesize        Int
+  tags            String[]
+  sampleData      String
+  price           Int // in cents for Stripe
+  sellerId        String
+  status          DatasetStatus @default(PROCESSING)
+  category        String?
+  additionalFiles Json?
+  seller          User          @relation("UserDatasets", fields: [sellerId], references: [id])
+  purchases       Purchase[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+enum DatasetStatus {
+  PROCESSING
+  AVAILABLE
+  UNAVAILABLE
 }
