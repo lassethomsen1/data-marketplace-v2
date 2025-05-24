@@ -190,5 +190,38 @@ router.get('/download/:datasetId', authenticateToken, async (req, res) => {
     });
   }
 });
-router.get('/dataset', async (req, res) => {});
+router.get('/dataset', async (req, res) => {
+  try {
+    //todo make this take a optional search query and amount of datasets to return
+    const datasets = await prisma.dataset.findMany({
+      //hack because prisma doesn't have exclude :)))
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        filetype: true,
+        filesize: true,
+        tags: true,
+        sampleData: true,
+        price: true,
+        sellerId: true,
+        status: true,
+        category: true,
+        additionalFiles: true,
+        createdAt: true,
+        seller: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return res.json(datasets);
+  } catch (error) {
+    console.error('Error fetching datasets:', error);
+    return res.status(500).json({ error: 'Failed to fetch datasets' });
+  }
+});
 export default router;
