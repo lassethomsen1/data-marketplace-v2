@@ -39,7 +39,7 @@
 
         const progressInterval = setInterval(() => {
             $uploadProgress += Math.random() * 15;
-            if (uploadProgress >= 100) {
+            if ($uploadProgress >= 100) {
                 $uploadProgress = 100;
                 clearInterval(progressInterval);
                 setTimeout(() => {
