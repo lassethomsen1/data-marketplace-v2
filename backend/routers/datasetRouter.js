@@ -142,7 +142,7 @@ router.post('/dataset', authenticateToken, upload.single('file'), async (req, re
     });
   }
 });
-router.get('/download/:datasetId', authenticateToken, async (req, res) => {
+router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
   try {
     const { datasetId } = req.params;
     const userId = req.user.id;
