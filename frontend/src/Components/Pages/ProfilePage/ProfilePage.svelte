@@ -1,8 +1,7 @@
 <script>
     import {onMount} from "svelte";
-    import {getUser} from "../../../api/userApi.js";
+    import {getUser, onboardUser} from "@/api/userApi.js";
     import StatContainer from "../../platform/StatContainer.svelte";
-    import {onboardUser} from "../../../api/userApi.js";
 
     let user = {};
     onMount(async () => {
