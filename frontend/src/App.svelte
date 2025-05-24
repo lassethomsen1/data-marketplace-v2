@@ -22,6 +22,7 @@
             <ProfilePage/>
         </PrivateRoute>
         <Route path="/dataset/:id" let:params>
+            <Header/>
             <ProductPage datesetId={params.id}/>
         </Route>
         <PrivateRoute path="/upload">
