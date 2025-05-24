@@ -27,26 +27,30 @@
     }
 
     function handleFiles(files) {
+        const validExtensions = ['.csv', '.json'];
+        const validMimeTypes = ['application/json', 'text/csv', 'application/vnd.ms-excel'];
+
         const validFiles = files.filter(file => {
-            const validTypes = ['.csv', '.json'];
             const extension = '.' + file.name.split('.').pop().toLowerCase();
-            return validTypes.includes(extension) && file.size <= 100 * 1024 * 1024; // 100MB limit
+            const isValidExtension = validExtensions.includes(extension);
+            const isValidMime = validMimeTypes.includes(file.type);
+
+            return isValidExtension && isValidMime && file.size <= 100 * 1024 * 1024; // 100MB
         });
 
         if (validFiles.length === 0) {
-            $errors.upload = 'No valid files selected.';
+            $errors.upload = 'Only JSON and CSV files under 100MB are allowed.';
             return;
         }
 
-        // Add unique ID to each file
         const filesWithIds = validFiles.map(file =>
             Object.assign(file, { id: crypto.randomUUID() })
         );
 
-
         $uploadedFiles = [...$uploadedFiles, ...filesWithIds];
         $errors.upload = null;
     }
+
 
     function removeFile(fileId) {
         $uploadedFiles = $uploadedFiles.filter(f => f.id !== fileId);
