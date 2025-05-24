@@ -4,8 +4,12 @@ import cors from 'cors';
 import datasetRouter from './routers/datasetRouter.js';
 import authRouter from './routers/authRouter.js';
 import stripeRouter from './routers/stripeRouter.js';
+import webhookRouter from './routers/webhookRouter.js';
 
 const app = express();
+
+// stripe webhook endpoint must be before express.json middleware
+app.use('/api/stripe', webhookRouter);
 
 app.use(express.json());
 app.use(cors());
