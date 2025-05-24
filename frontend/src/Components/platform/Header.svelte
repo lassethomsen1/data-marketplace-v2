@@ -1,5 +1,6 @@
 <script>
     import {logout, user} from "../../stores/userStore.js";
+    import {Search} from "lucide-svelte";
 
     let searchQuery = $state("");
 
@@ -9,6 +10,7 @@
 
         searchQuery = "";
     }
+
     function handleLogin() {
         window.location.href = "/login"
     }
@@ -36,9 +38,12 @@
                                 type="text"
                                 bind:value={searchQuery}
                                 placeholder="Search datasets, categories, or providers..."
-                                class="w-full pl-10 pr-4 py-2.5 bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200"
-                        />
+                                class="w-full pl-10 pr-4 py-2.5 bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200" />
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+                            <Search />
+                        </div>
                     </div>
+
                 </form>
             </div>
 
@@ -51,7 +56,8 @@
 
                 {#if !$user}
                     <div class="hidden lg:flex items-center space-x-3">
-                        <button onclick={handleLogin} class="flex items-center space-x-1 px-4 py-2 text-white hover:text-teal-300 transition-colors duration-200 font-medium">
+                        <button onclick={handleLogin}
+                                class="flex items-center space-x-1 px-4 py-2 text-white hover:text-teal-300 transition-colors duration-200 font-medium">
                             <span>Login</span>
                         </button>
                         <button class="flex items-center space-x-1 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
@@ -60,7 +66,8 @@
                     </div>
                 {:else}
                     <div>
-                        <button onclick={logout} class="flex items-center space-x-1 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
+                        <button onclick={logout}
+                                class="flex items-center space-x-1 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
                             <span>Logout</span>
                         </button>
                     </div>
