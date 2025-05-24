@@ -66,7 +66,7 @@ async function extractSampleData(buffer, filetype) {
   return 'Sample preview not available for this file type';
 }
 
-router.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
+router.post('/dataset', authenticateToken, upload.single('file'), async (req, res) => {
   try {
     const userId = req.user.id;
 
