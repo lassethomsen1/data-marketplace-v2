@@ -37,20 +37,20 @@
         $uploadProgress = 0;
 
         const form = new FormData();
-        const file = $uploadedFiles[0]; // assuming one file
+        const file = $uploadedFiles[0]; // todo: handle multiple files
 
         form.append("file", file);
         form.append("title", $formData.title);
         form.append("description", $formData.description);
         form.append("price", $formData.price);
         form.append("category", $formData.category);
-        form.append("tags", JSON.stringify($formData.tags)); // needs to be JSON
+        form.append("tags", JSON.stringify($formData.tags));
 
         try {
             const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/upload", {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`, // adjust if token is stored elsewhere
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
                 body: form
             });
@@ -62,9 +62,9 @@
                 return;
             }
 
-            const data = await response.json();
+            const data = await response.json(); //todo make a toast or something
 
-            // Fake progress animation
+            // Fake progress animation todo: replace with real upload progress
             const progressInterval = setInterval(() => {
                 $uploadProgress += Math.random() * 15;
                 if ($uploadProgress >= 100) {
