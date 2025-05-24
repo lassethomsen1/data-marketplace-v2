@@ -6,6 +6,7 @@
     import ProductPage from "./Components/Pages/ProductPage/ProductPage.svelte";
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
     import Header from "./Components/platform/Header.svelte";
+    import UploadPage from "./Components/Pages/UploadPage/UploadPage.svelte";
 </script>
 <Router>
     <div>
@@ -23,6 +24,10 @@
         <Route path="/dataset/:id" let:params>
             <ProductPage datesetId={params.id}/>
         </Route>
+        <PrivateRoute path="/upload">
+            <Header/>
+            <UploadPage/>
+        </PrivateRoute>
         <PrivateRoute path="/secret">
             <h1 class="text-9xl text-center">SECRET</h1>
         </PrivateRoute>
