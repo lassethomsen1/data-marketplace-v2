@@ -13,7 +13,7 @@
         window.location.href = "/login"
     }
 </script>
-<header class="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 shadow-lg">
+<header class="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 shadow-lg mb-4">
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-20">
