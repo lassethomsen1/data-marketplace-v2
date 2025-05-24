@@ -22,3 +22,9 @@ token.subscribe(value => {
     localStorage.removeItem('token');
   }
 });
+export function logout() {
+  user.set(null);
+  token.set(null);
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+}
