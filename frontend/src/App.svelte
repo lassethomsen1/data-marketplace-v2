@@ -16,9 +16,9 @@
         <Route path="/login">
             <LoginPage/>
         </Route>
-        <Route path="/profile">
+        <PrivateRoute path="/profile">
             <ProfilePage/>
-        </Route>
+        </PrivateRoute>
         <Route path="/dataset/:id" let:params>
             <ProductPage datesetId={params.id}/>
         </Route>
