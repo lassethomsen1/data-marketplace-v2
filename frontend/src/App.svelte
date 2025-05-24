@@ -17,6 +17,7 @@
             <LoginPage/>
         </Route>
         <PrivateRoute path="/profile">
+            <Header/>
             <ProfilePage/>
         </PrivateRoute>
         <Route path="/dataset/:id" let:params>
