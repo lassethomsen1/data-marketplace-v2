@@ -5,11 +5,12 @@
     import BrowsePage from "./Components/Pages/BrowsePage/BrowsePage.svelte";
     import ProductPage from "./Components/Pages/ProductPage/ProductPage.svelte";
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
+    import Header from "./Components/platform/header.svelte";
 </script>
 <Router>
     <div>
         <Route path="/">
-            <h1 class="text-9xl text-center">HOME</h1>
+            <Header/>
             <BrowsePage/>
         </Route>
         <Route path="/login">
