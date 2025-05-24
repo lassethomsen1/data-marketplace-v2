@@ -5,7 +5,7 @@
     import BrowsePage from "./Components/Pages/BrowsePage/BrowsePage.svelte";
     import ProductPage from "./Components/Pages/ProductPage/ProductPage.svelte";
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
-    import Header from "./Components/platform/header.svelte";
+    import Header from "./Components/platform/Header.svelte";
 </script>
 <Router>
     <div>
