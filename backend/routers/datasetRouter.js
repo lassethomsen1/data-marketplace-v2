@@ -66,7 +66,7 @@ async function extractSampleData(buffer, filetype) {
   return 'Sample preview not available for this file type';
 }
 
-router.post('/dataset', authenticateToken, upload.single('file'), async (req, res) => {
+router.post('/upload', authenticateToken, upload.single('file'), async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -143,7 +143,7 @@ router.post('/dataset', authenticateToken, upload.single('file'), async (req, re
   }
 });
 
-router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
+router.get('/download/:datasetId', authenticateToken, async (req, res) => {
   try {
     const { datasetId } = req.params;
     const userId = req.user.id;
@@ -190,4 +190,5 @@ router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
     });
   }
 });
+router.get('/dataset', async (req, res) => {});
 export default router;
