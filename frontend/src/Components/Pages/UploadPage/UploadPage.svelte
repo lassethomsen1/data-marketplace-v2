@@ -15,7 +15,6 @@
     import DatasetInfomationForm from "@/Components/Pages/UploadPage/DatasetInfomationForm.svelte";
 
 
-    // Form validation
     function validateForm() {
         const newErrors = {};
 
@@ -29,33 +28,69 @@
         return Object.keys(newErrors).length === 0;
     }
 
-    // Form submission
-    async function handleSubmit() {
+    async function handleSubmit(event) {
+        event.preventDefault();
+
         if (!validateForm()) return;
 
         $isUploading = true;
         $uploadProgress = 0;
 
-        const progressInterval = setInterval(() => {
-            $uploadProgress += Math.random() * 15;
-            if ($uploadProgress >= 100) {
-                $uploadProgress = 100;
-                clearInterval(progressInterval);
-                setTimeout(() => {
-                    $isUploading = false;
-                    $showSuccess = true;
-                    $formData = {
-                        title: '',
-                        description: '',
-                        category: '',
-                        tags: [],
-                        price: '',
-                    };
-                    $uploadedFiles = [];
-                    setTimeout(() => $showSuccess = false, 5000);
-                }, 500);
+        const form = new FormData();
+        const file = $uploadedFiles[0]; // assuming one file
+
+        form.append("file", file);
+        form.append("title", $formData.title);
+        form.append("description", $formData.description);
+        form.append("price", $formData.price);
+        form.append("category", $formData.category);
+        form.append("tags", JSON.stringify($formData.tags)); // needs to be JSON
+
+        try {
+            const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/upload", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`, // adjust if token is stored elsewhere
+                },
+                body: form
+            });
+
+            if (!response.ok) {
+                const { error } = await response.json();
+                $errors = { server: error || "Failed to upload dataset." };
+                $isUploading = false;
+                return;
             }
-        }, 200);
+
+            const data = await response.json();
+
+            // Fake progress animation
+            const progressInterval = setInterval(() => {
+                $uploadProgress += Math.random() * 15;
+                if ($uploadProgress >= 100) {
+                    $uploadProgress = 100;
+                    clearInterval(progressInterval);
+                    setTimeout(() => {
+                        $isUploading = false;
+                        $showSuccess = true;
+                        $formData = {
+                            title: '',
+                            description: '',
+                            category: '',
+                            tags: [],
+                            price: '',
+                        };
+                        $uploadedFiles = [];
+                        setTimeout(() => $showSuccess = false, 5000);
+                    }, 500);
+                }
+            }, 200);
+
+        } catch (err) {
+            console.error("Upload failed", err);
+            $errors = { server: "Something went wrong while uploading." };
+            $isUploading = false;
+        }
     }
 </script>
 
