@@ -118,7 +118,7 @@ router.post('/upload', authenticateToken, upload.single('file'), async (req, res
         tags: parsedTags,
         category,
         sampleData,
-        price: parseInt(price, 10), // cents
+        price: Math.round(parseFloat(price) * 100), // store in cents
         sellerId: userId,
       },
     });
