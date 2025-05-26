@@ -5,6 +5,7 @@ import datasetRouter from './routers/datasetRouter.js';
 import authRouter from './routers/authRouter.js';
 import stripeRouter from './routers/stripeRouter.js';
 import webhookRouter from './routers/webhookRouter.js';
+import purchaseRouter from './routers/purchaseRouter.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors());
 app.use('/auth', authRouter);
 app.use('/api', datasetRouter);
 app.use('/api/stripe', stripeRouter);
+app.use('/api/', purchaseRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
