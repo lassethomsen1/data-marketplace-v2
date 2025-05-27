@@ -23,7 +23,7 @@
         </PrivateRoute>
         <Route path="/dataset/:id" let:params>
             <Header/>
-            <ProductPage datesetId={params.id}/>
+            <ProductPage datasetId={params.id}/>
         </Route>
         <PrivateRoute path="/upload">
             <Header/>
