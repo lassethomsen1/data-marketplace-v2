@@ -190,7 +190,7 @@ router.get('/download/:datasetId', authenticateToken, async (req, res) => {
     });
   }
 });
-router.get('/dataset', async (req, res) => {
+router.get('/datasets', async (req, res) => {
   try {
     //todo make this take a optional search query and amount of datasets to return
     const datasets = await prisma.datasets.findMany({
@@ -214,7 +214,7 @@ router.get('/dataset', async (req, res) => {
   }
 });
 
-router.get('/dataset/:datasetId', async (req, res) => {
+router.get('/datasets/:datasetId', async (req, res) => {
   try {
     const { datasetId } = req.params;
 
