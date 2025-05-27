@@ -9,17 +9,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                        String     @id @default(uuid())
-  email                     String     @unique
+model Users {
+  id                        String      @id @default(uuid())
+  email                     String      @unique
   name                      String?
   password                  String
-  role                      Role       @default(USER)
-  datasets                  Dataset[]  @relation("UserDatasets")
-  purchases                 Purchase[] @relation("UserPurchases")
+  role                      Role        @default(USER)
+  datasets                  Datasets[]  @relation("UserDatasets")
+  purchases                 Purchases[] @relation("UserPurchases")
   stripeAccountId           String?
-  stripeOnboardingCompleted Boolean    @default(false)
-  createdAt                 DateTime   @default(now())
+  stripeOnboardingCompleted Boolean     @default(false)
+  createdAt                 DateTime    @default(now())
 }
 
 enum Role {
@@ -27,12 +27,12 @@ enum Role {
   ADMIN
 }
 
-model Purchase {
+model Purchases {
   id              String         @id @default(uuid())
   buyerId         String
   datasetId       String
-  buyer           User           @relation("UserPurchases", fields: [buyerId], references: [id])
-  dataset         Dataset        @relation(fields: [datasetId], references: [id])
+  buyer           Users          @relation("UserPurchases", fields: [buyerId], references: [id])
+  dataset         Datasets       @relation(fields: [datasetId], references: [id])
   stripeSessionId String?
   status          PurchaseStatus @default(PENDING)
   paidAmount      Int? // amount paid in cents
@@ -47,7 +47,7 @@ enum PurchaseStatus {
   REFUNDED
 }
 
-model Dataset {
+model Datasets {
   id              String        @id @default(uuid())
   title           String
   description     String
@@ -61,8 +61,8 @@ model Dataset {
   status          DatasetStatus @default(PROCESSING)
   category        String?
   additionalFiles Json?
-  seller          User          @relation("UserDatasets", fields: [sellerId], references: [id])
-  purchases       Purchase[]
+  seller          Users         @relation("UserDatasets", fields: [sellerId], references: [id])
+  purchases       Purchases[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 }
