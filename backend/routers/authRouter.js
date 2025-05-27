@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.users.findUnique({
     where: { email },
   });
 
@@ -33,7 +33,7 @@ router.post('/login', async (req, res) => {
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
 
-  const existingUser = await prisma.user.findUnique({
+  const existingUser = await prisma.users.findUnique({
     where: { email },
   });
 
@@ -43,7 +43,7 @@ router.post('/signup', async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await prisma.user.create({
+  const newUser = await prisma.users.create({
     data: {
       email,
       password: hashedPassword,
@@ -73,7 +73,7 @@ router.get('/validate-token', async (req, res) => {
     return res.status(401).json('Invalid token');
   }
 
-  const verifiedUser = await prisma.user.findUnique({
+  const verifiedUser = await prisma.users.findUnique({
     where: { id: decoded.id },
   });
 
@@ -93,7 +93,7 @@ router.get('/validate-token', async (req, res) => {
 router.get('/user', authenticateToken, (req, res) => {
   const userId = req.user.id;
 
-  prisma.user
+  prisma.users
     .findUnique({
       where: { id: userId },
     })

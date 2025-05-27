@@ -8,8 +8,9 @@ export async function fetchDataset(datasetID) {
   await handleError(response);
 
   const datasetData = await response.json();
-  return datasetData.dataset;
+  return datasetData.datasets;
 }
+
 export async function purchaseDataset(datasetID) {
   const token = localStorage.getItem('token');
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/purchases/${datasetID}`, {

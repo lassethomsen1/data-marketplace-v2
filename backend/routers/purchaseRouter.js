@@ -15,7 +15,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     const successUrl = process.env.FRONTEND_URL + '/profile';
     const cancelUrl = process.env.FRONTEND_URL + '/dataset/' + datasetId;
 
-    const dataset = await prisma.dataset.findUnique({
+    const dataset = await prisma.datasets.findUnique({
       where: { id: datasetId },
       include: {
         seller: true,
@@ -35,7 +35,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     }
 
     // Check if user already purchased this dataset
-    const existingPurchase = await prisma.purchase.findFirst({
+    const existingPurchase = await prisma.purchases.findFirst({
       where: {
         buyerId,
         datasetId,
@@ -55,7 +55,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     }
 
     // Create purchase record
-    const purchase = await prisma.purchase.create({
+    const purchase = await prisma.purchases.create({
       data: {
         buyerId,
         datasetId,
@@ -113,7 +113,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     );
 
     // Update purchase with Stripe session ID
-    await prisma.purchase.update({
+    await prisma.purchases.update({
       where: { id: purchase.id },
       data: { stripeSessionId: session.id },
     });
@@ -134,7 +134,7 @@ router.get('/purchases', authenticateToken, async (req, res) => {
     const userId = req.user.id;
     const { page = 1, limit = 10 } = req.query; //todo: add pagination
 
-    const purchases = await prisma.purchase.findMany({
+    const purchases = await prisma.purchases.findMany({
       where: {
         buyerId: userId,
         status: 'COMPLETED',
@@ -157,7 +157,7 @@ router.get('/purchases', authenticateToken, async (req, res) => {
       take: parseInt(limit),
     });
 
-    const totalPurchases = await prisma.purchase.count({
+    const totalPurchases = await prisma.purchases.count({
       where: {
         buyerId: userId,
         status: 'COMPLETED',

@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  const user = await prisma.user.upsert({
+  const user = await prisma.users.upsert({
     where: { email: 'user@test.com' },
     update: {
       stripeAccountId: 'acct_1RPhmiPSElnGH7h5',
@@ -19,7 +19,7 @@ async function main() {
       stripeOnboardingCompleted: true,
     },
   });
-  const admin = await prisma.user.upsert({
+  const admin = await prisma.users.upsert({
     where: { email: 'admin@test.com' },
     update: {},
     create: {
@@ -29,7 +29,7 @@ async function main() {
       password: await bcrypt.hash('admin', 10),
     },
   });
-  const userNotOnboarded = await prisma.user.upsert({
+  const userNotOnboarded = await prisma.users.upsert({
     where: { email: 'user-not-onboarded@test.com' },
     update: {
       stripeAccountId: null,

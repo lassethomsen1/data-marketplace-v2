@@ -45,7 +45,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   async function handleCheckoutCompleted(session) {
     const { purchaseId, datasetId, buyerId } = session.metadata;
 
-    await prisma.purchase.update({
+    await prisma.purchases.update({
       where: { id: purchaseId },
       data: {
         status: 'COMPLETED',
@@ -60,7 +60,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     const { purchaseId } = paymentIntent.metadata;
 
     if (purchaseId) {
-      await prisma.purchase.update({
+      await prisma.purchases.update({
         where: { id: purchaseId },
         data: { status: 'FAILED' },
       });
@@ -70,7 +70,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   }
   async function handleAccountUpdated(account) {
     if (account.details_submitted && account.charges_enabled && account.payouts_enabled) {
-      await prisma.user.updateMany({
+      await prisma.users.updateMany({
         where: { stripeAccountId: account.id },
         data: { stripeOnboardingCompleted: true },
       });
