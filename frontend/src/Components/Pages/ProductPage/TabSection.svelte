@@ -1,4 +1,5 @@
 <script>
+    const { desc } = $props();
     let tabs = $state(['Overview', 'Features', 'Pricing']);
     let selectedTab = $state('Overview');
 </script>
@@ -18,7 +19,9 @@
 {#if selectedTab === 'Overview'}
     <article class="text-wrap w-full">
         <h1>{selectedTab}</h1>
-        <p class="text-left whitespace-normal break-words"></p>
+        <p class="text-left whitespace-normal break-words">
+            {desc}
+        </p>
     </article>
 {:else if selectedTab === 'Features'}
     <p>Here are the features.</p>
