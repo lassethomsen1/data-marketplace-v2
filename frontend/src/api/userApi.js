@@ -1,4 +1,6 @@
 //todo skal være i userStore
+import { handleError } from './helper/error.js';
+
 export async function getUser() {
   const token = localStorage.getItem('token');
   const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/auth/user', {
@@ -26,16 +28,4 @@ export async function onboardUser() {
   const { url } = await response.json();
 
   window.location.href = url;
-}
-
-async function handleError(response) {
-  if (!response.ok) {
-    const errorMessage = await response.text();
-    if (response.status === 403) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
-    }
-    throw new Error(errorMessage || `Request failed with status ${response.status}`);
-  }
 }
