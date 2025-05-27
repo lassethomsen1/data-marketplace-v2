@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import datasetRouter from './routers/datasetRouter.js';
+import datasetRouter from './routers/datasetsRouter.js';
 import authRouter from './routers/authRouter.js';
 import stripeRouter from './routers/stripeRouter.js';
 import webhookRouter from './routers/webhookRouter.js';
