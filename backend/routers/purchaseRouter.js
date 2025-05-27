@@ -23,15 +23,15 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     });
 
     if (!dataset) {
-      return res.status(404).json({ error: 'Dataset not found' });
+      return res.status(404).send({ error: 'Dataset not found' });
     }
 
     if (dataset.status !== 'AVAILABLE') {
-      return res.status(400).json({ error: 'Dataset is not available for purchase' });
+      return res.status(400).send({ error: 'Dataset is not available for purchase' });
     }
 
     if (dataset.sellerId === buyerId) {
-      return res.status(400).json({ error: 'Cannot purchase your own dataset' });
+      return res.status(400).send({ error: 'Cannot purchase your own dataset' });
     }
 
     // Check if user already purchased this dataset
@@ -44,12 +44,12 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     });
 
     if (existingPurchase) {
-      return res.status(400).json({ error: 'Dataset already purchased' });
+      return res.status(400).send({ error: 'Dataset already purchased' });
     }
 
     // Check if seller has completed Stripe onboarding
     if (!dataset.seller.stripeOnboardingCompleted || !dataset.seller.stripeAccountId) {
-      return res.status(400).json({
+      return res.status(400).send({
         error: 'Seller has not completed payment setup',
       });
     }
@@ -118,14 +118,14 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       data: { stripeSessionId: session.id },
     });
 
-    res.json({
+    res.send({
       checkoutUrl: session.url,
       sessionId: session.id,
       purchaseId: purchase.id,
     });
   } catch (error) {
     console.error('Purchase creation error:', error);
-    res.status(500).json({ error: 'Failed to create purchase' });
+    res.status(500).send({ error: 'Failed to create purchase' });
   }
 });
 
@@ -164,7 +164,7 @@ router.get('/purchases', authenticateToken, async (req, res) => {
       },
     });
 
-    res.json({
+    res.send({
       purchases,
       pagination: {
         page: parseInt(page),
@@ -175,7 +175,7 @@ router.get('/purchases', authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.error('Get purchases error:', error);
-    res.status(500).json({ error: 'Failed to get purchases' });
+    res.status(500).send({ error: 'Failed to get purchases' });
   }
 });
 export default router;
