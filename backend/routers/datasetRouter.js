@@ -214,7 +214,7 @@ router.get('/dataset', async (req, res) => {
   }
 });
 
-router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
+router.get('/dataset/:datasetId', async (req, res) => {
   try {
     const { datasetId } = req.params;
 
