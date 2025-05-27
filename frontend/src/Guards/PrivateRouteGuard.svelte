@@ -2,7 +2,6 @@
     import {user, token} from "../stores/userStore.js";
     import {navigate, useLocation} from "svelte-routing";
     import {onMount} from "svelte";
-    //import {get} from "svelte/store"; hvis $token ikke virker
     const location = useLocation();
     onMount(async () => {
         const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/auth/validate-token", {
