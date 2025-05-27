@@ -2,13 +2,14 @@
     import StatContainer from "../../platform/StatContainer.svelte";
     import TabSection from "./TabSection.svelte";
     import {onMount} from "svelte";
-    import {fetchDataset} from "@/api/datasetsApi.js";
+    import {fetchDataset, purchaseDataset} from "@/api/datasetsApi.js";
     import {formatDataset} from "@/utils/datasetUtil.js";
 
-    const {datesetId} = $props();
+    const { datasetId } = $props();
 
 
     let dataset = $state({
+        id: undefined,
         title: undefined,
         description: undefined,
         filetype: undefined,
@@ -22,7 +23,7 @@
         }
     })
     onMount(async () => {
-        dataset = formatDataset(await fetchDataset(datesetId));
+        dataset = formatDataset(await fetchDataset(datasetId));
 
     });
 </script>
@@ -38,7 +39,7 @@
             </div>
             <div class="ml-auto">
                 <StatContainer stat={dataset.price} className={"bg-[#3B82F6] text-white"}/>
-                <button class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-6.5 py-1 font-semibold">
+                <button onclick={purchaseDataset(dataset.id)} class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-6.5 py-1 font-semibold">
                     Purchase
                 </button>
             </div>
