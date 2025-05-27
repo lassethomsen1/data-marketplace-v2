@@ -65,23 +65,28 @@ router.get('/validate-token', async (req, res) => {
   if (!token) {
     return res.status(401).json('No token provided');
   }
-  //todo det her kan være redundant
-  const decoded = jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(401).json('Invalid token');
-    }
-    return decoded;
-  });
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).json('Invalid token');
+  }
 
   const verifiedUser = await prisma.user.findUnique({
     where: { id: decoded.id },
   });
 
-  jwt.verify(token, process.env.JWT_SECRET, err => {
-    if (err) {
-      return res.status(401).json('Invalid token');
-    }
-    res.status(200).json({ token, user: { id: verifiedUser.id, email: verifiedUser.email } });
+  if (!verifiedUser) {
+    return res.status(404).json('User not found');
+  }
+
+  return res.status(200).json({
+    token,
+    user: {
+      id: verifiedUser.id,
+      email: verifiedUser.email,
+    },
   });
 });
 //TODO: skal ikke være her
