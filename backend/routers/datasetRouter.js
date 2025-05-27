@@ -194,21 +194,10 @@ router.get('/dataset', async (req, res) => {
   try {
     //todo make this take a optional search query and amount of datasets to return
     const datasets = await prisma.dataset.findMany({
-      //hack because prisma doesn't have exclude :)))
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        filetype: true,
-        filesize: true,
-        tags: true,
-        sampleData: true,
-        price: true,
-        sellerId: true,
-        status: true,
-        category: true,
-        additionalFiles: true,
-        createdAt: true,
+      omit: {
+        filekey: true,
+      },
+      include: {
         seller: {
           select: {
             id: true,
@@ -218,10 +207,42 @@ router.get('/dataset', async (req, res) => {
       },
     });
 
-    return res.json(datasets);
+    return res.send(datasets);
   } catch (error) {
     console.error('Error fetching datasets:', error);
-    return res.status(500).json({ error: 'Failed to fetch datasets' });
+    return res.status(500).send({ error: 'Failed to fetch datasets' });
+  }
+});
+
+router.get('/dataset/:datasetId', authenticateToken, async (req, res) => {
+  try {
+    const { datasetId } = req.params;
+
+    const dataset = await prisma.dataset.findUnique({
+      omit: {
+        filekey: true,
+      },
+      where: { id: datasetId },
+      include: {
+        seller: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!dataset) {
+      return res.status(404).send({ error: 'Dataset not found' });
+    }
+
+    return res.send({
+      dataset,
+    });
+  } catch (error) {
+    console.error('Error fetching dataset:', error);
+    return res.status(500).send({ error: 'Failed to fetch dataset' });
   }
 });
 export default router;
