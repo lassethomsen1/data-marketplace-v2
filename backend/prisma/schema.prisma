@@ -3,6 +3,7 @@ generator client {
   output   = "../generated/prisma"
 }
 
+// HUSK AT NÅR DU ÆNDRE NAVNE PÅ MODELLER SÅ ÆNDRE DE OGSÅ API REPSONSE
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
