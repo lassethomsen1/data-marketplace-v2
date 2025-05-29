@@ -52,7 +52,7 @@ async function extractSampleData(buffer, filetype) {
     } catch (err) {
       return 'Sample data extraction failed';
     }
-  } else if (filetype.includes('csv')) {
+  } else if (filetype.includes('csv') || filetype.includes('vnd.ms-excel')) {
     try {
       const sampleBuffer = buffer.slice(0, Math.min(1000, buffer.length));
       const dataStr = sampleBuffer.toString();
