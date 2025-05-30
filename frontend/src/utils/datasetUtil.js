@@ -1,4 +1,5 @@
 export function formatDataset(dataset) {
+  dataset.createdAt = new Date(dataset.createdAt).toLocaleDateString();
   dataset.updatedAt = new Date(dataset.updatedAt).toLocaleDateString();
 
   if (dataset.filesize > 100_000) {
