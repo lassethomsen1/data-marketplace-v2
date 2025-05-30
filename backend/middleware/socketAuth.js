@@ -12,7 +12,7 @@ export function socketAuth(socket, next) {
       return next(new Error('Access Denied: Invalid Token'));
     }
 
-    socket.user = user; // Attach user info to socket
+    socket.user = user;
     next();
   });
 }
