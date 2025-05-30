@@ -26,3 +26,17 @@ export async function purchaseDataset(datasetID) {
 
   window.location.href = checkoutUrl;
 }
+export async function fetchPurchasedDatasets() {
+  const token = localStorage.getItem('token');
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/purchases`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  await handleError(response);
+  const { purchases } = await response.json();
+  return purchases;
+}
