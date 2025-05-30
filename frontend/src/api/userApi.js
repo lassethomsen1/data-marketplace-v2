@@ -1,5 +1,6 @@
 //todo skal være i userStore
 import { handleError } from './helper/error.js';
+import { navigate } from 'svelte-routing';
 
 export async function getUser() {
   const token = localStorage.getItem('token');
@@ -27,5 +28,5 @@ export async function onboardUser() {
   await handleError(response);
   const { url } = await response.json();
 
-  window.location.href = url;
+  navigate(url);
 }

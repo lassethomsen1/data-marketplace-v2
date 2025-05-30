@@ -1,6 +1,7 @@
 <script>
     import {logout, user} from "../../stores/userStore.js";
     import {CircleUserRound, Search} from "lucide-svelte";
+    import {navigate} from "svelte-routing";
 
     let searchQuery = $state("");
 
@@ -12,7 +13,7 @@
     }
 
     function handleLogin() {
-        window.location.href = "/login"
+        navigate('/login')
     }
 </script>
 <header class="relative bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800 shadow-lg mb-4">

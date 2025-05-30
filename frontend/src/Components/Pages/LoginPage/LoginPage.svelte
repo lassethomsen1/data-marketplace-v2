@@ -1,5 +1,6 @@
 <script>
     import {user, token} from "../../../stores/userStore.js";
+    import {navigate} from "svelte-routing";
 
     let form = $state({
         email: 'user-not-onboarded@test.com',
@@ -32,8 +33,8 @@
             token.set(resJson.token);
             loading = false
             setTimeout(() => {
-                window.location.href = "/";
-            }, 2000);
+                navigate('/')
+            }, 1000);
         } else {
             loading = false;
         }
