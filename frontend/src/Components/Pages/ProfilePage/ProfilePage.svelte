@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
     import {getUser, onboardUser} from "@/api/userApi.js";
     import StatContainer from "../../platform/StatContainer.svelte";
+    import PurchasesTable from "@/Components/Pages/ProfilePage/PurchasesTable.svelte";
 
     let user = {};
     onMount(async () => {
@@ -59,5 +60,6 @@
                 </button>
             </div>
             {/if}
+        <PurchasesTable/>
     </div>
 </div>
