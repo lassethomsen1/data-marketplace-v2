@@ -34,7 +34,6 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       return res.status(400).send({ error: 'Cannot purchase your own dataset' });
     }
 
-    // Check if user already purchased this dataset
     const existingPurchase = await prisma.purchases.findFirst({
       where: {
         buyerId,
@@ -47,14 +46,12 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       return res.status(400).send({ error: 'Dataset already purchased' });
     }
 
-    // Check if seller has completed Stripe onboarding
     if (!dataset.seller.stripeOnboardingCompleted || !dataset.seller.stripeAccountId) {
       return res.status(400).send({
         error: 'Seller has not completed payment setup',
       });
     }
 
-    // Create purchase record
     const purchase = await prisma.purchases.create({
       data: {
         buyerId,
@@ -63,11 +60,9 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       },
     });
 
-    // Calculate platform fee (e.g., 5% of the dataset price)
     const platformFeePercent = 0.05; // 5%
     const applicationFee = Math.round(dataset.price * platformFeePercent);
 
-    // Create Stripe Checkout session using DIRECT CHARGES
     const session = await stripe.checkout.sessions.create(
       {
         mode: 'payment',
@@ -112,7 +107,6 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       }
     );
 
-    // Update purchase with Stripe session ID
     await prisma.purchases.update({
       where: { id: purchase.id },
       data: { stripeSessionId: session.id },
@@ -132,7 +126,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
 router.get('/purchases', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { page = 1, limit = 10 } = req.query; //todo: add pagination
+    const { page = 1, limit = 100 } = req.query; //todo: add pagination
 
     const purchases = await prisma.purchases.findMany({
       where: {
