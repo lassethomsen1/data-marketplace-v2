@@ -8,7 +8,9 @@ export function formatDataset(dataset) {
     dataset.filesize = (dataset.filesize / 1024).toFixed() + ' KB'; // Convert to KB
   }
 
-  dataset.price = '$' + dataset.price / 100; // Format price
+  dataset.price = '$' + dataset.price / 100; // price is stored in cents
+
+  dataset.author = dataset.seller.name; // assuming seller is the author for now
 
   return dataset;
 }
