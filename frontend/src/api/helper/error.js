@@ -1,7 +1,6 @@
 import { navigate } from 'svelte-routing';
 
 export async function handleError(response) {
-  //todo lav det her helt om hvorfor er det kun for 403 ; det bliver brugt flere steder for noget andet
   if (!response.ok) {
     const errorMessage = await response.text();
     if (response.status === 403) {
