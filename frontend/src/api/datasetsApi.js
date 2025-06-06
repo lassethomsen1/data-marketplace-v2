@@ -1,14 +1,22 @@
 import { handleError } from '@/api/helper/error.js';
 
 export async function fetchDataset(datasetID) {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/dataset/${datasetID}`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/datasets/${datasetID}`, {
     method: 'GET',
   });
 
   await handleError(response);
 
-  const datasetData = await response.json();
-  return datasetData.datasets;
+  return await response.json(); //todo det her er grimt fordi der kun er et dataset
+}
+
+export async function fetchDatasets() {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/datasets`, {
+    method: 'GET',
+  });
+
+  //await handleError(response);
+  return await response.json();
 }
 
 export async function purchaseDataset(datasetID) {
