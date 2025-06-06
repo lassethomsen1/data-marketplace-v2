@@ -19,6 +19,9 @@
                 <p class="px-3.5 py-1 pl-0">Account: </p>
                 {#if user.stripeOnboardingCompleted}
                     <StatContainer stat="Active" className="bg-green-300"/>
+                    <a href="/upload" class="ml-auto">
+                        <StatContainer stat="Upload" className="bg-[#3B82F6] text-white"/>
+                    </a>
                 {:else}
                     <StatContainer stat="Not Onboarded" className="bg-red-300"/>
                 {/if}
