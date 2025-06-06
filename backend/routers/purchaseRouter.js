@@ -7,6 +7,58 @@ import { authenticateToken } from '../middleware/auth.js';
 const router = new Router();
 const prisma = new PrismaClient();
 
+router.get('/purchases', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { page = 1, limit = 100 } = req.query; //todo: add pagination
+
+    const purchases = await prisma.purchases.findMany({
+      where: {
+        buyerId: userId,
+        status: 'COMPLETED',
+      },
+      include: {
+        dataset: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            filesize: true,
+            filetype: true,
+            price: true,
+            tags: true,
+            category: true,
+            createdAt: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * limit,
+      take: parseInt(limit),
+    });
+
+    const totalPurchases = await prisma.purchases.count({
+      where: {
+        buyerId: userId,
+        status: 'COMPLETED',
+      },
+    });
+
+    res.send({
+      purchases,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: totalPurchases,
+        totalPages: Math.ceil(totalPurchases / limit),
+      },
+    });
+  } catch (error) {
+    console.error('Get purchases error:', error);
+    res.status(500).send({ error: 'Failed to get purchases' });
+  }
+});
+
 router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
   try {
     const { datasetId } = req.params;
@@ -123,55 +175,4 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/purchases', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const { page = 1, limit = 100 } = req.query; //todo: add pagination
-
-    const purchases = await prisma.purchases.findMany({
-      where: {
-        buyerId: userId,
-        status: 'COMPLETED',
-      },
-      include: {
-        dataset: {
-          select: {
-            id: true,
-            title: true,
-            description: true,
-            filesize: true,
-            filetype: true,
-            price: true,
-            tags: true,
-            category: true,
-            createdAt: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: parseInt(limit),
-    });
-
-    const totalPurchases = await prisma.purchases.count({
-      where: {
-        buyerId: userId,
-        status: 'COMPLETED',
-      },
-    });
-
-    res.send({
-      purchases,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total: totalPurchases,
-        totalPages: Math.ceil(totalPurchases / limit),
-      },
-    });
-  } catch (error) {
-    console.error('Get purchases error:', error);
-    res.status(500).send({ error: 'Failed to get purchases' });
-  }
-});
 export default router;
