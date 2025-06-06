@@ -27,6 +27,12 @@ router.get('/purchases', authenticateToken, async (req, res) => {
             filetype: true,
             price: true,
             tags: true,
+            seller: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
             category: true,
             createdAt: true,
           },
