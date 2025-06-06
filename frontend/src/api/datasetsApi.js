@@ -7,7 +7,8 @@ export async function fetchDataset(datasetID) {
 
   await handleError(response);
 
-  return await response.json(); //todo det her er grimt fordi der kun er et dataset
+  const datasetData = await response.json();
+  return datasetData.dataset;
 }
 
 export async function fetchDatasets() {
