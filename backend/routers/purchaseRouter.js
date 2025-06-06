@@ -139,6 +139,8 @@ router.get('/purchases', authenticateToken, async (req, res) => {
             id: true,
             title: true,
             description: true,
+            filesize: true,
+            filetype: true,
             price: true,
             tags: true,
             category: true,
