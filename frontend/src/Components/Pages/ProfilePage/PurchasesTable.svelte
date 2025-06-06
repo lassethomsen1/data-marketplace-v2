@@ -1,5 +1,5 @@
 <script>
-    import {fetchPurchasedDatasets} from "@/api/datasetsApi.js";
+    import {fetchPurchasedDatasets , downloadDataset} from "@/api/datasetsApi.js";
     import {onMount} from "svelte";
     import {formatDataset} from "@/utils/datasetUtil.js";
 
@@ -12,6 +12,18 @@
             datasets.push(formatDataset(purchase.dataset));
         })
     })
+    async function handleDownload(datasetId) {
+        const res = await downloadDataset(datasetId);
+        console.log(res)
+
+        const link = document.createElement('a');
+        link.href = res.downloadUrl;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
 </script>
 
 <div class="overflow-x-auto rounded-lg">
@@ -22,6 +34,7 @@
             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Filetype</th>
             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Filesize</th>
             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Created At</th>
+            <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700"></th>
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
@@ -31,6 +44,12 @@
                 <td class="px-4 py-2 text-sm text-gray-600">{dataset.filetype}</td>
                 <td class="px-4 py-2 text-sm text-gray-600">{dataset.filesize}</td>
                 <td class="px-4 py-2 text-sm text-gray-600">{dataset.createdAt}</td>
+                <td class="px-4 py-2 text-sm text-gray-600">
+                    <button onclick={() => handleDownload(dataset.id)}
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
+                        Download
+                    </button>
+                </td>
             </tr>
         {/each}
         </tbody>

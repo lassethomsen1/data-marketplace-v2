@@ -49,3 +49,20 @@ export async function fetchPurchasedDatasets() {
   const { purchases } = await response.json();
   return purchases;
 }
+export async function downloadDataset(datasetID) {
+  const token = localStorage.getItem('token');
+  const response = await fetch(
+    `${import.meta.env.VITE_BACKEND_URL}/api/datasets/${datasetID}/download`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
+
+  await handleError(response);
+
+  return await response.json();
+}
