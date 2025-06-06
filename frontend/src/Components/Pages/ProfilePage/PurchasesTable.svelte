@@ -13,8 +13,8 @@
     })
 </script>
 
-<div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-300 bg-white rounded-lg shadow-md">
+<div class="overflow-x-auto rounded-lg">
+    <table class="min-w-full divide-y divide-gray-300 bg-white  shadow-md">
         <thead class="bg-gray-100">
         <tr>
             <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Title</th>
