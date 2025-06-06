@@ -16,7 +16,7 @@ export async function fetchDatasets() {
     method: 'GET',
   });
 
-  //await handleError(response);
+  await handleError(response);
   return await response.json();
 }
 
