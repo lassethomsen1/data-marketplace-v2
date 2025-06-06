@@ -27,7 +27,7 @@
     }
 
     function handleFiles(files) {
-        const validExtensions = ['.csv', '.json'];
+        const validExtensions = ['.csv', '.json', '.xlsx'];
         const validMimeTypes = ['application/json', 'text/csv', 'application/vnd.ms-excel'];
 
         const validFiles = files.filter(file => {
