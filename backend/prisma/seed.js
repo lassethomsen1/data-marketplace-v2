@@ -7,7 +7,7 @@ async function main() {
   const user = await prisma.users.upsert({
     where: { id: '0c0f6996-c665-4716-9710-bf06c2e2b208' },
     update: {
-      stripeAccountId: 'acct_1RPhmiPSElnGH7h5',
+      stripeAccountId: 'acct_1RT3j6PTSm4OXnep',
       stripeOnboardingCompleted: true,
     },
     create: {
@@ -16,7 +16,7 @@ async function main() {
       name: 'User',
       role: 'USER',
       password: await bcrypt.hash('user', 10),
-      stripeAccountId: 'acct_1RPhmiPSElnGH7h5',
+      stripeAccountId: 'acct_1RT3j6PTSm4OXnep',
       stripeOnboardingCompleted: true,
     },
   });
