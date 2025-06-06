@@ -69,7 +69,7 @@ const categories = [
                 <input
                         type="number"
                         id="price"
-                        step="10"
+                        step="0.01"
                         min="0"
                         bind:value={$formData.price}
                         placeholder="0.00"
