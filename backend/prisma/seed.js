@@ -67,6 +67,20 @@ async function main() {
       category: 'research',
     },
   });
+  await prisma.purchases.upsert({
+    where: { id: 'dbe1aa8e-b489-4077-b923-3e370b54760b' },
+    update: {},
+    create: {
+      id: 'dbe1aa8e-b489-4077-b923-3e370b54760b',
+      buyerId: '9ab00641-55cd-4160-bc71-5dcb838ee8d0', // user not onboarded
+      datasetId: 'fddbd358-7052-479b-9638-fce4791bc220',
+      stripeSessionId: 'cs_test_a11NMTAjsJir9Id1YLbhzASKmacgdhR5NkiYIvIQTILSkom8N82oRkvGOG',
+      status: 'COMPLETED',
+      paidAmount: 99900,
+      createdAt: new Date('2025-06-06T12:38:02.413Z'),
+      updatedAt: new Date('2025-06-06T12:38:30.162Z'),
+    },
+  });
 
   console.log(user ? 'User created' : 'User already exists');
   console.log(admin ? 'admin created' : 'admin already exists');
