@@ -18,9 +18,9 @@
             <div class="flex flex-row space-x-2">
                 <p class="px-3.5 py-1 pl-0">Account: </p>
                 {#if user.stripeOnboardingCompleted}
-                    <StatContainer stat="Active" className="bg-green-300" />
+                    <StatContainer stat="Active" className="bg-green-300"/>
                 {:else}
-                    <StatContainer stat="Not Onboarded" className="bg-red-300" />
+                    <StatContainer stat="Not Onboarded" className="bg-red-300"/>
                 {/if}
             </div>
         </div>
@@ -40,26 +40,32 @@
                 </tbody>
             </table>
         </div>
-        {#if !user.stripeOnboardingCompleted}
 
-        <div class="flex flex-row space-x-1.5">
-            <h2 class="text-xl">
-                Connect your Stripe account to start selling datasets.
-            </h2>
-            <button onclick={onboardUser} class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-4 py-1 font-semibold">
-                Connect
-            </button>
-        </div>
-        {:else}
-            <div class="flex flex-row space-x-1.5">
+
+        <div class="flex flex-row space-x-1.5 mb-4">
+            {#if !user.stripeOnboardingCompleted}
+                <h2 class="text-xl">
+                    Connect your Stripe account to start selling datasets.
+                </h2>
+                <button onclick={onboardUser}
+                        class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-4 py-1 font-semibold">
+                    Connect
+                </button>
+            {:else}
                 <h2 class="text-xl">
                     Change stripe information
                 </h2>
-                <button onclick={onboardUser} class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-4 py-1 font-semibold">
+                <button onclick={onboardUser}
+                        class="bg-[#3B82F6] hover:bg-[#1E40AF] rounded-lg text-white px-4 py-1 font-semibold">
                     Change
                 </button>
-            </div>
             {/if}
-        <PurchasesTable/>
+        </div>
+        <div>
+            <h2 class="text-xl">Purchased datasets</h2>
+            <p class="text-gray-500 text-sm mb-4">Here you can find all datasets you have purchased.</p>
+            <PurchasesTable/>
+        </div>
+
     </div>
 </div>
