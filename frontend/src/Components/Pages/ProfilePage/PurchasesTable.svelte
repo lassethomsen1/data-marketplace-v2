@@ -1,6 +1,7 @@
 <script>
     import {fetchPurchasedDatasets} from "@/api/datasetsApi.js";
     import {onMount} from "svelte";
+    import {formatDataset} from "@/utils/datasetUtil.js";
 
     const datasets = $state([]);
 
@@ -8,7 +9,7 @@
         const purchases = await fetchPurchasedDatasets();
         console.log(purchases);
         purchases.forEach((purchase) => {
-            datasets.push(purchase.dataset);
+            datasets.push(formatDataset(purchase.dataset));
         })
     })
 </script>
