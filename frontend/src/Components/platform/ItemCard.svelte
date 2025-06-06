@@ -11,7 +11,7 @@
         <div class="text-[#1F2937] ml-auto">{item.price} {$preferences.currency}</div>
     </div>
     <p class="text-sm text-[#6B7280] mb-4">By <span class="text-[#0EA5E9] font-medium">{item.author}</span></p>
-    <p class="text-sm text-[#6B7280] leading-snug line-clamp-3 mb-4">{item.shortDescription}</p>
+    <p class="text-sm text-[#6B7280] leading-snug line-clamp-3 mb-4">{item.description}</p>
     <div class="flex flex-wrap gap-2 mt-2 mb-2">
         {#each item.tags as tag}
             <span class="bg-[#F3F4F6] text-xs text-[#1F2937] px-2 py-1 rounded-full">{tag}</span>
