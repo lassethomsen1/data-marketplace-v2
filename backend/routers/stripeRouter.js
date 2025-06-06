@@ -36,7 +36,7 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
   const accountLink = await stripe.accountLinks.create({
     account: accountId,
     refresh_url: `${origin}/onboarding/refresh`,
-    return_url: `${origin}/dataset/1`,
+    return_url: `${origin}/dataset/1`, //todo skal være my purchases
     type: 'account_onboarding',
   });
 
