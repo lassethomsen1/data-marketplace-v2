@@ -18,9 +18,7 @@
         category: undefined,
         updatedAt: undefined,
         dataPoints: undefined, // todo skal det muligvis være der ?
-        seller: {
-            name: undefined,
-        }
+        author: undefined,
     })
     onMount(async () => {
         dataset = formatDataset(await fetchDataset(datasetId));
@@ -30,7 +28,7 @@
 <div class="flex flex-col justify-center items-center">
     <div class="flex flex-col w-full max-w-3xl">
         <h1 class="text-4xl">{dataset.title}</h1>
-        <p class="text-gray-400 font-semibold text-xl mb-2">{dataset.seller.name}</p>
+        <p class="text-gray-400 font-semibold text-xl mb-2">{dataset.author}</p>
         <div class="flex flex-row mb-4">
             <div>
                 <StatContainer stat={dataset.filesize}/>
