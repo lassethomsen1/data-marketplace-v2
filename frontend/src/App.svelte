@@ -7,6 +7,7 @@
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
     import Header from "./Components/platform/Header.svelte";
     import UploadPage from "./Components/Pages/UploadPage/UploadPage.svelte";
+    import DashboardPage from "@/Components/Pages/DashboardPage/DashboardPage.svelte";
 </script>
 <Router>
     <div>
@@ -16,6 +17,10 @@
         </Route>
         <Route path="/login">
             <LoginPage/>
+        </Route>
+        <Route path="/dashboard">
+            <Header/>
+            <DashboardPage/>
         </Route>
         <PrivateRoute path="/profile">
             <Header/>
