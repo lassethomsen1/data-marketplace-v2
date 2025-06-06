@@ -1,19 +1,16 @@
 <script>
-
-
-    // Sample datasets data
     import {formatDataset} from "@/utils/datasetUtil.js";
     import {fetchPurchasedDatasets} from "@/api/datasetsApi.js";
     import {onMount} from "svelte";
 
     let datasets = $state([]);
 
-    onMount(async () =>{
-       datasets = await fetchPurchasedDatasets();
-        datasets.forEach((dataset) =>{
+    onMount(async () => { // todo should be done in a store so i can check for purchased datasets in other components
+        datasets = await fetchPurchasedDatasets();
+        datasets.forEach((dataset) => {
             formatDataset(dataset);
         })
-       console.log(datasets);
+        console.log(datasets);
     })
 </script>
 
