@@ -2,7 +2,6 @@
     //todo : Add a sample table for json data
     import { dataset } from "@/stores/datasetStore.js";
     const sample = $dataset.sampleData || [];
-    // Get column headers from the first row
     const columns = sample.length > 0 ? Object.keys(sample[0]) : [];
 </script>
 
