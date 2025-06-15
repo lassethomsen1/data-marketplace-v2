@@ -1,4 +1,3 @@
-// uploadFormStore.js
 import { writable } from 'svelte/store';
 
 export const currentTag = writable('');
