@@ -7,6 +7,58 @@ import { authenticateToken } from '../middleware/auth.js';
 const router = new Router();
 const prisma = new PrismaClient();
 
+router.get('/validate-token', async (req, res) => {
+  const token = req.headers['authorization']?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json('No token provided');
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return res.status(401).json('Invalid token');
+  }
+
+  const verifiedUser = await prisma.users.findUnique({
+    where: { id: decoded.id },
+  });
+
+  if (!verifiedUser) {
+    return res.status(404).json('User not found');
+  }
+
+  return res.status(200).json({
+    token,
+    user: {
+      id: verifiedUser.id,
+      email: verifiedUser.email,
+    },
+  });
+});
+
+//TODO: skal ikke være her
+router.get('/user', authenticateToken, (req, res) => {
+  const userId = req.user.id;
+
+  prisma.users
+    .findUnique({
+      where: { id: userId },
+    })
+    .then(user => {
+      if (!user) {
+        return res.status(404).json('User not found');
+      }
+      const { password, ...userWithoutPassword } = user;
+      res.status(200).json({ user: userWithoutPassword });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).json('Internal server error');
+    });
+});
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -58,55 +110,5 @@ router.post('/signup', async (req, res) => {
     return res.status(500).json('Error signing up');
   }
   res.status(200).json({ token, user: { id: newUser.id, email: newUser.email } });
-});
-router.get('/validate-token', async (req, res) => {
-  const token = req.headers['authorization']?.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json('No token provided');
-  }
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
-    return res.status(401).json('Invalid token');
-  }
-
-  const verifiedUser = await prisma.users.findUnique({
-    where: { id: decoded.id },
-  });
-
-  if (!verifiedUser) {
-    return res.status(404).json('User not found');
-  }
-
-  return res.status(200).json({
-    token,
-    user: {
-      id: verifiedUser.id,
-      email: verifiedUser.email,
-    },
-  });
-});
-//TODO: skal ikke være her
-router.get('/user', authenticateToken, (req, res) => {
-  const userId = req.user.id;
-
-  prisma.users
-    .findUnique({
-      where: { id: userId },
-    })
-    .then(user => {
-      if (!user) {
-        return res.status(404).json('User not found');
-      }
-      const { password, ...userWithoutPassword } = user;
-      res.status(200).json({ user: userWithoutPassword });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).json('Internal server error');
-    });
 });
 export default router;
