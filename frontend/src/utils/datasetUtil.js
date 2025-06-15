@@ -1,3 +1,5 @@
+import Papa from 'papaparse';
+
 export function formatDataset(dataset) {
   dataset.createdAt = new Date(dataset.createdAt).toLocaleDateString();
   dataset.updatedAt = new Date(dataset.updatedAt).toLocaleDateString();
@@ -11,6 +13,8 @@ export function formatDataset(dataset) {
   dataset.price = '$' + dataset.price / 100; // price is stored in cents
 
   dataset.author = dataset.seller.name; // assuming seller is the author for now
-
+  dataset.sampleData = dataset.sampleData
+    ? Papa.parse(dataset.sampleData, { header: true }).data
+    : [];
   return dataset;
 }
