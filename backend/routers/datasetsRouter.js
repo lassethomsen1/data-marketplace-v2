@@ -66,6 +66,110 @@ async function extractSampleData(buffer, filetype) {
   return 'Sample preview not available for this file type';
 }
 
+router.get('/datasets', async (req, res) => {
+  try {
+    //todo make this take a optional search query and amount of datasets to return
+    const datasets = await prisma.datasets.findMany({
+      omit: {
+        filekey: true,
+      },
+      include: {
+        seller: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    return res.send(datasets);
+  } catch (error) {
+    console.error('Error fetching datasets:', error);
+    return res.status(500).send({ error: 'Failed to fetch datasets' });
+  }
+});
+
+router.get('/datasets/:datasetId', async (req, res) => {
+  try {
+    const { datasetId } = req.params;
+
+    const dataset = await prisma.datasets.findUnique({
+      omit: {
+        filekey: true,
+      },
+      where: { id: datasetId },
+      include: {
+        seller: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
+    if (!dataset) {
+      return res.status(404).send({ error: 'Dataset not found' });
+    }
+
+    return res.send({
+      dataset,
+    });
+  } catch (error) {
+    console.error('Error fetching dataset:', error);
+    return res.status(500).send({ error: 'Failed to fetch dataset' });
+  }
+});
+
+router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) => {
+  try {
+    const { datasetId } = req.params;
+    const userId = req.user.id;
+
+    const dataset = await prisma.datasets.findUnique({
+      where: { id: datasetId },
+      include: {
+        purchases: {
+          where: { buyerId: userId },
+        },
+      },
+    });
+
+    if (!dataset) {
+      return res.status(404).json({ error: 'Dataset not found' });
+    }
+
+    const isSeller = dataset.sellerId === userId;
+    const hasPurchased = dataset.purchases.length > 0;
+
+    if (!isSeller && !hasPurchased) {
+      return res.status(403).json({
+        error: 'Access denied. You must purchase this dataset to download it.',
+      });
+    }
+
+    const command = new GetObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: dataset.filekey,
+    });
+
+    const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
+
+    return res.json({
+      downloadUrl,
+      filename: `${dataset.title}.${dataset.filetype.split('/')[1]}`,
+      expiresIn: 3600,
+    });
+  } catch (error) {
+    console.error('Download error:', error);
+    return res.status(500).json({
+      error: 'Failed to generate download link',
+      message: error.message,
+    });
+  }
+});
+
 router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req, res) => {
   try {
     const userId = req.user.id;
@@ -140,109 +244,6 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
       error: 'Failed to upload dataset',
       message: error.message,
     });
-  }
-});
-
-router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) => {
-  try {
-    const { datasetId } = req.params;
-    const userId = req.user.id;
-
-    const dataset = await prisma.datasets.findUnique({
-      where: { id: datasetId },
-      include: {
-        purchases: {
-          where: { buyerId: userId },
-        },
-      },
-    });
-
-    if (!dataset) {
-      return res.status(404).json({ error: 'Dataset not found' });
-    }
-
-    const isSeller = dataset.sellerId === userId;
-    const hasPurchased = dataset.purchases.length > 0;
-
-    if (!isSeller && !hasPurchased) {
-      return res.status(403).json({
-        error: 'Access denied. You must purchase this dataset to download it.',
-      });
-    }
-
-    const command = new GetObjectCommand({
-      Bucket: process.env.R2_BUCKET_NAME,
-      Key: dataset.filekey,
-    });
-
-    const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
-
-    return res.json({
-      downloadUrl,
-      filename: `${dataset.title}.${dataset.filetype.split('/')[1]}`,
-      expiresIn: 3600,
-    });
-  } catch (error) {
-    console.error('Download error:', error);
-    return res.status(500).json({
-      error: 'Failed to generate download link',
-      message: error.message,
-    });
-  }
-});
-router.get('/datasets', async (req, res) => {
-  try {
-    //todo make this take a optional search query and amount of datasets to return
-    const datasets = await prisma.datasets.findMany({
-      omit: {
-        filekey: true,
-      },
-      include: {
-        seller: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-
-    return res.send(datasets);
-  } catch (error) {
-    console.error('Error fetching datasets:', error);
-    return res.status(500).send({ error: 'Failed to fetch datasets' });
-  }
-});
-
-router.get('/datasets/:datasetId', async (req, res) => {
-  try {
-    const { datasetId } = req.params;
-
-    const dataset = await prisma.datasets.findUnique({
-      omit: {
-        filekey: true,
-      },
-      where: { id: datasetId },
-      include: {
-        seller: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    });
-
-    if (!dataset) {
-      return res.status(404).send({ error: 'Dataset not found' });
-    }
-
-    return res.send({
-      dataset,
-    });
-  } catch (error) {
-    console.error('Error fetching dataset:', error);
-    return res.status(500).send({ error: 'Failed to fetch dataset' });
   }
 });
 export default router;
