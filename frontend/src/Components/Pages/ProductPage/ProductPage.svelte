@@ -3,13 +3,13 @@
     import TabSection from "./TabSection.svelte";
     import {onMount} from "svelte";
     import {purchaseDataset} from "@/api/datasetsApi.js";
-    import {fetchDatasetAndUpdate, dataset} from "@/stores/datasetStore.js";
+    import {fetchAndFormatDataset, dataset} from "@/stores/datasetStore.js";
 
     const {datasetId} = $props();
 
 
     onMount(async () => {
-        await fetchDatasetAndUpdate(datasetId);
+        await fetchAndFormatDataset(datasetId);
     });
 </script>
 <div class="flex flex-col justify-center items-center">
