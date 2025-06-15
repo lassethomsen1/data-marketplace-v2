@@ -1,5 +1,5 @@
 <script>
-    import {user, token} from "../../../stores/userStore.js";
+    import {user, token} from "@/stores/userStore.js";
     import {navigate} from "svelte-routing";
 
     let form = $state({
