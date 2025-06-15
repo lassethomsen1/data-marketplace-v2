@@ -1,6 +1,8 @@
 <script>
-    const { desc } = $props();
-    let tabs = $state(['Overview', 'Features', 'Pricing']);
+    import SampleTable from "@/Components/Pages/ProductPage/SampleTable.svelte";
+
+    const {desc} = $props();
+    let tabs = $state(['Overview', 'Sample', 'Pricing']);
     let selectedTab = $state('Overview');
 </script>
 <div class="flex space-x-4 border-b-gray-400 border-b mb-4">
@@ -23,8 +25,8 @@
             {desc}
         </p>
     </article>
-{:else if selectedTab === 'Features'}
-    <p>Here are the features.</p>
+{:else if selectedTab === 'Sample'}
+    <SampleTable/>
 {:else if selectedTab === 'Pricing'}
     <p>Check out our pricing plans.</p>
 {/if}
