@@ -11,7 +11,7 @@
             description: "A large collection of labeled images useful for computer vision tasks like object detection and image classification.",
             tags: ["images", "vision", "open"],
             author: "Jane Doe",
-            price: 49
+            price: "$50"
         },
         {
             id: 2,
@@ -19,7 +19,7 @@
             description: "Millions of cleaned text entries for training language models, chatbots, and other NLP tools.",
             tags: ["text", "nlp", "language"],
             author: "John Smith",
-            price: 35
+            price: "$35"
         },
         {
             id: 3,
@@ -27,7 +27,7 @@
             description: "Structured and anonymized patient data for machine learning applications in healthcare.",
             tags: ["healthcare", "analytics", "structured"],
             author: "HealthAI",
-            price: 75
+            price: "$75"
         },
         {
             id: 4,
@@ -35,7 +35,7 @@
             description: "Detailed financial records for anomaly detection and fraud detection models.",
             tags: ["finance", "transactions", "fraud"],
             author: "FinTech Labs",
-            price: 60
+            price: "$60"
         }
     ]);
     onMount(async () => {
