@@ -6,6 +6,7 @@ export const dataset = writable({
   id: undefined,
   title: undefined,
   description: undefined,
+  sampleData: undefined,
   filetype: undefined,
   filesize: undefined,
   price: undefined,
