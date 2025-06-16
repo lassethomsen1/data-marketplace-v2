@@ -3,7 +3,7 @@
 
     function getStatusColor(status) {
         switch(status) {
-            case 'approved': return 'text-green-600 bg-green-100';
+            case 'AVAILABLE': return 'text-green-600 bg-green-100';
             case 'PENDING': return 'text-yellow-600 bg-yellow-100';
             case 'rejected': return 'text-red-600 bg-red-100';
             default: return 'text-gray-600 bg-gray-100';
