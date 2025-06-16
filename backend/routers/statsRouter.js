@@ -57,6 +57,11 @@ router.get('/transactions', authenticateToken, async (req, res) => {
             id: true,
             title: true,
             price: true,
+            seller: {
+              select: {
+                email: true,
+              },
+            },
           },
         },
       },
