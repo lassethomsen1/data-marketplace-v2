@@ -1,12 +1,14 @@
 <script>
-    let stats = $state({
-        revenue24h: 12847.50,
-        revenue7d: 89234.75,
-        activeUsers: 1247,
-        totalDatasets: 8934,
-        uploadSuccessRate: 94.2,
-        failedPayments: 23
-    });
+    import { stats, statsLoading } from "@/stores/statsStore.js";
+    const initialStats = {
+        revenue24h: 0,
+        revenue7d: 0,
+        activeUsers: 0,
+        totalDatasets: 0,
+        uploadSuccessRate: 100.0,
+        failedPayments: 0
+    };
+
 
     setInterval(() => {
         stats.revenue24h += Math.random() * 100;
@@ -19,8 +21,8 @@
     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-gray-600 text-sm font-medium">Revenue (24h)</p>
-                <p class="text-2xl font-bold text-gray-900">${stats.revenue24h.toLocaleString()}</p>
+                <p class="text-gray-600 text-sm font-medium">Revenue (30d)</p>
+                <p class="text-2xl font-bold text-gray-900">${$stats.stripe.totalRevenue.total}</p>
             </div>
             <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,8 +35,8 @@
     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-teal-500">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-gray-600 text-sm font-medium">Revenue (7d)</p>
-                <p class="text-2xl font-bold text-gray-900">${stats.revenue7d.toLocaleString()}</p>
+                <p class="text-gray-600 text-sm font-medium">Fees (30d)</p>
+                    <p class="text-2xl font-bold text-gray-900">{$stats.stripe.fees.total} DKK</p>
             </div>
             <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,8 +49,8 @@
     <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-gray-600 text-sm font-medium">Active Users</p>
-                <p class="text-2xl font-bold text-gray-900">{stats.activeUsers.toLocaleString()}</p>
+                <p class="text-gray-600 text-sm font-medium">Registered Users</p>
+                <p class="text-2xl font-bold text-gray-900">{$stats.database.users}</p>
             </div>
             <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,7 +64,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-600 text-sm font-medium">Total Datasets</p>
-                <p class="text-2xl font-bold text-gray-900">{stats.totalDatasets.toLocaleString()}</p>
+                <p class="text-2xl font-bold text-gray-900">{$stats.database.datasets}</p>
             </div>
             <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,7 +78,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-600 text-sm font-medium">Upload Success</p>
-                <p class="text-2xl font-bold text-gray-900">{stats.uploadSuccessRate.toFixed(1)}%</p>
+                <p class="text-2xl font-bold text-gray-900">{initialStats.uploadSuccessRate.toFixed(1)}%</p>
             </div>
             <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -90,7 +92,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <p class="text-gray-600 text-sm font-medium">Failed Payments</p>
-                <p class="text-2xl font-bold text-gray-900">{stats.failedPayments}</p>
+                <p class="text-2xl font-bold text-gray-900">{$stats.database.failedPurchases}</p>
             </div>
             <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                 <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
