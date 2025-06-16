@@ -35,6 +35,7 @@ async function getDatabaseStats() {
     completedPurchases,
   };
 }
+// todo skal være i en helper folder
 async function getStripeStats() {
   const balanceTxs = await stripe.balanceTransactions.list({
     type: 'application_fee',
