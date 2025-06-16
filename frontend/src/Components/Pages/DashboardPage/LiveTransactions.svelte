@@ -2,8 +2,8 @@
     import { transactions } from "@/stores/statsStore.js";
 
 
-    function getTypeColor(type) {
-        switch(type) {
+    function getStatusColor(status) {
+        switch(status) {
             case 'PENDING': return 'text-blue-600 bg-blue-100';
             case 'COMPLETED': return 'text-green-600 bg-green-100';
             default: return 'text-gray-600 bg-gray-100';
@@ -28,22 +28,22 @@
                 <div class="flex items-center justify-between">
                     <div class="flex-1">
                         <div class="flex items-center space-x-3">
-              <span class="px-2 py-1 text-xs font-medium rounded-full {getTypeColor(transaction.type)}">
-                {transaction.type.toUpperCase()}
+              <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(transaction.status)}">
+                {transaction.status.toUpperCase()}
               </span>
-                            <span class="text-sm font-medium text-gray-900">{transaction.dataset}</span>
+                            <span class="text-sm font-medium text-gray-900">{transaction.dataset.title}</span>
                         </div>
                         <div class="mt-1 text-sm text-gray-600">
-                            <span class="font-medium">Buyer:</span> {transaction.buyer} •
-                            <span class="font-medium">Seller:</span> {transaction.seller}
+                            <span class="font-medium">Buyer:</span> {transaction.buyer.email} •
+                            <span class="font-medium">Seller:</span> {transaction.dataset.seller.email}
                         </div>
                         <div class="mt-1 text-xs text-gray-500">
-                            {transaction.timestamp.toLocaleString()}
+                            {transaction.timestamp?.toLocaleString() || transaction.createdAt.toLocaleString()}
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="text-lg font-semibold {transaction.amount >= 0 ? 'text-green-600' : 'text-red-600'}">
-                            ${Math.abs(transaction.amount).toFixed(2)}
+                        <div class="text-lg font-semibold {transaction.dataset.price >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${Math.abs(transaction.dataset.price / 100).toFixed(2)}
                         </div>
                     </div>
                 </div>
