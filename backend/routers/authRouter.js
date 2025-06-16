@@ -83,7 +83,7 @@ router.post('/login', async (req, res) => {
     }
   );
 
-  res.status(200).json({ token, user: { id: user.id, email: user.email, name: user.name } });
+  res.status(200).json({ token, user: { id: user.id, email: user.email } });
 });
 
 router.post('/signup', async (req, res) => {
