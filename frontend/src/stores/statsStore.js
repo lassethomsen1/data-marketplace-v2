@@ -21,7 +21,6 @@ export async function fetchAndSetStats() {
   try {
     const data = await fetchStats();
     stats.set(data);
-    console.log('Stats fetched successfully:', data);
   } catch (error) {
     console.error('Failed to fetch stats:', error);
   } finally {
