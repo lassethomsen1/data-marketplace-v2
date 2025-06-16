@@ -3,6 +3,7 @@ import { PrismaClient } from '../generated/prisma/index.js';
 
 import stripe from '../utils/stripe.js';
 import { authenticateToken } from '../middleware/auth.js';
+import emitStat from './socket/socketEmits.js';
 
 const router = new Router();
 const prisma = new PrismaClient();
@@ -168,6 +169,15 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
     await prisma.purchases.update({
       where: { id: purchase.id },
       data: { stripeSessionId: session.id },
+    });
+
+    await emitStat('purchase:new', {
+      datasetId: dataset.id,
+      purchaseId: purchase.id,
+      buyerId: buyerId,
+      sellerId: dataset.sellerId,
+      status: 'PENDING',
+      price: dataset.price,
     });
 
     res.send({
