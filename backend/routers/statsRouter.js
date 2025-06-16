@@ -40,11 +40,12 @@ async function getStripeStats() {
   const balanceTxs = await stripe.balanceTransactions.list({
     type: 'application_fee',
     limit: 100,
+    created: { gte: Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60 },
   });
   const feesSum = balanceTxs.data.reduce((sum, tx) => {
     return sum + (tx.amount || 0);
   }, 0);
-  const total = { fees: feesSum / 100, currency: balanceTxs.data[0]?.currency || 'dkk' };
+  const total = { total: feesSum / 100, currency: balanceTxs.data[0]?.currency || 'dkk' };
   return {
     fees: total,
     totalRevenue: await getTotalRevenue(),
