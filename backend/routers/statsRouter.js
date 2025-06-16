@@ -16,6 +16,7 @@ router.get('/', authenticateToken, async (req, res) => {
   };
   res.send(stats);
 });
+
 async function getDatabaseStats() {
   const [users, datasets, failedPurchases, completedPurchases] = await prisma.$transaction([
     prisma.users.count(),
@@ -35,6 +36,7 @@ async function getDatabaseStats() {
     completedPurchases,
   };
 }
+
 router.get('/transactions', authenticateToken, async (req, res) => {
   try {
     const thirtyDaysAgo = new Date();
@@ -76,6 +78,38 @@ router.get('/transactions', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'failed fetching transactions' });
   }
 });
+router.get('/uploads', authenticateToken, async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const uploads = await prisma.datasets.findMany({
+      omit: {
+        filekey: true,
+        sampleData: true,
+        description: true,
+        price: true,
+      },
+      where: {
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+      },
+      include: {
+        seller: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.send(uploads);
+  } catch (err) {
+    console.error('Error fetching transactions:', err);
+    res.status(500).json({ error: 'failed fetching uploads' });
+  }
+});
 
 // todo skal være i en helper folder
 async function getStripeStats() {
@@ -93,6 +127,7 @@ async function getStripeStats() {
     totalRevenue: await getTotalRevenue(),
   };
 }
+
 async function getTotalRevenue() {
   const paymentIntents = await stripe.paymentIntents.list({
     limit: 100,
