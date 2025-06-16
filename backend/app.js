@@ -7,6 +7,7 @@ import authRouter from './routers/authRouter.js';
 import stripeRouter from './routers/stripeRouter.js';
 import webhookRouter from './routers/webhookRouter.js';
 import purchaseRouter from './routers/purchaseRouter.js';
+import statsRouter from './routers/statsRouter.js';
 import { initSocket } from './routers/socket/socketServer.js';
 
 const app = express();
@@ -15,13 +16,14 @@ const server = http.createServer(app);
 initSocket(server);
 // stripe webhook endpoint must be before express.json middleware
 app.use('/api/stripe', webhookRouter);
-
+//todo : gør consistent
 app.use(express.json());
 app.use(cors());
 app.use('/auth', authRouter);
 app.use('/api', datasetRouter);
 app.use('/api/stripe', stripeRouter);
 app.use('/api/', purchaseRouter);
+app.use('/api/stats', statsRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
