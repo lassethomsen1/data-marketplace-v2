@@ -31,11 +31,10 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
 
     accountId = account.id;
   }
-  //todo set refresh_url up correctly
   const origin = req.headers.origin || process.env.FRONTEND_URL;
   const accountLink = await stripe.accountLinks.create({
     account: accountId,
-    refresh_url: `${origin}/onboarding/refresh`,
+    refresh_url: `${origin}/`,
     return_url: `${origin}/profile`,
     type: 'account_onboarding',
   });
