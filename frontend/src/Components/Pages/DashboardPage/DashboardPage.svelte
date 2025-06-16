@@ -4,7 +4,7 @@
     import DatasetUploads from "@/Components/Pages/DashboardPage/DatasetUploads.svelte";
     import PaymentStatus from "@/Components/Pages/DashboardPage/PaymentStatus.svelte";
     import { onMount } from "svelte";
-    import { fetchAndSetStats, transactions } from "@/stores/statsStore.js";
+    import { fetchAndSetStats, transactions, uploads } from "@/stores/statsStore.js";
 
     import { io } from "socket.io-client";
 
@@ -20,6 +20,10 @@
 
     socket.on('transaction:new', tx => {
         transactions.update(current => [tx, ...current.slice(0, 9)]);
+    });
+
+    socket.on('upload:new', upload => {
+        uploads.update(current => [upload, ...current.slice(0, 9)]);
     });
 
 </script>
