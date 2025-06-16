@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
-import { fetchStats, fetchTransactions } from '@/api/statsApi.js';
+import { fetchStats, fetchTransactions, fetchUploads } from '@/api/statsApi.js';
+import { formatDataset } from '@/utils/datasetUtil.js';
 
 export const stats = writable({
   database: {
@@ -26,9 +27,9 @@ export async function fetchAndSetStats() {
     console.error('Failed to fetch stats:', error);
   } finally {
     statsLoading.set(false);
-    console.log('Stats loading finished');
   }
 }
+
 export async function fetchAndSetTransactions() {
   statsLoading.set(true);
   try {
@@ -38,6 +39,20 @@ export async function fetchAndSetTransactions() {
     console.error('Failed to fetch transactions:', error);
   } finally {
     statsLoading.set(false);
-    console.log('Transactions loading finished');
+  }
+}
+
+export async function fetchAndSetUploads() {
+  statsLoading.set(true);
+  try {
+    const data = await fetchUploads();
+    data.forEach(upload => {
+      formatDataset(upload);
+    });
+    uploads.set(data);
+  } catch (error) {
+    console.error('Failed to fetch uploads:', error);
+  } finally {
+    statsLoading.set(false);
   }
 }
