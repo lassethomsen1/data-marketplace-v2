@@ -3,18 +3,24 @@
     import LiveTransactions from "@/Components/Pages/DashboardPage/LiveTransactions.svelte";
     import DatasetUploads from "@/Components/Pages/DashboardPage/DatasetUploads.svelte";
     import PaymentStatus from "@/Components/Pages/DashboardPage/PaymentStatus.svelte";
+    import { onMount } from "svelte";
+    import { fetchAndSetStats } from "@/stores/statsStore.js";
+
+    onMount(async () => {
+        await fetchAndSetStats();
+    })
 </script>
 
 <div class="min-h-screen bg-gray-50">
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <OverviewStats />
+        <OverviewStats/>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-            <LiveTransactions />
+            <LiveTransactions/>
 
-            <DatasetUploads />
+            <DatasetUploads/>
 
-            <PaymentStatus />
+            <PaymentStatus/>
         </div>
 
     </main>
