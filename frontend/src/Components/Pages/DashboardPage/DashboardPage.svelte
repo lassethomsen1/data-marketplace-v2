@@ -4,11 +4,31 @@
     import DatasetUploads from "@/Components/Pages/DashboardPage/DatasetUploads.svelte";
     import PaymentStatus from "@/Components/Pages/DashboardPage/PaymentStatus.svelte";
     import { onMount } from "svelte";
-    import { fetchAndSetStats } from "@/stores/statsStore.js";
+    import { fetchAndSetStats, transactions } from "@/stores/statsStore.js";
+
+    import { io } from "socket.io-client";
 
     onMount(async () => {
         await fetchAndSetStats();
     })
+    const socket = io(import.meta.env.VITE_BACKEND_URL, {
+        path: '/ws',
+        auth: {
+            token: localStorage.getItem('token'),
+        }
+    });
+
+    socket.on('connect', () => {
+        console.log('Connected to live feed');
+    });
+
+    socket.on('transaction:new', tx => {
+        $transactions.update(current => [tx, ...current.slice(0, 9)]);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected');
+    });
 </script>
 
 <div class="min-h-screen bg-gray-50">
