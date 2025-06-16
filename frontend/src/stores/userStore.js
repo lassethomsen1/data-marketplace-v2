@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import { getUser } from '@/api/userApi.js';
+import { navigate } from 'svelte-routing';
 
 const savedUser = JSON.parse(localStorage.getItem('user'));
 const savedToken = localStorage.getItem('token');
@@ -39,4 +40,5 @@ export function logout() {
   token.set(null);
   localStorage.removeItem('user');
   localStorage.removeItem('token');
+  navigate('/');
 }
