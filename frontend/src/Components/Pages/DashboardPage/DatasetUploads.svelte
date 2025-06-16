@@ -25,11 +25,11 @@
               <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(upload.status)}">
                 {upload.status.toUpperCase()}
               </span>
-                            <span class="text-sm font-medium text-gray-900">{upload.fileName}</span>
+                            <span class="text-sm font-medium text-gray-900">{upload.title}</span>
                         </div>
                         <div class="mt-1 text-sm text-gray-600">
-                            <span class="font-medium">Seller:</span> {upload.seller} •
-                            <span class="font-medium">Size:</span> {upload.fileSize}
+                            <span class="font-medium">Seller:</span> {upload.seller.email} •
+                            <span class="font-medium">Size:</span> {upload.filesize}
                         </div>
                         <div class="mt-2 flex flex-wrap gap-1">
                             {#each upload.tags as tag}
@@ -39,7 +39,7 @@
                             {/each}
                         </div>
                         <div class="mt-1 text-xs text-gray-500">
-                            {upload.timestamp.toLocaleString()}
+                            {upload.timestamp?.toLocaleString() || upload.createdAt.toLocaleString()}
                         </div>
                     </div>
                 </div>
