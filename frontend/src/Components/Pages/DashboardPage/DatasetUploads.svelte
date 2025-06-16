@@ -1,62 +1,10 @@
 <script>
-    let uploads = $state([
-        {
-            id: 'up_001',
-            seller: 'DataScience Pro',
-            fileName: 'customer_segmentation.csv',
-            fileSize: '2.4 MB',
-            tags: ['marketing', 'analytics', 'customer'],
-            status: 'approved',
-            timestamp: new Date(Date.now() - 60000)
-        },
-        {
-            id: 'up_002',
-            seller: 'ML Research',
-            fileName: 'financial_timeseries.json',
-            fileSize: '15.7 MB',
-            tags: ['finance', 'timeseries', 'trading'],
-            status: 'pending',
-            timestamp: new Date(Date.now() - 180000)
-        },
-        {
-            id: 'up_003',
-            seller: 'Analytics Corp',
-            fileName: 'social_media_data.parquet',
-            fileSize: '8.9 MB',
-            tags: ['social', 'sentiment', 'nlp'],
-            status: 'rejected',
-            timestamp: new Date(Date.now() - 420000)
-        }
-    ]);
-
-    setInterval(() => {
-        const sellers = ['DataVendor LLC', 'AI Solutions', 'Research Lab', 'Analytics Pro'];
-        const files = ['dataset.csv', 'model_data.json', 'training_set.parquet', 'features.xlsx'];
-        const tagSets = [
-            ['ml', 'training'],
-            ['finance', 'stocks'],
-            ['healthcare', 'medical'],
-            ['retail', 'sales']
-        ];
-        const statuses = ['pending', 'approved', 'rejected'];
-
-        const newUpload = {
-            id: `up_${Date.now()}`,
-            seller: sellers[Math.floor(Math.random() * sellers.length)],
-            fileName: files[Math.floor(Math.random() * files.length)],
-            fileSize: `${(Math.random() * 50 + 1).toFixed(1)} MB`,
-            tags: tagSets[Math.floor(Math.random() * tagSets.length)],
-            status: statuses[Math.floor(Math.random() * statuses.length)],
-            timestamp: new Date()
-        };
-
-        uploads = [newUpload, ...uploads.slice(0, 9)];
-    }, 12000);
+    import { uploads } from "@/stores/statsStore.js";
 
     function getStatusColor(status) {
         switch(status) {
             case 'approved': return 'text-green-600 bg-green-100';
-            case 'pending': return 'text-yellow-600 bg-yellow-100';
+            case 'PENDING': return 'text-yellow-600 bg-yellow-100';
             case 'rejected': return 'text-red-600 bg-red-100';
             default: return 'text-gray-600 bg-gray-100';
         }
@@ -69,7 +17,7 @@
     </div>
 
     <div class="max-h-96 overflow-y-auto">
-        {#each uploads as upload (upload.id)}
+        {#each $uploads as upload}
             <div class="px-6 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
