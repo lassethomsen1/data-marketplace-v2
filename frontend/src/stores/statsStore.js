@@ -14,6 +14,7 @@ export const stats = writable({
   },
 });
 export const transactions = writable([]);
+export const uploads = writable([]);
 export const statsLoading = writable(false);
 
 export async function fetchAndSetStats() {
