@@ -8,7 +8,7 @@ export function socketAuth(socket, next) {
   }
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
+    if (err || !user || user.role !== 'ADMIN') {
       return next(new Error('Access Denied: Invalid Token'));
     }
 
