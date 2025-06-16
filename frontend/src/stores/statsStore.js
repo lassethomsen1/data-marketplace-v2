@@ -12,8 +12,8 @@ export const stats = writable({
     fees: { total: 0, currency: 'dkk' },
     totalRevenue: { total: 0, currency: 'usd' },
   },
-  transactions: [],
 });
+export const transactions = writable([]);
 export const statsLoading = writable(false);
 
 export async function fetchAndSetStats() {
