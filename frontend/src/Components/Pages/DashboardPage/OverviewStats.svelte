@@ -74,14 +74,14 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-indigo-500">
         <div class="flex items-center justify-between">
             <div>
-                <p class="text-gray-600 text-sm font-medium">Upload Success</p>
-                <p class="text-2xl font-bold text-gray-900">{initialStats.uploadSuccessRate.toFixed(1)}%</p>
+                <p class="text-gray-600 text-sm font-medium">Completed Purchases</p>
+                <p class="text-2xl font-bold text-gray-900">{$stats.database.completedPurchases}</p>
             </div>
-            <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                 </svg>
             </div>
