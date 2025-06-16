@@ -15,7 +15,6 @@ token.subscribe(value => {
     localStorage.removeItem('token');
   }
 });
-// todo : fejl når man refresher profilepage hvor navnet ikke bliver vist
 export async function fetchUser() {
   try {
     const fetchedUser = await getUser();
