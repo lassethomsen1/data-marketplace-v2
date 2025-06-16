@@ -8,6 +8,8 @@ import stripeRouter from './routers/stripeRouter.js';
 import webhookRouter from './routers/webhookRouter.js';
 import purchaseRouter from './routers/purchaseRouter.js';
 import statsRouter from './routers/statsRouter.js';
+import devRouter from './routers/devRouter.js';
+
 import { initSocket } from './routers/socket/socketServer.js';
 
 const app = express();
@@ -24,6 +26,7 @@ app.use('/api', datasetRouter);
 app.use('/api/stripe', stripeRouter);
 app.use('/api/', purchaseRouter);
 app.use('/api/stats', statsRouter);
+app.use('/dev', devRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
