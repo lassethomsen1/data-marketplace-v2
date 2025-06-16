@@ -35,6 +35,43 @@ async function getDatabaseStats() {
     completedPurchases,
   };
 }
+router.get('/transactions', authenticateToken, async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const transactions = await prisma.purchases.findMany({
+      where: {
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+      },
+      include: {
+        buyer: {
+          select: {
+            email: true,
+          },
+        },
+        dataset: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(transactions);
+  } catch (err) {
+    console.error('Error fetching transactions:', err);
+    res.status(500).json({ error: 'failed fetching transactions' });
+  }
+});
+
 // todo skal være i en helper folder
 async function getStripeStats() {
   const balanceTxs = await stripe.balanceTransactions.list({
