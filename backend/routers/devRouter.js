@@ -4,7 +4,7 @@ import emitStat from './socket/socketEmits.js';
 
 const router = new Router();
 
-router.post('/emit-test-tx', authenticateToken, async (req, res) => {
+router.post('/emit-test', authenticateToken, async (req, res) => {
   if (!req.user || req.user.role !== 'ADMIN') {
     return res.status(403).send('Access denied');
   }
