@@ -2,7 +2,6 @@
     import OverviewStats from "@/Components/Pages/DashboardPage/OverviewStats.svelte";
     import LiveTransactions from "@/Components/Pages/DashboardPage/LiveTransactions.svelte";
     import DatasetUploads from "@/Components/Pages/DashboardPage/DatasetUploads.svelte";
-    import PaymentStatus from "@/Components/Pages/DashboardPage/PaymentStatus.svelte";
     import { onMount } from "svelte";
     import { fetchAndSetStats, transactions, uploads } from "@/stores/statsStore.js";
 
@@ -36,8 +35,6 @@
             <LiveTransactions/>
 
             <DatasetUploads/>
-
-            <PaymentStatus/>
         </div>
 
     </main>
