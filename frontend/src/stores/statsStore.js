@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { fetchStats } from '@/api/statsApi.js';
+import { fetchStats, fetchTransactions } from '@/api/statsApi.js';
 
 export const stats = writable({
   database: {
@@ -27,5 +27,17 @@ export async function fetchAndSetStats() {
   } finally {
     statsLoading.set(false);
     console.log('Stats loading finished');
+  }
+}
+export async function fetchAndSetTransactions() {
+  statsLoading.set(true);
+  try {
+    const data = await fetchTransactions();
+    transactions.set(data);
+  } catch (error) {
+    console.error('Failed to fetch transactions:', error);
+  } finally {
+    statsLoading.set(false);
+    console.log('Transactions loading finished');
   }
 }
