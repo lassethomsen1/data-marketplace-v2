@@ -18,17 +18,10 @@
         }
     });
 
-    socket.on('connect', () => {
-        console.log('Connected to live feed');
-    });
-
     socket.on('transaction:new', tx => {
-        $transactions.update(current => [tx, ...current.slice(0, 9)]);
+        transactions.update(current => [tx, ...current.slice(0, 9)]);
     });
 
-    socket.on('disconnect', () => {
-        console.log('Disconnected');
-    });
 </script>
 
 <div class="min-h-screen bg-gray-50">
