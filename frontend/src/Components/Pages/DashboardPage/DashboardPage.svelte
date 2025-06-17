@@ -6,6 +6,7 @@
     import {fetchAndSetStats, fetchAndSetTransactions, fetchAndSetUploads, transactions, uploads} from "@/stores/statsStore.js";
 
     import { io } from "socket.io-client";
+    import {simulateEvents} from "@/api/statsApi.js";
 
     onMount(async () => {
         await fetchAndSetStats();
@@ -32,7 +33,9 @@
 <div class="min-h-screen bg-gray-50">
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <OverviewStats/>
-
+        <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4" on:click={simulateEvents}>
+            Simulate Events
+        </button>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
             <LiveTransactions/>
 
