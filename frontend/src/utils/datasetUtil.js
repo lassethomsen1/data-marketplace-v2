@@ -24,7 +24,7 @@ export function formatDataset(dataset) {
 }
 
 export function getStatusColor(status) {
-  switch (status) {
+  switch (status.toUpperCase()) {
     case 'PENDING':
       return 'text-blue-600 bg-blue-100';
     case 'COMPLETED':
