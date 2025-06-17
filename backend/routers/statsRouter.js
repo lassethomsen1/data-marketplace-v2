@@ -111,6 +111,64 @@ router.get('/uploads', authenticateToken, async (req, res) => {
   }
 });
 
+router.get('/seller', authenticateToken, async (req, res) => {
+  if (!req.user) {
+    return res.status(403).send('Access denied');
+  }
+  const isStripeOnboardingComplete = await prisma.users.findUnique({
+    where: { id: req.user.id },
+    select: {
+      stripeOnboardingCompleted: true,
+    },
+  });
+  if (!isStripeOnboardingComplete) {
+    return res.status(403).send('Seller onboarding not completed');
+  }
+  try {
+    const sellerId = req.user.id;
+
+    const [totalEarningsResult, totalSales, activeDatasets] = await prisma.$transaction([
+      prisma.purchases.aggregate({
+        _sum: { paidAmount: true },
+        where: {
+          status: 'COMPLETED',
+          dataset: {
+            sellerId: sellerId,
+          },
+        },
+      }),
+
+      prisma.purchases.count({
+        where: {
+          status: 'COMPLETED',
+          dataset: {
+            sellerId: sellerId,
+          },
+        },
+      }),
+
+      prisma.datasets.count({
+        where: {
+          sellerId: sellerId,
+          status: 'AVAILABLE',
+        },
+      }),
+    ]);
+
+    const sellerData = {
+      totalEarnings: (totalEarningsResult._sum.paidAmount ?? 0) / 100,
+      totalSales,
+      activeDatasets,
+      pendingPayout: 0,
+    };
+
+    return res.send(sellerData);
+  } catch (error) {
+    console.error('Error fetching seller dashboard:', error);
+    return res.status(500).send({ error: 'Failed to load seller dashboard' });
+  }
+});
+
 // todo skal være i en helper folder
 async function getStripeStats() {
   const balanceTxs = await stripe.balanceTransactions.list({
