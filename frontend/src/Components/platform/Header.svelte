@@ -1,5 +1,5 @@
 <script>
-    import {logout, user} from "../../stores/userStore.js";
+    import {logout, user} from "@/stores/userStore.js";
     import {CircleUserRound, Search} from "lucide-svelte";
     import {navigate} from "svelte-routing";
 
