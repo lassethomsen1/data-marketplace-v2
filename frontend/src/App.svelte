@@ -8,6 +8,7 @@
     import Header from "./Components/platform/Header.svelte";
     import UploadPage from "./Components/Pages/UploadPage/UploadPage.svelte";
     import DashboardPage from "@/Components/Pages/AdminDashboardPage/DashboardPage.svelte";
+    import SellerDashboardPage from "@/Components/Pages/SellerDashboardPage/SellerDashboardPage.svelte";
 </script>
 <Router>
     <div>
@@ -33,6 +34,10 @@
         <PrivateRoute path="/upload">
             <Header/>
             <UploadPage/>
+        </PrivateRoute>
+        <PrivateRoute path="/seller-dashboard">
+            <Header/>
+            <SellerDashboardPage/>
         </PrivateRoute>
         <PrivateRoute path="/secret">
             <h1 class="text-9xl text-center">SECRET</h1>
