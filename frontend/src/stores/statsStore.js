@@ -35,6 +35,20 @@ export const sellerStats = writable({
       createdAt: '',
     },
   ],
+  recentSales: [
+    {
+      id: '',
+      paidAmount: 0,
+      createdAt: '',
+      status: '',
+      buyer: {
+        email: '',
+      },
+      dataset: {
+        title: '',
+      },
+    },
+  ],
 });
 export const sellerRevenue = writable({
   revenueData: [],
