@@ -70,7 +70,7 @@ export async function simulateEvents() {
 
 export async function fetchSellerStats() {
   const token = localStorage.getItem('token');
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stats/seller`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/stats/sellers`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -81,10 +81,10 @@ export async function fetchSellerStats() {
   await handleError(response);
   return await response.json();
 }
-export async function fetchSellerRevenue(sellerId, months = 12) {
+export async function fetchSellerRevenue(months = 12) {
   const token = localStorage.getItem('token');
   const response = await fetch(
-    `${import.meta.env.VITE_BACKEND_URL}/api/stats/seller/${sellerId}/revenue?months=${months}`,
+    `${import.meta.env.VITE_BACKEND_URL}/api/stats/sellers/revenue?months=${months}`,
     {
       method: 'GET',
       headers: {
