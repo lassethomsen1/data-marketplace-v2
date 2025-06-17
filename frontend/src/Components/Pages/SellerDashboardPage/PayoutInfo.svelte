@@ -54,7 +54,7 @@
                 {#each sellerData.payoutHistory as payout}
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                         <div>
-                            <div class="text-sm font-medium text-gray-900">{payout.amount.toLocaleString()} {payout.currency}</div>
+                            <div class="text-sm font-medium text-gray-900">{payout.amount.toLocaleString()} {payout.currency.toUpperCase()}</div>
                             <div class="text-xs text-gray-600">{payout.createdAt}</div>
                         </div>
                         <span class="px-2 py-1 text-xs font-medium rounded-full text-green-600 bg-green-100">
