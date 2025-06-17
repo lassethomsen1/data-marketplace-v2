@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store';
 import {
+  fetchDatasetPerformance,
   fetchSellerRevenue,
   fetchSellerStats,
   fetchStats,
@@ -33,6 +34,14 @@ export const sellerRevenue = writable({
     totalRevenue: 0,
     avgSaleValue: 0,
   },
+});
+export const datasetPerformance = writable({
+  id: '',
+  name: '',
+  price: '',
+  sales: 0,
+  revenue: '',
+  status: '',
 });
 
 export const transactions = writable([]);
@@ -83,9 +92,11 @@ export async function fetchAndSetSellerStats() {
   try {
     const stats = await fetchSellerStats();
     const revenue = await fetchSellerRevenue();
+    const datasetPerformance = await fetchDatasetPerformance();
 
     sellerStats.set(stats);
     sellerRevenue.set(revenue);
+    datasetPerformance.set(datasetPerformance);
   } catch (error) {
     console.error('Failed to fetch seller stats:', error);
   } finally {
