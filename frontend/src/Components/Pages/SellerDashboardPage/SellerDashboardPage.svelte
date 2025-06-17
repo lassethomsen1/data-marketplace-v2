@@ -6,21 +6,19 @@
     import RecentSales from "@/Components/Pages/SellerDashboardPage/RecentSales.svelte";
     import PayoutInfo from "@/Components/Pages/SellerDashboardPage/PayoutInfo.svelte";
 
-    let sellerData = $state({
-        name: "DataScience Pro",
-        email: "seller@datasciencepro.com",
-        joinDate: "March 2023",
-        totalEarnings: 24567.89,
-        pendingPayout: 3456.78,
-        totalSales: 156,
-        activeDatasets: 12,
-    });
+    import { onMount } from "svelte";
+    import {fetchAndSetSellerStats} from "@/stores/statsStore.js";
+    import { sellerStats } from "@/stores/statsStore.js";
+
+    onMount(async ()=>{
+        await fetchAndSetSellerStats();
+    })
 </script>
 
 <div class="min-h-screen bg-gray-50">
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <OverviewCards {sellerData} />
+        <OverviewCards sellerData={$sellerStats} />
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
             <div class="lg:col-span-2 space-y-8">
@@ -30,7 +28,7 @@
             </div>
 
             <div class="space-y-8">
-                <PayoutInfo {sellerData} />
+                <PayoutInfo sellerData={$sellerStats} />
             </div>
         </div>
     </main>
