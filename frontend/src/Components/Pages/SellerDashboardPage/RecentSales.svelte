@@ -1,49 +1,6 @@
 <script>
     import { getStatusColor} from "@/utils/datasetUtil.js";
-
-    let recentSales = $state([
-        {
-            id: 'sale_001',
-            dataset: 'Customer Analytics Dataset',
-            buyer: 'john.doe@startup.com',
-            amount: 299.99,
-            date: new Date('2024-03-15T14:30:00'),
-            paymentStatus: 'completed'
-        },
-        {
-            id: 'sale_002',
-            dataset: 'Financial Time Series Data',
-            buyer: 'analyst@fintech.io',
-            amount: 199.50,
-            date: new Date('2024-03-14T09:15:00'),
-            paymentStatus: 'completed'
-        },
-        {
-            id: 'sale_003',
-            dataset: 'E-commerce User Behavior',
-            buyer: 'data@retailcorp.com',
-            amount: 149.99,
-            date: new Date('2024-03-13T16:45:00'),
-            paymentStatus: 'pending'
-        },
-        {
-            id: 'sale_004',
-            dataset: 'Social Media Sentiment Analysis',
-            buyer: 'research@university.edu',
-            amount: 89.99,
-            date: new Date('2024-03-12T11:20:00'),
-            paymentStatus: 'completed'
-        },
-        {
-            id: 'sale_005',
-            dataset: 'Customer Analytics Dataset',
-            buyer: 'marketing@agency.com',
-            amount: 299.99,
-            date: new Date('2024-03-11T13:10:00'),
-            paymentStatus: 'completed'
-        }
-    ]);
-
+    import { sellerStats } from "@/stores/statsStore.js";
 
 </script>
 
@@ -58,7 +15,7 @@
     </div>
 
     <div class="divide-y divide-gray-200">
-        {#each recentSales as sale}
+        {#each $sellerStats.recentSales as sale}
             <div class="px-6 py-4 hover:bg-gray-50 transition-colors">
                 <div class="flex items-center justify-between">
                     <div class="flex-1">
@@ -69,16 +26,16 @@
                                 </svg>
                             </div>
                             <div>
-                                <div class="text-sm font-medium text-gray-900">{sale.dataset}</div>
-                                <div class="text-sm text-gray-600">Sold to: {sale.buyer}</div>
-                                <div class="text-xs text-gray-500">{sale.date.toLocaleString()}</div>
+                                <div class="text-sm font-medium text-gray-900">{sale.dataset.title}</div>
+                                <div class="text-sm text-gray-600">Sold to: {sale.buyer.email}</div>
+                                <div class="text-xs text-gray-500">{sale.createdAt}</div>
                             </div>
                         </div>
                     </div>
                     <div class="text-right">
-                        <div class="text-lg font-semibold text-gray-900">${sale.amount}</div>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(sale.paymentStatus)}">
-              {sale.paymentStatus.toUpperCase()}
+                        <div class="text-lg font-semibold text-gray-900">${(sale.paidAmount / 100).toFixed(2) }</div>
+                        <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(sale.status)}">
+              {sale.status.toUpperCase()}
             </span>
                     </div>
                 </div>
