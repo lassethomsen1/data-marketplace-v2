@@ -7,6 +7,7 @@
 
     import { io } from "socket.io-client";
     import {simulateEvents} from "@/api/statsApi.js";
+    import {formatDataset} from "@/utils/datasetUtil.js";
 
     onMount(async () => {
         await fetchAndSetStats();
@@ -25,6 +26,7 @@
     });
 
     socket.on('upload:new', upload => {
+        formatDataset(upload)
         uploads.update(current => [upload, ...current.slice(0, 9)]);
     });
 
