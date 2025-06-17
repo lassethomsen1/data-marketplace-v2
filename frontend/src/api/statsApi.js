@@ -198,7 +198,6 @@ export async function simulateEvents() {
   const interval = setInterval(() => {
     if (count >= 10) {
       clearInterval(interval);
-      console.log('✅ Finished emitting 10 events');
       return;
     }
 
