@@ -7,7 +7,7 @@
     import PayoutInfo from "@/Components/Pages/SellerDashboardPage/PayoutInfo.svelte";
 
     import { onMount } from "svelte";
-    import {fetchAndSetSellerStats} from "@/stores/statsStore.js";
+    import { fetchAndSetSellerStats } from "@/stores/statsStore.js";
     import { sellerStats } from "@/stores/statsStore.js";
 
     onMount(async ()=>{
