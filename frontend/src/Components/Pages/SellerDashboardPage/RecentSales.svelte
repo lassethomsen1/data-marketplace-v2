@@ -1,4 +1,6 @@
 <script>
+    import { getStatusColor} from "@/utils/datasetUtil.js";
+
     let recentSales = $state([
         {
             id: 'sale_001',
@@ -42,14 +44,7 @@
         }
     ]);
 
-    function getPaymentStatusColor(status) {
-        switch(status) {
-            case 'completed': return 'text-green-600 bg-green-100';
-            case 'pending': return 'text-yellow-600 bg-yellow-100';
-            case 'failed': return 'text-red-600 bg-red-100';
-            default: return 'text-gray-600 bg-gray-100';
-        }
-    }
+
 </script>
 
 <div class="bg-white rounded-lg shadow-md">
@@ -82,7 +77,7 @@
                     </div>
                     <div class="text-right">
                         <div class="text-lg font-semibold text-gray-900">${sale.amount}</div>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full {getPaymentStatusColor(sale.paymentStatus)}">
+                        <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(sale.paymentStatus)}">
               {sale.paymentStatus.toUpperCase()}
             </span>
                     </div>
