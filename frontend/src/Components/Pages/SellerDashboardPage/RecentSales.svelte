@@ -1,6 +1,7 @@
 <script>
     import { getStatusColor} from "@/utils/datasetUtil.js";
     import { sellerStats } from "@/stores/statsStore.js";
+    import {ShoppingBag} from "lucide-svelte";
 
 </script>
 
@@ -18,9 +19,7 @@
                     <div class="flex-1">
                         <div class="flex items-center space-x-3">
                             <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                                </svg>
+                                <ShoppingBag class="text-blue-500" />
                             </div>
                             <div>
                                 <div class="text-sm font-medium text-gray-900">{sale.dataset.title}</div>
