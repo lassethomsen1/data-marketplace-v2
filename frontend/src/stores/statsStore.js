@@ -26,6 +26,15 @@ export const sellerStats = writable({
   totalSales: 0,
   activeDatasets: 0,
   pendingPayout: 0,
+  payoutHistory: [
+    {
+      id: '',
+      amount: 0,
+      status: '',
+      currency: '',
+      createdAt: '',
+    },
+  ],
 });
 export const sellerRevenue = writable({
   revenueData: [],
