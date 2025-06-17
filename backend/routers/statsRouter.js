@@ -161,12 +161,14 @@ router.get('/sellers', authenticateToken, async (req, res) => {
       }),
     ]);
     const pendingBal = await getRemainingPayout(user.stripeAccountId);
+    const payoutHistory = await getPayoutHistory(user.stripeAccountId);
 
     const sellerData = {
       totalEarnings: (totalEarningsResult._sum.paidAmount ?? 0) / 100,
       totalSales,
       activeDatasets,
       pendingPayout: pendingBal.available.reduce((sum, item) => sum + (item.amount || 0), 0) / 100,
+      payoutHistory,
     };
 
     return res.send(sellerData);
@@ -318,7 +320,22 @@ async function getRemainingPayout(stripeAccountId) {
     throw error;
   }
 }
+async function getPayoutHistory(stripeAccountId) {
+  try {
+    const payouts = await stripe.payouts.list({ limit: 100 }, { stripeAccount: stripeAccountId });
 
+    return payouts.data.map(payout => ({
+      id: payout.id,
+      amount: payout.amount / 100,
+      status: payout.status,
+      currency: payout.currency,
+      createdAt: new Date(payout.created * 1000).toISOString(),
+    }));
+  } catch (error) {
+    console.error('Error fetching payout history:', error);
+    throw error;
+  }
+}
 async function getSellerRevenue(sellerId, months = 12) {
   try {
     const endDate = new Date();
