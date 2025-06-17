@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { PrismaClient } from '../generated/prisma/index.js';
 import { authenticateToken } from '../middleware/auth.js';
 import stripe from '../utils/stripe.js';
-
+//TODO: DEN HER SKAL DELES OP I FLERE FILER
 const router = new Router();
 const prisma = new PrismaClient();
 
@@ -223,6 +223,52 @@ router.get('/sellers/revenue', authenticateToken, async (req, res) => {
       success: false,
       error: 'Failed to fetch revenue data',
     });
+  }
+});
+// todo skal være et andet sted (muligvis i datasetRouter) og lav routen om
+router.get('/sellers/dataset/performance', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const datasets = await prisma.datasets.findMany({
+      where: {
+        sellerId: userId,
+      },
+      include: {
+        purchases: {
+          where: {
+            status: 'COMPLETED',
+          },
+        },
+      },
+    });
+
+    const performanceData = datasets.map(dataset => {
+      const completedPurchases = dataset.purchases;
+      const sales = completedPurchases.length;
+      const revenue = completedPurchases.reduce((total, purchase) => {
+        return total + (purchase.paidAmount || 0);
+      }, 0);
+
+      return {
+        id: dataset.id,
+        name: dataset.title,
+        price: (dataset.price / 100).toFixed(2),
+        sales: sales,
+        revenue: (revenue / 100).toFixed(2),
+        status: dataset.status,
+        createdAt: dataset.createdAt,
+      };
+    });
+
+    res.send(performanceData);
+  } catch (error) {
+    console.error('Error fetching dataset performance:', error);
+    res.status(500).send({ error: 'Internal server error' });
   }
 });
 
