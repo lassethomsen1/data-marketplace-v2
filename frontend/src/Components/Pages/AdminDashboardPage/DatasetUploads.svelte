@@ -1,14 +1,7 @@
 <script>
     import { uploads } from "@/stores/statsStore.js";
+    import { getStatusColor } from "@/utils/datasetUtil.js";
 
-    function getStatusColor(status) {
-        switch(status) {
-            case 'AVAILABLE': return 'text-green-600 bg-green-100';
-            case 'PENDING': return 'text-yellow-600 bg-yellow-100';
-            case 'rejected': return 'text-red-600 bg-red-100';
-            default: return 'text-gray-600 bg-gray-100';
-        }
-    }
 </script>
 
 <div class="bg-white rounded-lg shadow-md">

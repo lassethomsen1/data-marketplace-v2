@@ -22,3 +22,14 @@ export function formatDataset(dataset) {
   }
   return dataset;
 }
+
+export function getStatusColor(status) {
+  switch (status) {
+    case 'PENDING':
+      return 'text-blue-600 bg-blue-100';
+    case 'COMPLETED':
+      return 'text-green-600 bg-green-100';
+    default:
+      return 'text-gray-600 bg-gray-100';
+  }
+}
