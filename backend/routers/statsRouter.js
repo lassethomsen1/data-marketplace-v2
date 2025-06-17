@@ -162,6 +162,7 @@ router.get('/sellers', authenticateToken, async (req, res) => {
     ]);
     const pendingBal = await getRemainingPayout(user.stripeAccountId);
     const payoutHistory = await getPayoutHistory(user.stripeAccountId);
+    const recentSales = await getSales(sellerId, 12);
 
     const sellerData = {
       totalEarnings: (totalEarningsResult._sum.paidAmount ?? 0) / 100,
@@ -169,6 +170,7 @@ router.get('/sellers', authenticateToken, async (req, res) => {
       activeDatasets,
       pendingPayout: pendingBal.available.reduce((sum, item) => sum + (item.amount || 0), 0) / 100,
       payoutHistory,
+      recentSales,
     };
 
     return res.send(sellerData);
@@ -320,6 +322,7 @@ async function getRemainingPayout(stripeAccountId) {
     throw error;
   }
 }
+
 async function getPayoutHistory(stripeAccountId) {
   try {
     const payouts = await stripe.payouts.list({ limit: 100 }, { stripeAccount: stripeAccountId });
@@ -336,6 +339,47 @@ async function getPayoutHistory(stripeAccountId) {
     throw error;
   }
 }
+
+async function getSales(sellerId, months = 12) {
+  try {
+    const endDate = new Date();
+    const startDate = new Date();
+    startDate.setMonth(startDate.getMonth() - months);
+
+    return await prisma.purchases.findMany({
+      where: {
+        dataset: {
+          sellerId: sellerId,
+        },
+        status: 'COMPLETED',
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      select: {
+        id: true,
+        paidAmount: true,
+        createdAt: true,
+        status: true,
+        buyer: {
+          select: {
+            email: true,
+          },
+        },
+        dataset: {
+          select: {
+            title: true,
+          },
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error fetching sales data from purchases:', error);
+    throw error;
+  }
+}
+
 async function getSellerRevenue(sellerId, months = 12) {
   try {
     const endDate = new Date();
