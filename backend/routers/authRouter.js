@@ -34,6 +34,8 @@ router.get('/validate-token', async (req, res) => {
     user: {
       id: verifiedUser.id,
       email: verifiedUser.email,
+      name: verifiedUser.name,
+      role: verifiedUser.role,
     },
   });
 });
