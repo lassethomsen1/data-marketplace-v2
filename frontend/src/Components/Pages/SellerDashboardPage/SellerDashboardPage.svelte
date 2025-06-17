@@ -1,6 +1,5 @@
 <script>
 
-    // Mock seller data
     import OverviewCards from "@/Components/Pages/SellerDashboardPage/OverviewCards.svelte";
     import RevenueChart from "@/Components/Pages/SellerDashboardPage/RevenueChart.svelte";
     import DatasetPerformance from "@/Components/Pages/SellerDashboardPage/DatasetPerformance.svelte";
