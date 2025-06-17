@@ -8,9 +8,6 @@
     <div class="px-6 py-4 border-b border-gray-200">
         <div class="flex items-center justify-between">
             <h3 class="text-lg font-semibold text-gray-900">Recent Sales</h3>
-            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                View All Sales →
-            </button>
         </div>
     </div>
 
