@@ -7,7 +7,6 @@ import {
   fetchUploads,
 } from '@/api/statsApi.js';
 import { formatDataset } from '@/utils/datasetUtil.js';
-import { user } from '@/stores/userStore.js';
 
 export const stats = writable({
   database: {
