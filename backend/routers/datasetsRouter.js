@@ -5,6 +5,7 @@ import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3
 import { authenticateToken } from '../middleware/auth.js';
 import { PrismaClient } from '../generated/prisma/index.js';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import emitStat from './socket/socketEmits.js';
 
 const router = new Router();
 const prisma = new PrismaClient();
@@ -220,11 +221,27 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
         filetype: fileType,
         filesize: fileSize,
         tags: parsedTags,
+        status: 'AVAILABLE', // need to be here until implemention of R2 webhook
         category,
         sampleData,
         price: Math.round(parseFloat(price) * 100), // store in cents
         sellerId: userId,
       },
+    });
+    await emitStat('upload:new', {
+      title,
+      filetype: fileType,
+      filesize: fileSize,
+      tags: parsedTags,
+      sellerId: userId,
+      status: 'AVAILABLE',
+      category,
+      createdAt: new Date(),
+      seller: {
+        email: req.user.email,
+      },
+      price: Math.round(parseFloat(price) * 100),
+      sampleData,
     });
 
     return res.status(201).json({
