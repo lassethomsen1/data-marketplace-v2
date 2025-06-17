@@ -27,7 +27,6 @@
             })
         });
         const resJson = await res.json();
-        console.log(resJson);
         if (res.status === 200) {
             user.set(resJson.user);
             token.set(resJson.token);
