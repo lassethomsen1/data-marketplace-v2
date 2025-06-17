@@ -127,7 +127,13 @@ router.get('/seller', authenticateToken, async (req, res) => {
   try {
     const sellerId = req.user.id;
 
-    const [totalEarningsResult, totalSales, activeDatasets] = await prisma.$transaction([
+    const [user, totalEarningsResult, totalSales, activeDatasets] = await prisma.$transaction([
+      prisma.users.findUnique({
+        where: { id: sellerId },
+        select: {
+          stripeAccountId: true,
+        },
+      }),
       prisma.purchases.aggregate({
         _sum: { paidAmount: true },
         where: {
@@ -154,12 +160,13 @@ router.get('/seller', authenticateToken, async (req, res) => {
         },
       }),
     ]);
+    const pendingBal = await getRemainingPayout(user.stripeAccountId);
 
     const sellerData = {
       totalEarnings: (totalEarningsResult._sum.paidAmount ?? 0) / 100,
       totalSales,
       activeDatasets,
-      pendingPayout: 0,
+      pendingPayout: pendingBal.available.reduce((sum, item) => sum + (item.amount || 0), 0) / 100,
     };
 
     return res.send(sellerData);
@@ -197,6 +204,22 @@ async function getTotalRevenue() {
     .reduce((sum, pi) => sum + pi.amount_received, 0);
 
   return { total: total / 100, currency: paymentIntents.data[0]?.currency || 'usd' };
+}
+async function getRemainingPayout(stripeAccountId) {
+  try {
+    const balance = await stripe.balance.retrieve({
+      stripeAccount: stripeAccountId,
+    });
+
+    return {
+      accountId: stripeAccountId,
+      available: balance.available,
+      pending: balance.pending,
+    };
+  } catch (error) {
+    console.error('Error fetching balance:', error);
+    throw error;
+  }
 }
 
 export default router;
