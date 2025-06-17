@@ -74,6 +74,12 @@
                                 class="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
                             Logout
                         </button>
+                        {#if $user.role.toUpperCase() === 'ADMIN'}
+                            <a href="/dashboard"
+                               class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors duration-200 font-medium">
+                                Dashboard
+                            </a>
+                        {/if}
                     </div>
 
                 {/if}
