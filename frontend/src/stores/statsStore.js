@@ -92,11 +92,11 @@ export async function fetchAndSetSellerStats() {
   try {
     const stats = await fetchSellerStats();
     const revenue = await fetchSellerRevenue();
-    const datasetPerformance = await fetchDatasetPerformance();
+    const fetchedDatasetPerformances = await fetchDatasetPerformance();
 
     sellerStats.set(stats);
     sellerRevenue.set(revenue);
-    datasetPerformance.set(datasetPerformance);
+    datasetPerformance.set(fetchedDatasetPerformances);
   } catch (error) {
     console.error('Failed to fetch seller stats:', error);
   } finally {
