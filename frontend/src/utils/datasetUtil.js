@@ -12,7 +12,7 @@ export function formatDataset(dataset) {
 
   dataset.price = '$' + dataset.price / 100; // price is stored in cents
 
-  dataset.author = dataset.seller.name; // assuming seller is the author for now
+  dataset.author = dataset.seller.name;
   if (typeof dataset.sampleData === 'string' && dataset.sampleData.trim() !== '') {
     dataset.sampleData = Papa.parse(dataset.sampleData, { header: true }).data;
   } else if (Array.isArray(dataset.sampleData)) {
