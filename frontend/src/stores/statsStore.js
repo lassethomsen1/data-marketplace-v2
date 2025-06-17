@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { fetchStats, fetchTransactions, fetchUploads } from '@/api/statsApi.js';
+import { fetchSellerStats, fetchStats, fetchTransactions, fetchUploads } from '@/api/statsApi.js';
 import { formatDataset } from '@/utils/datasetUtil.js';
 
 export const stats = writable({
@@ -14,6 +14,13 @@ export const stats = writable({
     totalRevenue: { total: 0, currency: 'usd' },
   },
 });
+export const sellerStats = writable({
+  totalEarnings: 0,
+  totalSales: 0,
+  activeDatasets: 0,
+  pendingPayout: 0,
+});
+
 export const transactions = writable([]);
 export const uploads = writable([]);
 export const statsLoading = writable(false);
@@ -52,6 +59,18 @@ export async function fetchAndSetUploads() {
     uploads.set(data);
   } catch (error) {
     console.error('Failed to fetch uploads:', error);
+  } finally {
+    statsLoading.set(false);
+  }
+}
+
+export async function fetchAndSetSellerStats() {
+  statsLoading.set(true);
+  try {
+    const data = await fetchSellerStats();
+    sellerStats.set(data);
+  } catch (error) {
+    console.error('Failed to fetch seller stats:', error);
   } finally {
     statsLoading.set(false);
   }
