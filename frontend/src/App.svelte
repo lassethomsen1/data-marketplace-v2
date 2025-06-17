@@ -7,7 +7,7 @@
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
     import Header from "./Components/platform/Header.svelte";
     import UploadPage from "./Components/Pages/UploadPage/UploadPage.svelte";
-    import DashboardPage from "@/Components/Pages/DashboardPage/DashboardPage.svelte";
+    import DashboardPage from "@/Components/Pages/AdminDashboardPage/DashboardPage.svelte";
 </script>
 <Router>
     <div>

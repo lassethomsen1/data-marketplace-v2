@@ -1,7 +1,7 @@
 <script>
-    import OverviewStats from "@/Components/Pages/DashboardPage/OverviewStats.svelte";
-    import LiveTransactions from "@/Components/Pages/DashboardPage/LiveTransactions.svelte";
-    import DatasetUploads from "@/Components/Pages/DashboardPage/DatasetUploads.svelte";
+    import OverviewStats from "@/Components/Pages/AdminDashboardPage/OverviewStats.svelte";
+    import LiveTransactions from "@/Components/Pages/AdminDashboardPage/LiveTransactions.svelte";
+    import DatasetUploads from "@/Components/Pages/AdminDashboardPage/DatasetUploads.svelte";
     import { onMount } from "svelte";
     import {fetchAndSetStats, fetchAndSetTransactions, fetchAndSetUploads, transactions, uploads} from "@/stores/statsStore.js";
 
