@@ -61,7 +61,7 @@ const testEvents = [
       id: 'fddbd358-7052-479b-9638-fce4791bc220',
       title: 'Extrovert vs. Introvert behavior',
       filetype: 'application/vnd.ms-excel',
-      filesize: '104.72 KB',
+      filesize: '104333',
       tags: ['human'],
       sellerId: '0c0f6996-c665-4716-9710-bf06c2e2b208',
       status: 'AVAILABLE',
@@ -72,8 +72,6 @@ const testEvents = [
       seller: {
         email: 'user@test.com',
       },
-      price: '19.99',
-      sampleData: [],
     },
   },
   {
@@ -82,7 +80,7 @@ const testEvents = [
       id: 'a1e2d563-4bcf-47f4-8ccf-badbe19a67fd',
       title: 'Heart Disease Prediction Dataset',
       filetype: 'application/json',
-      filesize: '512.43 KB',
+      filesize: '123213',
       tags: ['health', 'cardiology'],
       sellerId: '1e3f99c0-ffe2-4e87-bb1a-8df3ac86f622',
       status: 'AVAILABLE',
@@ -93,8 +91,6 @@ const testEvents = [
       seller: {
         email: 'health@datasets.io',
       },
-      //price: '39.99',
-      sampleData: [],
     },
   },
   {
@@ -103,7 +99,7 @@ const testEvents = [
       id: '9e3b4ef1-d2d9-4f6c-bb58-dcf83d7b6bfa',
       title: 'Public Transport Usage Logs',
       filetype: 'application/json',
-      filesize: '3.8 MB',
+      filesize: '23123',
       tags: ['transport', 'urban'],
       sellerId: 'ecad9cf0-d9ff-4ebc-bd11-21a1f7fc2050',
       status: 'AVAILABLE',
@@ -114,8 +110,6 @@ const testEvents = [
       seller: {
         email: 'urban@data.io',
       },
-      //price: '29.00',
-      sampleData: [],
     },
   },
   {
@@ -124,7 +118,7 @@ const testEvents = [
       id: '35d6f1e4-81b9-4e9e-ae55-c582b8f3b6b1',
       title: 'Customer Segmentation CSV',
       filetype: 'text/csv',
-      filesize: '2.2 MB',
+      filesize: '222222',
       tags: ['marketing', 'customers'],
       sellerId: '45dbb076-d3c6-43f6-aab9-22eb70987899',
       status: 'AVAILABLE',
