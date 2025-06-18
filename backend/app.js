@@ -19,13 +19,13 @@ initSocket(server);
 // stripe webhook endpoint must be before express.json middleware
 app.use('/api/stripe', webhookRouter);
 //todo : gør consistent
-app.use(express.json());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: true,
     credentials: true,
   })
 );
+app.use(express.json());
 app.use('/api', datasetRouter);
 app.use('/api/', purchaseRouter);
 app.use('/api/stats', statsRouter);
