@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import { PrismaClient } from '../generated/prisma/index.js';
 import stripe from '../utils/stripe.js';
+import emitStat from './socket/socketEmits.js';
 
 const router = new Router();
 const prisma = new PrismaClient();
@@ -45,14 +46,33 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
   async function handleCheckoutCompleted(session) {
     const { purchaseId, datasetId, buyerId } = session.metadata;
 
-    await prisma.purchases.update({
+    const transaction = await prisma.purchases.update({
       where: { id: purchaseId },
       data: {
         status: 'COMPLETED',
         paidAmount: session.amount_total,
       },
+      include: {
+        buyer: {
+          select: {
+            email: true,
+          },
+        },
+        dataset: {
+          select: {
+            title: true,
+            seller: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
-
+    await emitStat('transaction:new', {
+      transaction,
+    });
     console.log(`Purchase ${purchaseId} completed successfully`);
   }
 
