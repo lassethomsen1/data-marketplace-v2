@@ -33,7 +33,7 @@ app.use('/auth', authRouter);
 app.use('/dev', devRouter);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Api server of dataset marketplace');
 });
 
 server.listen(process.env.PORT, () => {
