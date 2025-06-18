@@ -47,7 +47,7 @@
         form.append("tags", JSON.stringify($formData.tags));
 
         try {
-            const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/upload", {
+            const response = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/datasets/upload", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
