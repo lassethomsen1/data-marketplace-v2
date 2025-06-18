@@ -1,29 +1,6 @@
 <script>
     let {sellerData} = $props();
 
-    let payoutHistory = $state([
-        {
-            id: 'payout_001',
-            amount: 2456.78,
-            date: new Date('2024-03-01'),
-            status: 'completed',
-            method: 'Bank Transfer'
-        },
-        {
-            id: 'payout_002',
-            amount: 1890.45,
-            date: new Date('2024-02-01'),
-            status: 'completed',
-            method: 'Bank Transfer'
-        },
-        {
-            id: 'payout_003',
-            amount: 3234.56,
-            date: new Date('2024-01-01'),
-            status: 'completed',
-            method: 'Bank Transfer'
-        }
-    ]);
 
 </script>
 
