@@ -28,7 +28,7 @@
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-        {#each purchases as dataset}
+        {#each $purchases as dataset}
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2 text-sm text-gray-900">{dataset.title}</td>
                 <td class="px-4 py-2 text-sm text-gray-600">{dataset.filetype}</td>
