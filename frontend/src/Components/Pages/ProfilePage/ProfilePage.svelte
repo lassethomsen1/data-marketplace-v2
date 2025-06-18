@@ -1,13 +1,14 @@
 <script>
     import {onMount} from "svelte";
     import {onboardUser} from "@/api/userApi.js";
-    import {user, fetchAndSetUser} from "@/stores/userStore.js";
+    import {user, purchases, fetchAndSetUser, fetchAndSetPurchases} from "@/stores/userStore.js";
     import StatContainer from "../../platform/StatContainer.svelte";
     import PurchasesTable from "@/Components/Pages/ProfilePage/PurchasesTable.svelte";
     import {navigate} from "svelte-routing";
 
-    onMount(() => {
-        fetchAndSetUser();
+    onMount(async () => {
+        await fetchAndSetUser();
+        await fetchAndSetPurchases();
     });
 </script>
 {#if $user}
@@ -68,10 +69,15 @@
                     </button>
                 {/if}
             </div>
+
             <div>
                 <h2 class="text-xl">Purchased datasets</h2>
+                {#if $purchases.length === 0}
+                    <p class="text-gray-500 text-sm mb-4">You have not purchased any datasets yet.</p>
+                {:else}
                 <p class="text-gray-500 text-sm mb-4">Here you can find all datasets you have purchased.</p>
                 <PurchasesTable/>
+                {/if}
             </div>
 
         </div>
