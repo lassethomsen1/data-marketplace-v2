@@ -21,11 +21,11 @@ app.use('/api/stripe', webhookRouter);
 //todo : gør consistent
 app.use(express.json());
 app.use(cors());
-app.use('/auth', authRouter);
 app.use('/api', datasetRouter);
-app.use('/api/stripe', stripeRouter);
 app.use('/api/', purchaseRouter);
 app.use('/api/stats', statsRouter);
+app.use('/api/stripe', stripeRouter);
+app.use('/auth', authRouter);
 app.use('/dev', devRouter);
 
 app.get('/', (req, res) => {
