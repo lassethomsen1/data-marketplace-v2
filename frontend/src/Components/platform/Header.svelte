@@ -61,18 +61,18 @@
                     </div>
                 {:else}
                     <div class="flex items-center space-x-3">
-                        <a href="/profile">
+                        <Link to="/profile">
                             <CircleUserRound class="h-8 w-8 text-white"/>
-                        </a>
+                        </Link>
                         <button onclick={logout}
                                 class="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
                             Logout
                         </button>
                         {#if $user.role.toUpperCase() === 'ADMIN'}
-                            <a href="/dashboard"
+                            <Link to="/dashboard"
                                class="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-colors duration-200 font-medium">
                                 Dashboard
-                            </a>
+                            </Link>
                         {/if}
                     </div>
 
