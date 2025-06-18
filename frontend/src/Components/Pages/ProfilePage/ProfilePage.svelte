@@ -21,6 +21,10 @@
                         <a href="/upload" class="ml-auto">
                             <StatContainer stat="Upload" className="bg-[#3B82F6] text-white"/>
                         </a>
+                        <a href="/seller-dashboard" >
+                            <StatContainer stat="Dashboard" className="bg-[#3B82F6] text-white"/>
+                        </a>
+
                     {:else}
                         <StatContainer stat="Not Onboarded" className="bg-red-300"/>
                     {/if}
