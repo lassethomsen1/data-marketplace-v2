@@ -7,11 +7,31 @@ const prisma = new PrismaClient();
 export async function extractSampleData(buffer, filetype) {
   if (filetype.includes('json')) {
     try {
-      const sampleBuffer = buffer.slice(0, Math.min(1000, buffer.length));
-      const dataStr = sampleBuffer.toString();
-      return dataStr.slice(0, 500);
+      const dataStr = buffer.toString();
+      const jsonData = JSON.parse(dataStr);
+
+      if (Array.isArray(jsonData)) {
+        return JSON.stringify(jsonData.slice(0, 10), null, 2);
+      }
+
+      if (typeof jsonData === 'object') {
+        const result = { ...jsonData };
+        for (const key in result) {
+          if (Array.isArray(result[key])) {
+            result[key] = result[key].slice(0, 10);
+          }
+        }
+        return JSON.stringify(result, null, 2);
+      }
+
+      const jsonString = JSON.stringify(jsonData, null, 2);
+      if (jsonString.length > 5000) {
+        return jsonString.slice(0, 5000) + '...\n ---- object too large';
+      }
+
+      return jsonString;
     } catch (err) {
-      return 'Sample data extraction failed';
+      return buffer.toString().slice(0, 1000);
     }
   } else if (filetype.includes('csv') || filetype.includes('vnd.ms-excel')) {
     try {
