@@ -30,8 +30,40 @@ const upload = multer({
 
 router.get('/datasets', async (req, res) => {
   try {
-    //todo make this take a optional search query and amount of datasets to return
+    const {
+      search = '',
+      limit = 20,
+      page = 1,
+      category = '',
+      minPrice = 0,
+      maxPrice = null,
+      status = 'AVAILABLE',
+    } = req.query;
+
+    const limitNum = Math.min(Math.max(parseInt(limit) || 20, 1), 100); // Max 100 datasets per request
+    const pageNum = Math.max(parseInt(page) || 1, 1);
+    const skip = (pageNum - 1) * limitNum;
+    const minPriceNum = Math.max(parseInt(minPrice) || 0, 0);
+    const maxPriceNum = maxPrice ? Math.max(parseInt(maxPrice), minPriceNum) : null;
+
+    const whereClause = {
+      status: status || 'AVAILABLE',
+      ...(search && {
+        OR: [
+          { title: { contains: search, mode: 'insensitive' } },
+          { description: { contains: search, mode: 'insensitive' } },
+          { tags: { hasSome: [search] } },
+        ],
+      }),
+      ...(category && { category: { contains: category, mode: 'insensitive' } }),
+      price: {
+        gte: minPriceNum,
+        ...(maxPriceNum && { lte: maxPriceNum }),
+      },
+    };
+
     const datasets = await prisma.datasets.findMany({
+      where: whereClause,
       omit: {
         filekey: true,
       },
@@ -43,9 +75,29 @@ router.get('/datasets', async (req, res) => {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip,
+      take: limitNum,
     });
 
-    return res.send(datasets);
+    const totalCount = await prisma.datasets.count({
+      where: whereClause,
+    });
+
+    const totalPages = Math.ceil(totalCount / limitNum);
+
+    return res.send({
+      datasets,
+      pagination: {
+        currentPage: pageNum,
+        totalPages,
+        totalCount,
+        hasNextPage: pageNum < totalPages,
+        hasPreviousPage: pageNum > 1,
+      },
+    });
   } catch (error) {
     console.error('Error fetching datasets:', error);
     return res.status(500).send({ error: 'Failed to fetch datasets' });
