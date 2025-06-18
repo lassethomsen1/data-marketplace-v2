@@ -73,7 +73,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     await emitStat('transaction:new', {
       transaction,
     });
-    console.log(`Purchase ${purchaseId} completed successfully`);
   }
 
   async function handlePaymentFailed(paymentIntent) {
@@ -84,8 +83,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         where: { id: purchaseId },
         data: { status: 'FAILED' },
       });
-
-      console.log(`Purchase ${purchaseId} failed`);
     }
   }
   async function handleAccountUpdated(account) {
@@ -94,8 +91,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         where: { stripeAccountId: account.id },
         data: { stripeOnboardingCompleted: true },
       });
-
-      console.log(`✅ Onboarding completed for account: ${account.id}`);
     }
   }
 });
