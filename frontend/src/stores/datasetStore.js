@@ -12,7 +12,7 @@ export const dataset = writable({
   price: undefined,
   category: undefined,
   updatedAt: undefined,
-  dataPoints: undefined, // todo skal det muligvis være der ?
+  dataPoints: undefined, // skal det muligvis være der ?
   author: undefined,
 });
 
