@@ -10,7 +10,7 @@
     import SellerDashboardPage from "@/Components/Pages/SellerDashboardPage/SellerDashboardPage.svelte";
     import FrontPage from "@/Components/Pages/Frontpage/FrontPage.svelte";
     import Footer from "@/Components/platform/Footer.svelte";
-    import SearchResults from "@/Components/Pages/SearchResults/SearchResults.svelte";
+    import SearchResultsPage from "@/Components/Pages/SearchResults/SearchResultsPage.svelte";
 </script>
 <Router>
     <div>
@@ -28,7 +28,7 @@
         </Route>
         <Route path="/search/:query" let:params>
             <Header/>
-            <SearchResults searchQuery={params.query} />
+            <SearchResultsPage searchQuery={params.query} />
         </Route>
         <PrivateRoute path="/profile">
             <Header/>
