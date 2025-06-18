@@ -3,9 +3,15 @@
     import {CircleUserRound, Search} from "lucide-svelte";
     import {navigate} from "svelte-routing";
     import {handleSearch} from "@/utils/datasetUtil.js";
+    import {derived, writable} from "svelte/store";
+
 
     let searchQuery = $state("");
 
+
+    const pathname = writable(window.location.pathname);
+
+    const isSearchPage = derived(pathname, (p) => p.includes('/search'));
 
     function handleLogin() {
         navigate('/login')
@@ -26,23 +32,22 @@
                     </div>
                 </div>
             </a>
-
-            <div class="hidden md:flex flex-1 max-w-lg mx-8">
-                <form onsubmit={(e)=> handleSearch(e, searchQuery)} class="w-full">
-                    <div class="relative">
-                        <input
-                                type="text"
-                                bind:value={searchQuery}
-                                placeholder="Search datasets, categories, or providers..."
-                                class="w-full pl-10 pr-4 py-2.5 bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200" />
-                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
-                            <Search />
+            {#if !$isSearchPage}
+                <div class="hidden md:flex flex-1 max-w-lg mx-8">
+                    <form onsubmit={(e)=> handleSearch(e, searchQuery)} class="w-full">
+                        <div class="relative">
+                            <input
+                                    type="text"
+                                    bind:value={searchQuery}
+                                    placeholder="Search datasets, categories, or providers..."
+                                    class="w-full pl-10 pr-4 py-2.5 bg-white/90 backdrop-blur-sm border border-white/20 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200"/>
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
+                                <Search/>
+                            </div>
                         </div>
-                    </div>
-
-                </form>
-            </div>
-
+                    </form>
+                </div>
+            {/if}
             <div class="flex items-center space-x-4">
                 {#if !$user}
                     <div class="hidden lg:flex items-center space-x-3">
@@ -57,7 +62,7 @@
                 {:else}
                     <div class="flex items-center space-x-3">
                         <a href="/profile">
-                            <CircleUserRound class="h-8 w-8 text-white" />
+                            <CircleUserRound class="h-8 w-8 text-white"/>
                         </a>
                         <button onclick={logout}
                                 class="px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors duration-200 font-medium">
