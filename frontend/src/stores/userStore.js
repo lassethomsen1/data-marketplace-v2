@@ -22,7 +22,7 @@ user.subscribe(value => {
     localStorage.removeItem('user');
   }
 });
-export async function fetchUser() {
+export async function fetchAndSetUser() {
   try {
     const fetchedUser = await getUser();
     user.set(fetchedUser);

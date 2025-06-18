@@ -1,12 +1,12 @@
 <script>
     import {onMount} from "svelte";
     import {onboardUser} from "@/api/userApi.js";
-    import {user, fetchUser} from "@/stores/userStore.js";
+    import {user, fetchAndSetUser} from "@/stores/userStore.js";
     import StatContainer from "../../platform/StatContainer.svelte";
     import PurchasesTable from "@/Components/Pages/ProfilePage/PurchasesTable.svelte";
 
     onMount(() => {
-        fetchUser();
+        fetchAndSetUser();
     });
 </script>
 {#if $user}
