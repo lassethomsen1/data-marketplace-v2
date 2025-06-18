@@ -3,20 +3,12 @@
     import {onMount} from "svelte";
     import {searchDatasets} from "@/api/datasetsApi.js";
     import {formatDataset} from "@/utils/datasetUtil.js";
+    import {searchResults} from "@/stores/searchResultStore.js";
     import {navigate} from "svelte-routing";
 //todo del det her op
     let {searchQuery} = $props();
     let prevSearchQuery = $state(searchQuery || '');
-    const searchResults = $state({
-        datasets: [],
-        pagination: {
-            currentPage: 1,
-            totalPages: 1,
-            totalCount: 0,
-            hasNextPage: false,
-            hasPreviousPage: false
-        }
-    });
+
 
     let isLoading = $state(false);
     let error = $state(null);
@@ -36,8 +28,8 @@
             });
 
             if (response.datasets && response.pagination) {
-                searchResults.datasets = response.datasets.map((dataset) => formatDataset(dataset));
-                searchResults.pagination = response.pagination;
+                $searchResults.datasets = response.datasets.map((dataset) => formatDataset(dataset));
+                $searchResults.pagination = response.pagination;
             } else {
                 console.error('Unexpected response format:', response);
                 error = 'Unexpected response format';
@@ -98,7 +90,7 @@
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Search Results</h1>
             {#if prevSearchQuery}
                 <p class="text-gray-600">
-                    {isLoading ? 'Searching...' : `${searchResults.pagination.totalCount} datasets found for "${prevSearchQuery}"`}
+                    {isLoading ? 'Searching...' : `${$searchResults.pagination.totalCount} datasets found for "${prevSearchQuery}"`}
                 </p>
             {/if}
         </div>
@@ -112,13 +104,13 @@
                 <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
                 <p class="mt-2 text-gray-600">Loading datasets...</p>
             </div>
-        {:else if searchResults.datasets.length === 0}
+        {:else if $searchResults.datasets.length === 0}
             <div class="text-center py-8">
                 <p class="text-gray-600">No datasets found. Try a different search term.</p>
             </div>
         {:else}
             <div class="space-y-6">
-                {#each searchResults.datasets as dataset}
+                {#each $searchResults.datasets as dataset}
                     <div class="bg-white rounded-lg shadow-sm border p-6">
                         <div class="flex justify-between items-start mb-4">
                             <div class="flex-1">
@@ -164,23 +156,23 @@
                 {/each}
             </div>
 
-            {#if searchResults.pagination.totalPages > 1}
+            {#if $searchResults.pagination.totalPages > 1}
                 <div class="flex justify-center items-center gap-4 mt-8">
                     <button
-                            onclick={() => goToPage(searchResults.pagination.currentPage - 1)}
-                            disabled={!searchResults.pagination.hasPreviousPage}
+                            onclick={() => goToPage($searchResults.pagination.currentPage - 1)}
+                            disabled={!$searchResults.pagination.hasPreviousPage}
                             class="px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Previous
                     </button>
 
                     <span class="text-gray-600">
-                        Page {searchResults.pagination.currentPage} of {searchResults.pagination.totalPages}
+                        Page {$searchResults.pagination.currentPage} of {$searchResults.pagination.totalPages}
                     </span>
 
                     <button
-                            onclick={() => goToPage(searchResults.pagination.currentPage + 1)}
-                            disabled={!searchResults.pagination.hasNextPage}
+                            onclick={() => goToPage($searchResults.pagination.currentPage + 1)}
+                            disabled={!$searchResults.pagination.hasNextPage}
                             class="px-4 py-2 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         Next
