@@ -1,5 +1,4 @@
 <script>
-    //todo : Add a sample table for json data
     import { dataset } from "@/stores/datasetStore.js";
     const sample = $dataset.sampleData || [];
     const columns = sample.length > 0 ? Object.keys(sample[0]) : [];
