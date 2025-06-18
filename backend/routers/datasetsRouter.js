@@ -53,6 +53,7 @@ router.get('/datasets', async (req, res) => {
           { title: { contains: search, mode: 'insensitive' } },
           { description: { contains: search, mode: 'insensitive' } },
           { tags: { hasSome: [search] } },
+          { seller: { name: { contains: search, mode: 'insensitive' } } },
         ],
       }),
       ...(category && { category: { contains: category, mode: 'insensitive' } }),
