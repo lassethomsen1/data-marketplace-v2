@@ -37,7 +37,7 @@
         $uploadProgress = 0;
 
         const form = new FormData();
-        const file = $uploadedFiles[0]; // todo: handle multiple files
+        const file = $uploadedFiles[0];
 
         form.append("file", file);
         form.append("title", $formData.title);
@@ -63,7 +63,7 @@
             }
 
 
-            // Fake progress animation todo: replace with real upload progress
+            // fake progress animation
             const progressInterval = setInterval(() => {
                 $uploadProgress += Math.random() * 15;
                 if ($uploadProgress >= 100) {
