@@ -138,14 +138,14 @@ router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) 
     });
 
     if (!dataset) {
-      return res.status(404).json({ error: 'Dataset not found' });
+      return res.status(404).send({ error: 'Dataset not found' });
     }
 
     const isSeller = dataset.sellerId === userId;
     const hasPurchased = dataset.purchases.length > 0;
 
     if (!isSeller && !hasPurchased) {
-      return res.status(403).json({
+      return res.status(403).send({
         error: 'Access denied. You must purchase this dataset to download it.',
       });
     }
@@ -157,14 +157,14 @@ router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) 
 
     const downloadUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
 
-    return res.json({
+    return res.send({
       downloadUrl,
       filename: `${dataset.title}.${dataset.filetype.split('/')[1]}`,
       expiresIn: 3600,
     });
   } catch (error) {
     console.error('Download error:', error);
-    return res.status(500).json({
+    return res.status(500).send({
       error: 'Failed to generate download link',
       message: error.message,
     });
@@ -178,13 +178,13 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
     await verifySellerStatus(userId);
 
     if (!req.file) {
-      return res.status(400).json({ error: 'No file uploaded' });
+      return res.status(400).send({ error: 'No file uploaded' });
     }
 
     const { title, description, price, tags, category } = req.body;
 
     if (!title || !description || !price) {
-      return res.status(400).json({ error: 'Missing required fields' });
+      return res.status(400).send({ error: 'Missing required fields' });
     }
 
     let parsedTags = [];
@@ -192,7 +192,7 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
       try {
         parsedTags = typeof tags === 'string' ? JSON.parse(tags) : tags;
       } catch (e) {
-        return res.status(400).json({ error: 'Invalid tags format' });
+        return res.status(400).send({ error: 'Invalid tags format' });
       }
     }
 
@@ -244,7 +244,7 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
       sampleData,
     });
 
-    return res.status(201).json({
+    return res.status(201).send({
       message: 'Dataset uploaded successfully',
       dataset: {
         id: dataset.id,
@@ -257,7 +257,7 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
     });
   } catch (error) {
     console.error('Upload error:', error);
-    return res.status(500).json({
+    return res.status(500).send({
       error: 'Failed to upload dataset',
       message: error.message,
     });
