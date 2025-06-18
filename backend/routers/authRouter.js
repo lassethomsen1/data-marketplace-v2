@@ -11,14 +11,14 @@ router.get('/validate-token', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json('No token provided');
+    return res.status(401).send('No token provided');
   }
 
   let decoded;
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    return res.status(401).json('Invalid token');
+    return res.status(401).send('Invalid token');
   }
 
   const verifiedUser = await prisma.users.findUnique({
@@ -26,10 +26,10 @@ router.get('/validate-token', async (req, res) => {
   });
 
   if (!verifiedUser) {
-    return res.status(404).json('User not found');
+    return res.status(404).send('User not found');
   }
 
-  return res.status(200).json({
+  return res.status(200).send({
     token,
     user: {
       id: verifiedUser.id,
@@ -51,14 +51,14 @@ router.get('/user', authenticateToken, (req, res) => {
     })
     .then(user => {
       if (!user) {
-        return res.status(404).json('User not found');
+        return res.status(404).send('User not found');
       }
       const { password, ...userWithoutPassword } = user;
-      res.status(200).json({ user: userWithoutPassword });
+      res.status(200).send({ user: userWithoutPassword });
     })
     .catch(err => {
       console.error(err);
-      res.status(500).json('Internal server error');
+      res.status(500).send('Internal server error');
     });
 });
 
@@ -70,12 +70,12 @@ router.post('/login', async (req, res) => {
   });
 
   if (!user) {
-    return res.status(400).json('Invalid credentials');
+    return res.status(400).send('Invalid credentials');
   }
 
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) {
-    return res.status(400).json('Invalid credentials');
+    return res.status(400).send('Invalid credentials');
   }
 
   const token = jwt.sign(
@@ -111,7 +111,7 @@ router.post('/signup', async (req, res) => {
   });
 
   if (existingUser) {
-    return res.status(400).json('User already exists');
+    return res.status(400).send('User already exists');
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -135,7 +135,7 @@ router.post('/signup', async (req, res) => {
     }
   );
   if (!token) {
-    return res.status(500).json('Error signing up');
+    return res.status(500).send('Error signing up');
   }
   res.status(200).send({
     token,
