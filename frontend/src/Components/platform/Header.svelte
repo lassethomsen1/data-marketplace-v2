@@ -7,9 +7,11 @@
 
     function handleSearch(event) {
         event.preventDefault();
-        console.log("Searching for:", searchQuery);
-
-        searchQuery = "";
+        if (searchQuery.trim()) {
+            navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            navigate('/');
+        }
     }
 
     function handleLogin() {
