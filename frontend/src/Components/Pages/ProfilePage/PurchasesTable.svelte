@@ -1,17 +1,7 @@
 <script>
-    import {fetchPurchasedDatasets , downloadDataset} from "@/api/datasetsApi.js";
-    import {onMount} from "svelte";
-    import {formatDataset} from "@/utils/datasetUtil.js";
+    import { downloadDataset } from "@/api/datasetsApi.js";
+    import { purchases } from "@/stores/userStore.js";
 
-    const datasets = $state([]);
-
-    onMount(async () => { // todo should be done in a store so i can check for purchased datasets in other components
-        const purchases = await fetchPurchasedDatasets();
-        console.log(purchases);
-        purchases.forEach((purchase) => {
-            datasets.push(formatDataset(purchase.dataset));
-        })
-    })
     async function handleDownload(datasetId) {
         const res = await downloadDataset(datasetId);
         console.log(res)
@@ -38,7 +28,7 @@
         </tr>
         </thead>
         <tbody class="divide-y divide-gray-200">
-        {#each datasets as dataset}
+        {#each purchases as dataset}
             <tr class="hover:bg-gray-50">
                 <td class="px-4 py-2 text-sm text-gray-900">{dataset.title}</td>
                 <td class="px-4 py-2 text-sm text-gray-600">{dataset.filetype}</td>
