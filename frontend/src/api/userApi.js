@@ -1,4 +1,3 @@
-//todo skal være i userStore
 import { handleError } from './helper/error.js';
 import { navigate } from 'svelte-routing';
 
