@@ -4,6 +4,7 @@
     import {user, fetchAndSetUser} from "@/stores/userStore.js";
     import StatContainer from "../../platform/StatContainer.svelte";
     import PurchasesTable from "@/Components/Pages/ProfilePage/PurchasesTable.svelte";
+    import {navigate} from "svelte-routing";
 
     onMount(() => {
         fetchAndSetUser();
@@ -18,9 +19,9 @@
                     <p class="px-3.5 py-1 pl-0">Account: </p>
                     {#if $user.stripeOnboardingCompleted}
                         <StatContainer stat="Active" className="bg-green-300"/>
-                        <a href="/upload" class="ml-auto">
+                        <button onclick={() => navigate('/upload')} class="ml-auto">
                             <StatContainer stat="Upload" className="bg-[#3B82F6] text-white"/>
-                        </a>
+                        </button>
                         <a href="/seller-dashboard" >
                             <StatContainer stat="Dashboard" className="bg-[#3B82F6] text-white"/>
                         </a>
