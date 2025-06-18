@@ -52,6 +52,52 @@ router.get('/datasets', async (req, res) => {
   }
 });
 
+router.get('/datasets/performance', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    if (!userId) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const datasets = await prisma.datasets.findMany({
+      where: {
+        sellerId: userId,
+      },
+      include: {
+        purchases: {
+          where: {
+            status: 'COMPLETED',
+          },
+        },
+      },
+    });
+
+    const performanceData = datasets.map(dataset => {
+      const completedPurchases = dataset.purchases;
+      const sales = completedPurchases.length;
+      const revenue = completedPurchases.reduce((total, purchase) => {
+        return total + (purchase.paidAmount || 0);
+      }, 0);
+
+      return {
+        id: dataset.id,
+        name: dataset.title,
+        price: (dataset.price / 100).toFixed(2),
+        sales: sales,
+        revenue: (revenue / 100).toFixed(2),
+        status: dataset.status,
+        createdAt: dataset.createdAt,
+      };
+    });
+
+    res.send(performanceData);
+  } catch (error) {
+    console.error('Error fetching dataset performance:', error);
+    res.status(500).send({ error: 'Internal server error' });
+  }
+});
+
 router.get('/datasets/:datasetId', async (req, res) => {
   try {
     const { datasetId } = req.params;
