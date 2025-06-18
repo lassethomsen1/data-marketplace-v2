@@ -49,12 +49,6 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <button class="relative p-2 text-white hover:text-teal-300 transition-colors duration-200">
-                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-							{12}
-                    </span>
-                </button>
-
                 {#if !$user}
                     <div class="hidden lg:flex items-center space-x-3">
                         <button onclick={handleLogin}
