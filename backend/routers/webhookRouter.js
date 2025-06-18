@@ -79,9 +79,29 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     const { purchaseId } = paymentIntent.metadata;
 
     if (purchaseId) {
-      await prisma.purchases.update({
+      const transaction = await prisma.purchases.update({
         where: { id: purchaseId },
         data: { status: 'FAILED' },
+        include: {
+          buyer: {
+            select: {
+              email: true,
+            },
+          },
+          dataset: {
+            select: {
+              title: true,
+              seller: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+        },
+      });
+      await emitStat('transaction:new', {
+        transaction,
       });
     }
   }
