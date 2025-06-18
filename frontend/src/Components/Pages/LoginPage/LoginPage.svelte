@@ -97,7 +97,7 @@
 
         <p class="mt-4 text-center text-sm text-gray-600">
             New to DatasetHub?
-            <a href="/register" class="font-medium text-[#3B82F6] hover:underline">Create an account</a>
+            <button onclick={()=> navigate('/register')} class="font-medium text-[#3B82F6] hover:underline">Create an account</button>
         </p>
     </div>
 </div>
