@@ -18,7 +18,6 @@ const server = http.createServer(app);
 initSocket(server);
 // stripe webhook endpoint must be before express.json middleware
 app.use('/api/stripe', webhookRouter);
-//todo : gør consistent
 app.use(
   cors({
     origin: true,
