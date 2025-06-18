@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 router.get('/purchases', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { page = 1, limit = 100 } = req.query; //todo: add pagination
+    const { page = 1, limit = 100 } = req.query;
 
     const purchases = await prisma.purchases.findMany({
       where: {
