@@ -31,7 +31,7 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
 
     accountId = account.id;
   }
-  const origin = req.headers.origin || process.env.FRONTEND_URL;
+  const origin = process.env.FRONTEND_URL;
   const accountLink = await stripe.accountLinks.create({
     account: accountId,
     refresh_url: `${origin}/profile`,
