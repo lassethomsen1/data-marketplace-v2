@@ -1,7 +1,7 @@
 import { handleError } from './helper/error.js';
 import { navigate } from 'svelte-routing';
 
-export async function getUser() {
+export async function fetchUser() {
   const token = localStorage.getItem('token');
   const response = await fetch(import.meta.env.VITE_BACKEND_URL + '/auth/user', {
     method: 'GET',

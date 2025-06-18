@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { getUser } from '@/api/userApi.js';
+import { fetchUser } from '@/api/userApi.js';
 import { navigate } from 'svelte-routing';
 
 const savedUser = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +24,7 @@ user.subscribe(value => {
 });
 export async function fetchAndSetUser() {
   try {
-    const fetchedUser = await getUser();
+    const fetchedUser = await fetchUser();
     user.set(fetchedUser);
   } catch (error) {
     console.error('Failed to fetch user:', error);
