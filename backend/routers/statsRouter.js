@@ -65,38 +65,6 @@ router.get('/transactions', authenticateToken, async (req, res) => {
     res.status(500).send({ error: 'failed fetching transactions' });
   }
 });
-router.get('/uploads', authenticateToken, async (req, res) => {
-  try {
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    const uploads = await prisma.datasets.findMany({
-      omit: {
-        filekey: true,
-        sampleData: true,
-        description: true,
-        price: true,
-      },
-      where: {
-        createdAt: {
-          gte: thirtyDaysAgo,
-        },
-      },
-      include: {
-        seller: {
-          select: {
-            email: true,
-          },
-        },
-      },
-    });
-
-    res.send(uploads);
-  } catch (err) {
-    console.error('Error fetching transactions:', err);
-    res.status(500).send({ error: 'failed fetching uploads' });
-  }
-});
 
 router.get('/sellers', authenticateToken, async (req, res) => {
   if (!req.user) {
@@ -263,4 +231,36 @@ router.get('/sellers/dataset/performance', authenticateToken, async (req, res) =
   }
 });
 
+router.get('/uploads', authenticateToken, async (req, res) => {
+  try {
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const uploads = await prisma.datasets.findMany({
+      omit: {
+        filekey: true,
+        sampleData: true,
+        description: true,
+        price: true,
+      },
+      where: {
+        createdAt: {
+          gte: thirtyDaysAgo,
+        },
+      },
+      include: {
+        seller: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.send(uploads);
+  } catch (err) {
+    console.error('Error fetching transactions:', err);
+    res.status(500).send({ error: 'failed fetching uploads' });
+  }
+});
 export default router;
