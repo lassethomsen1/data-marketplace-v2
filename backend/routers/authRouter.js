@@ -41,7 +41,6 @@ router.get('/validate-token', async (req, res) => {
   });
 });
 
-//TODO: skal ikke være her
 router.get('/user', authenticateToken, (req, res) => {
   const userId = req.user.id;
 
