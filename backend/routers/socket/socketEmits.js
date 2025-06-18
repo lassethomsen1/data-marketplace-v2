@@ -1,5 +1,3 @@
-//todo : find bedre navn
-
 import { io } from './socketServer.js';
 
 async function emitStat(event, data) {
