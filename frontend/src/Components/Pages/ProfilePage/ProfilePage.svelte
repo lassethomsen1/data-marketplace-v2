@@ -22,9 +22,9 @@
                         <button onclick={() => navigate('/upload')} class="ml-auto">
                             <StatContainer stat="Upload" className="bg-[#3B82F6] text-white"/>
                         </button>
-                        <a href="/seller-dashboard" >
+                        <button onclick={()=> navigate('/seller-dashboard')} >
                             <StatContainer stat="Dashboard" className="bg-[#3B82F6] text-white"/>
-                        </a>
+                        </button>
 
                     {:else}
                         <StatContainer stat="Not Onboarded" className="bg-red-300"/>
