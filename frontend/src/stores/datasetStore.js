@@ -16,6 +16,6 @@ export const dataset = writable({
   author: undefined,
 });
 
-export async function fetchAndFormatDataset(datasetId) {
+export async function fetchAndSetFormattedDataset(datasetId) {
   dataset.set(formatDataset(await fetchDataset(datasetId)));
 }
