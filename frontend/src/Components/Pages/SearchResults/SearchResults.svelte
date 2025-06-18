@@ -3,6 +3,7 @@
     import {onMount} from "svelte";
     import {searchDatasets} from "@/api/datasetsApi.js";
     import {formatDataset} from "@/utils/datasetUtil.js";
+    import {navigate} from "svelte-routing";
 
     let {searchQuery} = $props();
     let prevSearchQuery = $state(searchQuery || '');
@@ -34,7 +35,6 @@
                 status: 'AVAILABLE'
             });
 
-            // Handle response format
             if (response.datasets && response.pagination) {
                 searchResults.datasets = response.datasets.map((dataset) => formatDataset(dataset));
                 searchResults.pagination = response.pagination;
@@ -50,7 +50,6 @@
         }
     }
 
-    // Handle page changes
     function goToPage(page) {
         performSearch(searchQuery, page);
     }
@@ -62,7 +61,7 @@
     });
 
     function handleSearch() {
-        if (searchQuery.trim() === prevSearchQuery) return; // Avoid duplicate searches
+        if (searchQuery.trim() === prevSearchQuery) return;
         prevSearchQuery = searchQuery.trim();
         performSearch(searchQuery, 1);
     }
@@ -139,7 +138,7 @@
                                 <div class="text-2xl font-bold text-blue-600 mb-2">
                                     {dataset.price}
                                 </div>
-                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                                <button onclick={() => navigate(`/dataset/${dataset.id}`)} class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
                                     View Dataset
                                 </button>
                             </div>
