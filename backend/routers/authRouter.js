@@ -112,9 +112,7 @@ router.post('/signup', async (req, res) => {
   const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
     expiresIn: '1h',
   });
-  if (token) {
-    //await sendSignupEmail(newUser.email); todo
-  } else {
+  if (!token) {
     return res.status(500).json('Error signing up');
   }
   res.status(200).json({ token, user: { id: newUser.id, email: newUser.email } });
