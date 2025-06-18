@@ -40,7 +40,7 @@
     ]);
     onMount(async () => {
         const fetchedDatasets = await fetchDatasets();
-        fetchedDatasets.forEach((dataset) => {
+        fetchedDatasets.datasets.forEach((dataset) => {
             dataset = formatDataset(dataset);
             datasets.push(dataset);
         });
