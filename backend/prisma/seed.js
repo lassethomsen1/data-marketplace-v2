@@ -37,6 +37,7 @@ async function main() {
       stripeOnboardingCompleted: false,
     },
     create: {
+      id: '9ab00641-55cd-4160-bc71-5dcb838ee8d0'
       email: 'user-not-onboarded@test.com',
       name: 'UserNotOnboarded',
       role: 'USER',
