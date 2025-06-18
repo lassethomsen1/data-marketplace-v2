@@ -26,7 +26,7 @@
                         <img class="h-8 w-8" src="/datasetICON.png" alt="logo"/>
                     </div>
                     <div class="text-white">
-                        <div class="font-bold text-lg leading-tight">DataFlow</div>
+                        <div class="font-bold text-lg leading-tight">Dataset</div>
                         <div class="text-xs text-blue-200 leading-tight">Marketplace</div>
                     </div>
                 </div>
