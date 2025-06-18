@@ -62,7 +62,6 @@
                 return;
             }
 
-            const data = await response.json(); //todo make a toast or something
 
             // Fake progress animation todo: replace with real upload progress
             const progressInterval = setInterval(() => {
