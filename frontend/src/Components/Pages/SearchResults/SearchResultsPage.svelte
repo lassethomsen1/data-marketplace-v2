@@ -4,9 +4,7 @@
     import {searchDatasets} from "@/api/datasetsApi.js";
     import {formatDataset} from "@/utils/datasetUtil.js";
     import {searchResults, isLoading} from "@/stores/searchResultStore.js";
-    import {navigate} from "svelte-routing";
     import Results from "@/Components/Pages/SearchResults/Results.svelte";
-    //todo del det her op
     let {searchQuery} = $props();
     let prevSearchQuery = $state(searchQuery || '');
 
