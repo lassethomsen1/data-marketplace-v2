@@ -31,3 +31,4 @@ export const searchResults = writable({
     hasPreviousPage: false,
   },
 });
+export const isLoading = writable(false);
