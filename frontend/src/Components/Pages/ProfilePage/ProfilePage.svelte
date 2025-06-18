@@ -10,7 +10,7 @@
     });
 </script>
 {#if $user}
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center mt-4">
         <div class="w-full max-w-2xl px-4">
             <div class="border-b border-gray-300 pb-4">
                 <h1 class="text-3xl">Profile Settings</h1>

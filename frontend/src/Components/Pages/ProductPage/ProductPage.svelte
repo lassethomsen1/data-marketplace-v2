@@ -12,7 +12,7 @@
         await fetchAndFormatDataset(datasetId);
     });
 </script>
-<div class="flex flex-col justify-center items-center">
+<div class="flex flex-col justify-center items-center mt-4">
     <div class="flex flex-col w-full max-w-3xl">
         <h1 class="text-4xl">{$dataset.title}</h1>
         <p class="text-gray-400 font-semibold text-xl mb-2">{$dataset.author}</p>
