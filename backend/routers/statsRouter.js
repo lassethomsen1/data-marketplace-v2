@@ -235,7 +235,7 @@ router.get('/sellers/dataset/performance', authenticateToken, async (req, res) =
     const userId = req.user.id;
 
     if (!userId) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).send({ error: 'Unauthorized' });
     }
 
     const datasets = await prisma.datasets.findMany({

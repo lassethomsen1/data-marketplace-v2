@@ -39,7 +39,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     res.status(200).send('Received');
   } catch (error) {
     console.error('Webhook handler error:', error);
-    res.status(500).json({ error: 'Webhook handler failed' });
+    res.status(500).send({ error: 'Webhook handler failed' });
   }
 
   async function handleCheckoutCompleted(session) {

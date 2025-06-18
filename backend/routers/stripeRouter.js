@@ -10,7 +10,7 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
   const userId = req.user.id;
 
   const user = await prisma.users.findUnique({ where: { id: userId } });
-  if (!user) return res.status(404).json({ error: 'User not found' });
+  if (!user) return res.status(404).send({ error: 'User not found' });
 
   let accountId = user.stripeAccountId;
 
