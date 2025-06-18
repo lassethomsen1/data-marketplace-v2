@@ -2,17 +2,10 @@
     import {logout, user} from "@/stores/userStore.js";
     import {CircleUserRound, Search} from "lucide-svelte";
     import {navigate} from "svelte-routing";
+    import {handleSearch} from "@/utils/datasetUtil.js";
 
     let searchQuery = $state("");
 
-    function handleSearch(event) {
-        event.preventDefault();
-        if (searchQuery.trim()) {
-            navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
-        } else {
-            navigate('/');
-        }
-    }
 
     function handleLogin() {
         navigate('/login')
@@ -35,7 +28,7 @@
             </a>
 
             <div class="hidden md:flex flex-1 max-w-lg mx-8">
-                <form onsubmit={handleSearch} class="w-full">
+                <form onsubmit={(e)=> handleSearch(e, searchQuery)} class="w-full">
                     <div class="relative">
                         <input
                                 type="text"

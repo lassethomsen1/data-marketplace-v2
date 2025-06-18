@@ -1,4 +1,5 @@
 import Papa from 'papaparse';
+import { navigate } from 'svelte-routing';
 
 export function formatDataset(dataset) {
   dataset.createdAt = new Date(dataset.createdAt).toLocaleDateString();
@@ -37,5 +38,14 @@ export function getStatusColor(status) {
       return 'text-red-600 bg-red-100';
     default:
       return 'text-gray-600 bg-gray-100';
+  }
+}
+
+export function handleSearch(event, searchQuery) {
+  event.preventDefault();
+  if (searchQuery.trim()) {
+    navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
+  } else {
+    navigate('/');
   }
 }
