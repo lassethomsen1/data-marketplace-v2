@@ -4,7 +4,7 @@
     import {navigate} from "svelte-routing";
     import {handleSearch} from "@/utils/datasetUtil.js";
     import {derived, writable} from "svelte/store";
-
+    import { Link } from 'svelte-routing';
 
     let searchQuery = $state("");
 
@@ -21,7 +21,7 @@
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16 lg:h-20">
-            <a href="/" class="flex items-center space-x-3">
+            <Link to="/" class="flex items-center space-x-3">
                 <div class="flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2">
                     <div class="relative">
                         <img class="h-8 w-8" src="/datasetICON.png" alt="logo"/>
@@ -31,7 +31,7 @@
                         <div class="text-xs text-blue-200 leading-tight">Marketplace</div>
                     </div>
                 </div>
-            </a>
+            </Link>
             {#if !$isSearchPage}
                 <div class="hidden md:flex flex-1 max-w-lg mx-8">
                     <form onsubmit={(e)=> handleSearch(e, searchQuery)} class="w-full">
