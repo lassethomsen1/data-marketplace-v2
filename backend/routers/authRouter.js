@@ -36,6 +36,7 @@ router.get('/validate-token', async (req, res) => {
       email: verifiedUser.email,
       name: verifiedUser.name,
       role: verifiedUser.role,
+      stripeOnboardingCompleted: verifiedUser.stripeOnboardingCompleted,
     },
   });
 });
@@ -78,16 +79,28 @@ router.post('/login', async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email, role: user.role },
+    {
+      id: user.id,
+      email: user.email,
+      role: user.role,
+      stripeOnboardingCompleted: user.stripeOnboardingCompleted,
+    },
     process.env.JWT_SECRET,
     {
       expiresIn: '24h', // for demo purposes
     }
   );
 
-  res
-    .status(200)
-    .json({ token, user: { id: user.id, email: user.email, name: user.name, role: user.role } });
+  res.status(200).send({
+    token,
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      stripeOnboardingCompleted: user.stripeOnboardingCompleted,
+    },
+  });
 });
 
 router.post('/signup', async (req, res) => {
@@ -109,12 +122,30 @@ router.post('/signup', async (req, res) => {
       password: hashedPassword,
     },
   });
-  const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, {
-    expiresIn: '1h',
-  });
+  const token = jwt.sign(
+    {
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+      stripeOnboardingCompleted: newUser.stripeOnboardingCompleted,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '24h', // for demo purposes
+    }
+  );
   if (!token) {
     return res.status(500).json('Error signing up');
   }
-  res.status(200).json({ token, user: { id: newUser.id, email: newUser.email } });
+  res.status(200).send({
+    token,
+    user: {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+      role: newUser.role,
+      stripeOnboardingCompleted: newUser.stripeOnboardingCompleted,
+    },
+  });
 });
 export default router;
