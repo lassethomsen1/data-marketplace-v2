@@ -10,6 +10,7 @@
     import SellerDashboardPage from "@/Components/Pages/SellerDashboardPage/SellerDashboardPage.svelte";
     import FrontPage from "@/Components/Pages/Frontpage/FrontPage.svelte";
     import Footer from "@/Components/platform/Footer.svelte";
+    import SearchResults from "@/Components/Pages/SearchResults/SearchResults.svelte";
 </script>
 <Router>
     <div>
@@ -24,6 +25,10 @@
         <Route path="/dashboard">
             <Header/>
             <DashboardPage/>
+        </Route>
+        <Route path="/search/:query" let:params>
+            <Header/>
+            <SearchResults searchQuery={params.query} />
         </Route>
         <PrivateRoute path="/profile">
             <Header/>
