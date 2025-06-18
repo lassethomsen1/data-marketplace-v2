@@ -197,19 +197,19 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
     }
 
     const fileBuffer = req.file.buffer;
-    const fileSize = req.file.size;
-    const fileType = req.file.mimetype;
+    const filesize = req.file.size;
+    const filetype = req.file.mimetype;
 
-    const fileKey = `datasets/${userId}/${Date.now()}-${crypto.randomBytes(8).toString('hex')}`;
+    const filekey = `datasets/${userId}/${Date.now()}-${crypto.randomBytes(8).toString('hex')}`;
 
-    const sampleData = await extractSampleData(fileBuffer, fileType);
+    const sampleData = await extractSampleData(fileBuffer, filetype);
 
     await s3.send(
       new PutObjectCommand({
         Bucket: process.env.R2_BUCKET_NAME,
-        Key: fileKey,
+        Key: filekey,
         Body: fileBuffer,
-        ContentType: fileType,
+        ContentType: filetype,
       })
     );
     // todo grim kode: fix filekey osv...
@@ -217,9 +217,9 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
       data: {
         title,
         description,
-        filekey: fileKey,
-        filetype: fileType,
-        filesize: fileSize,
+        filekey,
+        filetype,
+        filesize,
         tags: parsedTags,
         status: 'AVAILABLE', // need to be here until implemention of R2 webhook
         category,
@@ -230,8 +230,8 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
     });
     await emitStat('upload:new', {
       title,
-      filetype: fileType,
-      filesize: fileSize,
+      filetype,
+      filesize,
       tags: parsedTags,
       sellerId: userId,
       status: 'AVAILABLE',
