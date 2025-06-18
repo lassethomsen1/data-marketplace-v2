@@ -272,7 +272,6 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
         ContentType: filetype,
       })
     );
-    // todo grim kode: fix filekey osv...
     const dataset = await prisma.datasets.create({
       data: {
         title,
