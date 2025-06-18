@@ -1,6 +1,6 @@
 // Helper function to parse sample data from file todo: make this more robust
 // should take 10 first units
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '../../generated/prisma/index.js';
 
 const prisma = new PrismaClient();
 
