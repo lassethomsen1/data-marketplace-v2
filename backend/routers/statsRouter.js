@@ -72,10 +72,10 @@ router.get('/transactions', authenticateToken, async (req, res) => {
       },
     });
 
-    res.json(transactions);
+    res.send(transactions);
   } catch (err) {
     console.error('Error fetching transactions:', err);
-    res.status(500).json({ error: 'failed fetching transactions' });
+    res.status(500).send({ error: 'failed fetching transactions' });
   }
 });
 router.get('/uploads', authenticateToken, async (req, res) => {
@@ -107,7 +107,7 @@ router.get('/uploads', authenticateToken, async (req, res) => {
     res.send(uploads);
   } catch (err) {
     console.error('Error fetching transactions:', err);
-    res.status(500).json({ error: 'failed fetching uploads' });
+    res.status(500).send({ error: 'failed fetching uploads' });
   }
 });
 
@@ -199,7 +199,7 @@ router.get('/sellers/revenue', authenticateToken, async (req, res) => {
     });
 
     if (!seller) {
-      return res.status(404).json({
+      return res.status(404).send({
         success: false,
         error: 'Seller not found',
       });

@@ -39,6 +39,6 @@ router.post('/onboard-seller', authenticateToken, async (req, res) => {
     type: 'account_onboarding',
   });
 
-  res.json({ url: accountLink.url });
+  res.send({ url: accountLink.url });
 });
 export default router;
