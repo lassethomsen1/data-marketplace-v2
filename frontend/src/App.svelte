@@ -2,19 +2,21 @@
     import {Router, Route} from "svelte-routing";
     import PrivateRoute from "./Guards/PrivateRoute.svelte";
     import LoginPage from "./Components/Pages/LoginPage/LoginPage.svelte";
-    import BrowsePage from "./Components/Pages/BrowsePage/BrowsePage.svelte";
     import ProductPage from "./Components/Pages/ProductPage/ProductPage.svelte";
     import ProfilePage from "./Components/Pages/ProfilePage/ProfilePage.svelte";
     import Header from "./Components/platform/Header.svelte";
     import UploadPage from "./Components/Pages/UploadPage/UploadPage.svelte";
     import DashboardPage from "@/Components/Pages/AdminDashboardPage/DashboardPage.svelte";
     import SellerDashboardPage from "@/Components/Pages/SellerDashboardPage/SellerDashboardPage.svelte";
+    import FrontPage from "@/Components/Pages/Frontpage/FrontPage.svelte";
+    import Footer from "@/Components/platform/Footer.svelte";
 </script>
 <Router>
     <div>
         <Route path="/">
             <Header/>
-            <BrowsePage/>
+            <FrontPage/>
+            <Footer/>
         </Route>
         <Route path="/login">
             <LoginPage/>
