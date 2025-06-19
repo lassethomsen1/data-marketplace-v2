@@ -2,7 +2,7 @@
   import SampleTable from '@/Components/Pages/ProductPage/SampleTable.svelte';
 
   const { desc } = $props();
-  let tabs = $state(['Overview', 'Sample', 'Pricing']);
+  let tabs = $state(['Overview', 'Sample']);
   let selectedTab = $state('Overview');
 </script>
 
