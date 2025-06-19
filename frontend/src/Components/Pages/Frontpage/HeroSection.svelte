@@ -1,4 +1,5 @@
 <script>
+import { handleSearch } from '@/utils/datasetUtil.js';
 </script>
 
 <section class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
@@ -13,6 +14,7 @@
     </p>
     <button
       class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-lg"
+      onclick={(e)=> handleSearch(e, 'User')}
     >
       Explore Datasets
     </button>
