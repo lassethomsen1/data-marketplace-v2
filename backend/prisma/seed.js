@@ -68,6 +68,34 @@ async function main() {
       category: 'research',
     },
   });
+
+  await prisma.datasets.upsert({
+    where: { id: 'bde9315a-005c-47bc-bff7-12db5a92205e' },
+    update: {},
+    create: {
+      id: 'bde9315a-005c-47bc-bff7-12db5a92205e',
+      title: 'Eurovision',
+      description:
+        'This dataset combines variables about the songs, countries, artists, results, selection and polls of Eurovision Song Contest entries from 2016-2025. In 2016, a large overhaul in the voting process took effect, essentially doubling the number of points availible by spliting the jury and televote into separate entities.',
+      filekey: 'datasets/0c0f6996-c665-4716-9710-bf06c2e2b208/1750346217214-95dd1354bb2f96b9',
+      filetype: 'application/vnd.ms-excel',
+      filesize: 43902,
+      tags: ['music', 'pop culture', 'songs'],
+      sampleData: `Year,Country ,Song ,Artist ,Final_Place,Final_Points,Top 5,Top 10,Running_Order_Final,Grand_Final_Ind,Big6_Ind,Semi_Final_Num,Semi_Place,Semi_Points,Running_Order_Semi,National_Final,Solo_Artist,Sex,Returning_Artist_Ind,Number of Members,Language1,Language2,Language3,Language4,Multiple_Language,National_Language_Used,EU,NATO,Country_Group,MyESB_Community,MyESB_Personal,OGAE_Points,Qualification_Record
+2025,Albania,Zjerm,Shkodra Elektronike,,,,,,,0,1,,,12,1,0,Mixed,0,2,Albanian,,,,0,TRUE,0,1,Southern,4,17,158,0.55
+2025,Armenia,Survivor,Parg,,,,,,,0,2,,,5,1,1,M ,0,1,English,,,,0,FALSE,0,0,South-Eastern,30,30,0,0.8125
+2025,Australia,Milkshake Man,Go-Jo,,,,,,,0,2,,,1,0,1,M,0,1,English,,,,0,TRUE,0,0,Western,17,21,15,0.777777778
+2025,Austria,Wasted Love,JJ,,,,,,,0,2,,,6,0,1,M,0,1,English,,,,0,FALSE,1,0,Central,1,11,382,0.5625`,
+      price: 9900,
+      sellerId: '0c0f6996-c665-4716-9710-bf06c2e2b208',
+      status: 'AVAILABLE',
+      category: 'other',
+      additionalFiles: null,
+      createdAt: new Date('2025-06-19T15:16:57.632Z'),
+      updatedAt: new Date('2025-06-19T15:16:57.632Z'),
+    },
+  });
+
   await prisma.purchases.upsert({
     where: { id: 'dbe1aa8e-b489-4077-b923-3e370b54760b' },
     update: {},
