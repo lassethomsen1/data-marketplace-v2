@@ -12,7 +12,7 @@ export async function fetchDataset(datasetID) {
 }
 
 export async function fetchDatasets() {
-  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/datasets?limit=6`, {
+  const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/datasets?limit=4`, {
     method: 'GET',
   });
 
