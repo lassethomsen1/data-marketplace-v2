@@ -1,5 +1,6 @@
 <script>
   import ItemCard from '@/Components/platform/ItemCard.svelte';
+  import {handleSearch} from "@/utils/datasetUtil.js";
   const { datasets } = $props();
 </script>
 
@@ -22,6 +23,7 @@
     <div class="text-center mt-12">
       <button
         class="bg-white border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white px-8 py-3 rounded-lg font-medium transition-colors"
+        onclick={(e)=> handleSearch(e, 'User')}
       >
         View All Datasets
       </button>
