@@ -2,8 +2,8 @@
   import SampleTable from '@/Components/Pages/ProductPage/SampleTable.svelte';
 
   const { desc } = $props();
-  let tabs = $state(['Overview', 'Sample']);
-  let selectedTab = $state('Overview');
+  let tabs = $state(['Description', 'Sample']);
+  let selectedTab = $state('Description');
 </script>
 
 <div class="flex space-x-4 border-b-gray-400 border-b mb-4">
@@ -19,7 +19,7 @@
   {/each}
 </div>
 
-{#if selectedTab === 'Overview'}
+{#if selectedTab === 'Description'}
   <article class="text-wrap w-full">
     <p class="text-left whitespace-normal break-words">
       {desc}
