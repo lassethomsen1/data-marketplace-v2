@@ -1,6 +1,13 @@
 <script>
   import { stats, statsLoading } from '@/stores/statsStore.js';
-  import {CloudUpload, DollarSign, HardDrive, TrendingUp, TriangleAlert, UserRound} from "lucide-svelte";
+  import {
+    CloudUpload,
+    DollarSign,
+    HardDrive,
+    TrendingUp,
+    TriangleAlert,
+    UserRound,
+  } from 'lucide-svelte';
   const initialStats = {
     revenue24h: 0,
     revenue7d: 0,
@@ -25,7 +32,7 @@
         <p class="text-2xl font-bold text-gray-900">${$stats.stripe.totalRevenue.total}</p>
       </div>
       <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-        <DollarSign class="text-blue-600"/>
+        <DollarSign class="text-blue-600" />
       </div>
     </div>
   </div>
@@ -37,7 +44,7 @@
         <p class="text-2xl font-bold text-gray-900">{$stats.stripe.fees.total} DKK</p>
       </div>
       <div class="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
-        <TrendingUp class="text-teal-600"/>
+        <TrendingUp class="text-teal-600" />
       </div>
     </div>
   </div>
@@ -49,7 +56,7 @@
         <p class="text-2xl font-bold text-gray-900">{$stats.database.users}</p>
       </div>
       <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-        <UserRound class="text-purple-600"/>
+        <UserRound class="text-purple-600" />
       </div>
     </div>
   </div>
@@ -61,7 +68,7 @@
         <p class="text-2xl font-bold text-gray-900">{$stats.database.datasets}</p>
       </div>
       <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-        <HardDrive class="text-green-600"/>
+        <HardDrive class="text-green-600" />
       </div>
     </div>
   </div>
@@ -73,7 +80,7 @@
         <p class="text-2xl font-bold text-gray-900">{$stats.database.completedPurchases}</p>
       </div>
       <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-        <CloudUpload class="text-indigo-500"/>
+        <CloudUpload class="text-indigo-500" />
       </div>
     </div>
   </div>
@@ -85,7 +92,7 @@
         <p class="text-2xl font-bold text-gray-900">{$stats.database.failedPurchases}</p>
       </div>
       <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-        <TriangleAlert class="text-red-600"/>
+        <TriangleAlert class="text-red-600" />
       </div>
     </div>
   </div>
