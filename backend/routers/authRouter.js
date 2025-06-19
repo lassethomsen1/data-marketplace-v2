@@ -7,6 +7,26 @@ import { authenticateToken } from '../middleware/auth.js';
 const router = new Router();
 const prisma = new PrismaClient();
 
+router.get('/user', authenticateToken, (req, res) => {
+  const userId = req.user.id;
+
+  prisma.users
+    .findUnique({
+      where: { id: userId },
+    })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send('User not found');
+      }
+      const { password, ...userWithoutPassword } = user;
+      res.status(200).send({ user: userWithoutPassword });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500).send('Internal server error');
+    });
+});
+
 router.get('/validate-token', async (req, res) => {
   const token = req.headers['authorization']?.split(' ')[1];
 
@@ -40,27 +60,6 @@ router.get('/validate-token', async (req, res) => {
     },
   });
 });
-
-router.get('/user', authenticateToken, (req, res) => {
-  const userId = req.user.id;
-
-  prisma.users
-    .findUnique({
-      where: { id: userId },
-    })
-    .then(user => {
-      if (!user) {
-        return res.status(404).send('User not found');
-      }
-      const { password, ...userWithoutPassword } = user;
-      res.status(200).send({ user: userWithoutPassword });
-    })
-    .catch(err => {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    });
-});
-
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
