@@ -28,6 +28,4 @@
   </article>
 {:else if selectedTab === 'Sample'}
   <SampleTable />
-{:else if selectedTab === 'Pricing'}
-  <p>Check out our pricing plans.</p>
 {/if}
