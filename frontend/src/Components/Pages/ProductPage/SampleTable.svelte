@@ -4,7 +4,7 @@
   const columns = sample.length > 0 ? Object.keys(sample[0]) : [];
 </script>
 
-<div class="overflow-x-auto rounded-lg border border-gray-300 shadow-sm">
+<div class="overflow-x-auto rounded-lg border border-gray-300 shadow-sm mb-4">
   <table class="min-w-full text-sm text-left text-gray-700">
     <thead class="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
       <tr>
