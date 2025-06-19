@@ -11,9 +11,9 @@
   const datasets = $state([
     {
       id: 1,
-      title: 'Open Images AI Dataset',
+      title: 'City Weather Dataset',
       description:
-        'A large collection of labeled images useful for computer vision tasks like object detection and image classification.',
+        'This dataset captures real-time weather observations for 10 major global cities. It includes key meteorological attributes that describe current atmospheric conditions in each location. These features provide valuable insights for weather analysis, travel planning, or climate-related research.',
       tags: ['images', 'vision', 'open'],
       author: 'Jane Doe',
       price: '$50',
@@ -26,23 +26,6 @@
       tags: ['text', 'nlp', 'language'],
       author: 'John Smith',
       price: '$35',
-    },
-    {
-      id: 3,
-      title: 'Healthcare Analytics Dataset',
-      description:
-        'Structured and anonymized patient data for machine learning applications in healthcare.',
-      tags: ['healthcare', 'analytics', 'structured'],
-      author: 'HealthAI',
-      price: '$75',
-    },
-    {
-      id: 4,
-      title: 'Financial Transactions Dataset',
-      description: 'Detailed financial records for anomaly detection and fraud detection models.',
-      tags: ['finance', 'transactions', 'fraud'],
-      author: 'FinTech Labs',
-      price: '$60',
     },
   ]);
   onMount(async () => {
