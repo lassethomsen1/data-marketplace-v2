@@ -5,8 +5,7 @@ import { handleSearch } from '@/utils/datasetUtil.js';
 <section class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <h1 class="text-5xl md:text-6xl font-bold mb-6">
-      Discover Premium
-      <span class="text-sky-300">Datasets</span>
+      Discover Premium Datasets
     </h1>
     <p class="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
       Access high-quality, curated datasets from trusted sources. Power your AI, research, and
