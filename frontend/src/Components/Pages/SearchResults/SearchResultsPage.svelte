@@ -1,5 +1,5 @@
 <script>
-  import { Search, User } from 'lucide-svelte';
+  import { Search } from 'lucide-svelte';
   import { onMount } from 'svelte';
   import { searchDatasets } from '@/api/datasetsApi.js';
   import { formatDataset } from '@/utils/datasetUtil.js';
