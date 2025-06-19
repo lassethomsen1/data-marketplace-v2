@@ -21,7 +21,6 @@
 
 {#if selectedTab === 'Overview'}
   <article class="text-wrap w-full">
-    <h1>{selectedTab}</h1>
     <p class="text-left whitespace-normal break-words">
       {desc}
     </p>
