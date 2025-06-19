@@ -1,5 +1,5 @@
 <script>
-  import { stats, statsLoading } from '@/stores/statsStore.js';
+  import { stats } from '@/stores/statsStore.js';
   import {
     CloudUpload,
     DollarSign,
@@ -8,14 +8,6 @@
     TriangleAlert,
     UserRound,
   } from 'lucide-svelte';
-  const initialStats = {
-    revenue24h: 0,
-    revenue7d: 0,
-    activeUsers: 0,
-    totalDatasets: 0,
-    uploadSuccessRate: 100.0,
-    failedPayments: 0,
-  };
 
   setInterval(() => {
     stats.revenue24h += Math.random() * 100;
