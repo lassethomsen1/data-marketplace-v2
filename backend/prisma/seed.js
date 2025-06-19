@@ -78,7 +78,7 @@ async function main() {
       description:
         'This dataset combines variables about the songs, countries, artists, results, selection and polls of Eurovision Song Contest entries from 2016-2025. In 2016, a large overhaul in the voting process took effect, essentially doubling the number of points availible by spliting the jury and televote into separate entities.',
       filekey: 'datasets/0c0f6996-c665-4716-9710-bf06c2e2b208/1750346217214-95dd1354bb2f96b9',
-      filetype: 'application/vnd.ms-excel',
+      filetype: 'text/csv',
       filesize: 43902,
       tags: ['music', 'pop culture', 'songs'],
       sampleData: `Year,Country ,Song ,Artist ,Final_Place,Final_Points,Top 5,Top 10,Running_Order_Final,Grand_Final_Ind,Big6_Ind,Semi_Final_Num,Semi_Place,Semi_Points,Running_Order_Semi,National_Final,Solo_Artist,Sex,Returning_Artist_Ind,Number of Members,Language1,Language2,Language3,Language4,Multiple_Language,National_Language_Used,EU,NATO,Country_Group,MyESB_Community,MyESB_Personal,OGAE_Points,Qualification_Record
@@ -93,6 +93,33 @@ async function main() {
       additionalFiles: null,
       createdAt: new Date('2025-06-19T15:16:57.632Z'),
       updatedAt: new Date('2025-06-19T15:16:57.632Z'),
+    },
+  });
+
+  await prisma.datasets.upsert({
+    where: { id: '59278995-aa42-4d49-b38c-7894ac782bd5' },
+    update: {},
+    create: {
+      id: '59278995-aa42-4d49-b38c-7894ac782bd5',
+      title: 'Pet Adoption Records with Animal & Adopter Data',
+      description:
+        'This Pet Adoption Center dataset is a synthetic collection of 200 records simulating real-world pet adoption scenarios. Each record contains detailed information about the pet, including species, breed, age, color, and gender, as well as arrival and adoption dates.\n\nFor adopted pets, adopter demographics such as name, age, city, and previous pet adoptions are included. For pets not yet adopted, adopter-related fields contain meaningful placeholder values to maintain dataset completeness and avoid missing data.',
+      filekey: 'datasets/0c0f6996-c665-4716-9710-bf06c2e2b208/1750346977725-5e926fcef0ab4c96',
+      filetype: 'application/vnd.ms-excel',
+      filesize: 20478,
+      tags: ['pets', 'animals', 'synthetic'],
+      sampleData: `pet_id,pet_name,species,breed,age_years,gender,color,arrival_date,adopted,adoption_date,adopter_id,adopter_name,adopter_age,adopter_city,adopter_previous_pets
+P0001,Sandra,Dog,Yorkshire Terrier,2,Female,White,2024-10-10,True,2025-03-11,A0001,Megan Rogers,56,Mcgeestad,1
+P0002,Brian,Cat,Tonkinese,1,Female,Golden,2023-09-09,True,2024-02-10,A0002,Jonathan Hawkins,18,Geneshire,2
+P0003,Timothy,Bird,Amazon Parrot,4,Male,Spotted,2023-10-03,False,2023-10-17,N/A,N/A,-1,N/A,0
+P0004,Karl,Dog,German Shepherd,1,Female,White,2024-07-28,True,2024-08-12,A0004,Natalie Rivera,51,North Richard,3`,
+      price: 19900,
+      sellerId: '0c0f6996-c665-4716-9710-bf06c2e2b208',
+      status: 'AVAILABLE',
+      category: 'research',
+      additionalFiles: null,
+      createdAt: new Date('2025-06-19T15:29:38.018Z'),
+      updatedAt: new Date('2025-06-19T15:29:38.018Z'),
     },
   });
 
