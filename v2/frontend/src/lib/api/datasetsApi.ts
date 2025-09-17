@@ -1,4 +1,4 @@
-import { handleError } from '@/lib/api/helper/error';
+import { handleError } from '$lib/api/helper/error';
 
 export async function fetchDataset(datasetID: string) {
   const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/datasets/${datasetID}`, {
