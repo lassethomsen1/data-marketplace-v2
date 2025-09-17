@@ -1,5 +1,5 @@
 <script>
-  import { handleSearch } from '@/lib/utils/datasetUtil.js';
+  import { handleSearch } from '@/lib/utils/datasetUtil';
 </script>
 
 <section class="bg-gradient-to-br from-blue-600 to-blue-800 text-white py-20">
