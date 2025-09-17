@@ -1,6 +1,6 @@
 <script>
   import { Search } from 'lucide-svelte';
-  import { handleSearch } from '@/lib/utils/datasetUtil';
+  import { handleSearch } from '$lib/utils/datasetUtil';
   let searchQuery = $state('');
 </script>
 

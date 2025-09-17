@@ -1,12 +1,12 @@
 <script>
     import { onMount } from 'svelte';
-    import { fetchDatasets } from '@/lib/api/datasetsApi.js';
-    import { formatDataset } from '@/lib/utils/datasetUtil.js';
+    import { fetchDatasets } from '$lib/api/datasetsApi.js';
+    import { formatDataset } from '$lib/utils/datasetUtil.js';
 
-    import HeroSection from '@/lib/components/frontpage/HeroSection.svelte';
-    import SearchSection from '@/lib/components/frontpage/SearchSection.svelte';
-    import FeatureDatasetsSection from '@/lib/components/frontpage/FeatureDatasetsSection.svelte';
-    import CTASection from '@/lib/components/frontpage/CTASection.svelte';
+    import HeroSection from '$lib/components/frontpage/HeroSection.svelte';
+    import SearchSection from '$lib/components/frontpage/SearchSection.svelte';
+    import FeatureDatasetsSection from '$lib/components/frontpage/FeatureDatasetsSection.svelte';
+    import CTASection from '$lib/components/frontpage/CTASection.svelte';
 
     const datasets = $state([
         {

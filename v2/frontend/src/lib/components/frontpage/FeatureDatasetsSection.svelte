@@ -1,6 +1,6 @@
 <script>
-  import ItemCard from '@/lib/components/platform/ItemCard.svelte';
-  import { handleSearch } from '@/lib/utils/datasetUtil.js';
+  import ItemCard from '$lib/components/platform/ItemCard.svelte';
+  import { handleSearch } from '$lib/utils/datasetUtil.js';
   const { datasets } = $props();
 </script>
 
