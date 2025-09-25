@@ -7,6 +7,7 @@
     import SearchSection from '$lib/components/frontpage/SearchSection.svelte';
     import FeatureDatasetsSection from '$lib/components/frontpage/FeatureDatasetsSection.svelte';
     import CTASection from '$lib/components/frontpage/CTASection.svelte';
+    import Header from "$lib/components/platform/Header.svelte";
 
     const datasets = $state([
         {
@@ -36,7 +37,7 @@
         });
     });
 </script>
-
+<Header/>
 <div class="min-h-screen bg-white">
     <HeroSection />
 
