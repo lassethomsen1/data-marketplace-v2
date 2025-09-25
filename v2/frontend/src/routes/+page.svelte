@@ -8,7 +8,7 @@
     import FeatureDatasetsSection from '$lib/components/frontpage/FeatureDatasetsSection.svelte';
     import CTASection from '$lib/components/frontpage/CTASection.svelte';
     import Header from "$lib/components/platform/Header.svelte";
-
+    import Footer from "$lib/components/platform/Footer.svelte";
     const datasets = $state([
         {
             id: 1,
@@ -47,3 +47,4 @@
 
     <CTASection />
 </div>
+<Footer/>
