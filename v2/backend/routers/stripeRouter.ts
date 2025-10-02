@@ -1,11 +1,10 @@
 import { Router } from 'express';
-import { PrismaClient } from '@data/prisma';
+import { prisma } from '@data/prisma';
 import stripe from '../utils/stripe';
 import { authenticateToken } from '../middleware/auth';
 import { authReqDTO } from "../types/ReqDTO";
 
 const router = Router();
-const prisma = new PrismaClient();
 
 router.post('/onboard-seller', authenticateToken, async (req: authReqDTO, res) => {
   const userId = req.user.id;
