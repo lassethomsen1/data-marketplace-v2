@@ -2,7 +2,7 @@ import { Router, Response, Request } from 'express';
 import * as multer from 'multer';
 import * as crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { authenticateToken } from '../middleware/auth.js';
+import { authenticateToken } from '../middleware/auth';
 import { prisma } from '@data/prisma'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 //import emitStat from './socket/socketEmits.js';
