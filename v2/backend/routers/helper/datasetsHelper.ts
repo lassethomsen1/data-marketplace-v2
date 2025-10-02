@@ -1,8 +1,7 @@
-import { PrismaClient } from '../../generated/prisma/index.js';
+import { prisma } from '@data/prisma';
+import type { Users } from "@data/prisma";
 
-const prisma = new PrismaClient();
-
-export async function extractSampleData(buffer, filetype) {
+export async function extractSampleData(buffer: Buffer<ArrayBufferLike>, filetype: string) {
   if (filetype.includes('csv') || filetype.includes('vnd.ms-excel')) {
     try {
       const sampleBuffer = buffer.slice(0, Math.min(1000, buffer.length));
@@ -17,7 +16,7 @@ export async function extractSampleData(buffer, filetype) {
   return 'Sample preview not available for this file type';
 }
 
-export async function verifySellerStatus(userId) {
+export async function verifySellerStatus(userId: Users['id']) {
   const user = await prisma.users.findUnique({
     where: { id: userId },
   });
