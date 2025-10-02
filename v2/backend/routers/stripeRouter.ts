@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
-import stripe from '../utils/stripe.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { PrismaClient } from '@data/prisma';
+import stripe from '../utils/stripe';
+import { authenticateToken } from '../middleware/auth';
+import { datasetReqDTO } from "../types/ReqDTO";
 
-const router = new Router();
+const router = Router();
 const prisma = new PrismaClient();
 
-router.post('/onboard-seller', authenticateToken, async (req, res) => {
+router.post('/onboard-seller', authenticateToken, async (req: datasetReqDTO, res) => {
   const userId = req.user.id;
 
   const user = await prisma.users.findUnique({ where: { id: userId } });
