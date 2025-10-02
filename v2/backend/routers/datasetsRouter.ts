@@ -1,23 +1,32 @@
-import { Router } from 'express';
+import { Router, Response, Request } from 'express';
 import multer from 'multer';
 import crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth.js';
 import { prisma } from '@data/prisma'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import emitStat from './socket/socketEmits.js';
+//import emitStat from './socket/socketEmits.js';
 import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper.js';
 
-const router = new Router();
+const router = Router();
+
+const endpoint = process.env.R2_ENDPOINT;
+const accessKeyId = process.env.R2_ACCESS_KEY;
+const secretAccessKey = process.env.R2_SECRET_KEY;
+
+if (!endpoint || !accessKeyId || !secretAccessKey) {
+  throw new Error('Missing R2 environment variables');
+}
 
 const s3 = new S3Client({
   region: 'auto',
-  endpoint: process.env.R2_ENDPOINT,
+  endpoint,
   credentials: {
-    accessKeyId: process.env.R2_ACCESS_KEY,
-    secretAccessKey: process.env.R2_SECRET_KEY,
+    accessKeyId,
+    secretAccessKey,
   },
 });
+
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -27,9 +36,9 @@ const upload = multer({
   },
 });
 
-router.get('/datasets', async (req, res) => {
+router.get('/datasets', async (req: Request, res: Response) => {
   try {
-    const {
+    const { //todo lav type
       search = '',
       limit = 20,
       page = 1,
@@ -104,7 +113,7 @@ router.get('/datasets', async (req, res) => {
   }
 });
 
-router.get('/datasets/performance', authenticateToken, async (req, res) => {
+router.get('/datasets/performance', authenticateToken, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
 
@@ -150,7 +159,7 @@ router.get('/datasets/performance', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/datasets/:datasetId', async (req, res) => {
+router.get('/datasets/:datasetId', async (req: Request, res: Response) => {
   try {
     const { datasetId } = req.params;
 
@@ -182,7 +191,7 @@ router.get('/datasets/:datasetId', async (req, res) => {
   }
 });
 
-router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) => {
+router.get('/datasets/:datasetId/download', authenticateToken, async (req: Request, res:Response) => {
   try {
     const { datasetId } = req.params;
     const userId = req.user.id;
@@ -230,7 +239,7 @@ router.get('/datasets/:datasetId/download', authenticateToken, async (req, res) 
   }
 });
 
-router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req, res) => {
+router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
 
@@ -286,7 +295,7 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
         sellerId: userId,
       },
     });
-    await emitStat('upload:new', {
+    /*await emitStat('upload:new', {
       title,
       filetype,
       filesize,
@@ -301,7 +310,7 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
       price: Math.round(parseFloat(price) * 100),
       sampleData,
     });
-
+    */
     return res.status(201).send({
       message: 'Dataset uploaded successfully',
       dataset: {
