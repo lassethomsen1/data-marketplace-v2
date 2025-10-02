@@ -1,10 +1,9 @@
-import express, { Router } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
+import * as express from 'express';
+import { prisma } from '@data/prisma';
 import stripe from '../utils/stripe.js';
-import emitStat from './socket/socketEmits.js';
+//import emitStat from './socket/socketEmits.js';
 
-const router = new Router();
-const prisma = new PrismaClient();
+const router = express.Router();
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
@@ -70,9 +69,10 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         },
       },
     });
+    /*
     await emitStat('transaction:new', {
       transaction,
-    });
+    });*/
   }
 
   async function handlePaymentFailed(paymentIntent) {
@@ -100,9 +100,10 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           },
         },
       });
+      /*
       await emitStat('transaction:new', {
         transaction,
-      });
+      });*/
     }
   }
   async function handleAccountUpdated(account) {
