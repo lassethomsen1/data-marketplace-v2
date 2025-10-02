@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { prisma } from '@data/prisma';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 import { authenticateToken } from '../middleware/auth.js';
+import { authReqDTO } from "../types/ReqDTO";
 
-const router = new Router();
-const prisma = new PrismaClient();
+const router = Router();
 
-router.get('/user', authenticateToken, (req, res) => {
+router.get('/user', authenticateToken, (req: authReqDTO, res) => {
   const userId = req.user.id;
 
   prisma.users
@@ -34,7 +34,7 @@ router.get('/validate-token', async (req, res) => {
     return res.status(401).send('No token provided');
   }
 
-  let decoded;
+  let decoded; //todo: måske et problem senere hen (typen)
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
