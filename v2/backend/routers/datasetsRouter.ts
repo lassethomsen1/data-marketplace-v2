@@ -3,7 +3,7 @@ import * as multer from 'multer';
 import * as crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth';
-import { prisma } from '@data/prisma'
+import { DatasetStatus, Prisma, prisma } from "@data/prisma";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 //import emitStat from './socket/socketEmits.js';
 import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper.js';
@@ -64,20 +64,22 @@ router.get('/datasets', async (req: Request<{}, {}, {}, DatasetsQuery>, res: Res
     const minPriceNum = Math.max(parseInt(minPrice) || 0, 0);
     const maxPriceNum = maxPrice ? Math.max(parseInt(maxPrice), minPriceNum) : null;
 
-    const whereClause = {
-      status: status || 'AVAILABLE',
-      ...(search && {
-        OR: [
-          { title: { contains: search, mode: 'insensitive' } },
-          { description: { contains: search, mode: 'insensitive' } },
-          { tags: { hasSome: [search] } },
-          { seller: { name: { contains: search, mode: 'insensitive' } } },
-        ],
-      }),
-      ...(category && { category: { contains: category, mode: 'insensitive' } }),
+    const whereClause: Prisma.DatasetsWhereInput = {
+      status: (status as DatasetStatus) || 'AVAILABLE',
+      ...(search
+        ? {
+          OR: [
+            { title: { contains: search, mode: 'insensitive' } } as Prisma.DatasetsWhereInput,
+            { description: { contains: search, mode: 'insensitive' } } as Prisma.DatasetsWhereInput,
+            { tags: { hasSome: [search] } } as Prisma.DatasetsWhereInput,
+            { seller: { name: { contains: search, mode: 'insensitive' } } } as Prisma.DatasetsWhereInput,
+          ],
+        }
+        : {}),
+      ...(category ? { category: { contains: category, mode: 'insensitive' } } : {}),
       price: {
         gte: minPriceNum,
-        ...(maxPriceNum && { lte: maxPriceNum }),
+        ...(maxPriceNum !== null ? { lte: maxPriceNum } : {}),
       },
     };
 
