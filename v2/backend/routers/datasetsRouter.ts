@@ -7,6 +7,7 @@ import { prisma } from '@data/prisma'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 //import emitStat from './socket/socketEmits.js';
 import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper.js';
+import { datasetReqDTO } from "../types/ReqDTO";
 
 const router = Router();
 
@@ -113,7 +114,7 @@ router.get('/datasets', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/datasets/performance', authenticateToken, async (req: Request, res: Response) => {
+router.get('/datasets/performance', authenticateToken, async (req: datasetReqDTO, res: Response) => {
   try {
     const userId = req.user.id;
 
@@ -191,7 +192,7 @@ router.get('/datasets/:datasetId', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/datasets/:datasetId/download', authenticateToken, async (req: Request, res:Response) => {
+router.get('/datasets/:datasetId/download', authenticateToken, async (req: datasetReqDTO, res:Response) => {
   try {
     const { datasetId } = req.params;
     const userId = req.user.id;
@@ -239,7 +240,7 @@ router.get('/datasets/:datasetId/download', authenticateToken, async (req: Reque
   }
 });
 
-router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req: Request, res: Response) => {
+router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req: datasetReqDTO, res: Response) => {
   try {
     const userId = req.user.id;
 
