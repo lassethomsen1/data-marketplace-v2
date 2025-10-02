@@ -1,17 +1,20 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { prisma } from '@data/prisma';
 
-import stripe from '../utils/stripe.js';
-import { authenticateToken } from '../middleware/auth.js';
-import emitStat from './socket/socketEmits.js';
+import stripe from '../utils/stripe';
+import { authenticateToken } from '../middleware/auth';
+//import emitStat from './socket/socketEmits.js';
+import { authReqDTO } from "../types/ReqDTO";
 
-const router = new Router();
-const prisma = new PrismaClient();
+const router = Router();
 
-router.get('/purchases', authenticateToken, async (req, res) => {
+router.get('/purchases', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const userId = req.user.id;
-    const { page = 1, limit = 100 } = req.query;
+    const { page = '1', limit = '100' } = req.query;
+
+    const pageNum = parseInt(page as string);
+    const limitNum = parseInt(limit as string);
 
     const purchases = await prisma.purchases.findMany({
       where: {
@@ -40,8 +43,8 @@ router.get('/purchases', authenticateToken, async (req, res) => {
         },
       },
       orderBy: { createdAt: 'desc' },
-      skip: (page - 1) * limit,
-      take: parseInt(limit),
+      skip: (pageNum - 1) * limitNum,
+      take: limitNum,
     });
 
     const totalPurchases = await prisma.purchases.count({
@@ -54,10 +57,10 @@ router.get('/purchases', authenticateToken, async (req, res) => {
     res.send({
       purchases,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page: pageNum,
+        limit: limitNum,
         total: totalPurchases,
-        totalPages: Math.ceil(totalPurchases / limit),
+        totalPages: Math.ceil(totalPurchases / limitNum),
       },
     });
   } catch (error) {
@@ -66,7 +69,7 @@ router.get('/purchases', authenticateToken, async (req, res) => {
   }
 });
 
-router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
+router.post('/purchases/:datasetId', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const { datasetId } = req.params;
     const buyerId = req.user.id;
@@ -170,7 +173,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       where: { id: purchase.id },
       data: { stripeSessionId: session.id },
     });
-
+    /*
     await emitStat('purchase:new', {
       datasetId: dataset.id,
       purchaseId: purchase.id,
@@ -179,7 +182,7 @@ router.post('/purchases/:datasetId', authenticateToken, async (req, res) => {
       status: 'PENDING',
       price: dataset.price,
     });
-
+    */
     res.send({
       checkoutUrl: session.url,
       sessionId: session.id,
