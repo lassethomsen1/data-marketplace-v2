@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
-import { authenticateToken } from '../middleware/auth.js';
+import { prisma } from '@data/prisma';
+import { authenticateToken } from '../middleware/auth';
 import {
   getDatabaseStats,
   getPayoutHistory,
@@ -8,12 +8,12 @@ import {
   getSales,
   getSellerRevenue,
   getStripeStats,
-} from './helper/statsHelper.js';
+} from './helper/statsHelper';
+import { authReqDTO } from "../types/ReqDTO";
 
-const router = new Router();
-const prisma = new PrismaClient();
+const router = Router();
 
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', authenticateToken, async (req: authReqDTO, res) => {
   if (!req.user || req.user.role !== 'ADMIN') {
     return res.status(403).send('Access denied');
   }
@@ -24,7 +24,7 @@ router.get('/', authenticateToken, async (req, res) => {
   res.send(stats);
 });
 
-router.get('/transactions', authenticateToken, async (req, res) => {
+router.get('/transactions', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -66,7 +66,7 @@ router.get('/transactions', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/sellers', authenticateToken, async (req, res) => {
+router.get('/sellers', authenticateToken, async (req: authReqDTO, res) => {
   if (!req.user) {
     return res.status(403).send('Access denied');
   }
@@ -135,11 +135,13 @@ router.get('/sellers', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/sellers/revenue', authenticateToken, async (req, res) => {
+router.get('/sellers/revenue', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const sellerId = req.user.id;
 
     const { months = '12' } = req.query;
+
+    const monthsNum = parseInt(months as string);
 
     const seller = await prisma.users.findUnique({
       where: {
@@ -160,7 +162,7 @@ router.get('/sellers/revenue', authenticateToken, async (req, res) => {
       });
     }
 
-    const revenueData = await getSellerRevenue(sellerId, parseInt(months));
+    const revenueData = await getSellerRevenue(sellerId, monthsNum);
 
     const maxRevenue = Math.max(...revenueData.map(d => d.revenue), 1);
 
@@ -185,7 +187,7 @@ router.get('/sellers/revenue', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/uploads', authenticateToken, async (req, res) => {
+router.get('/uploads', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

@@ -1,7 +1,5 @@
-import { PrismaClient } from '../../generated/prisma/index.js';
-import stripe from '../../utils/stripe.js';
-
-const prisma = new PrismaClient();
+import { prisma, Users } from "@data/prisma";
+import stripe from '../../utils/stripe';
 
 export async function getDatabaseStats() {
   const [users, datasets, failedPurchases, completedPurchases] = await prisma.$transaction([
@@ -52,7 +50,7 @@ export async function getTotalRevenue() {
   return { total: total / 100, currency: paymentIntents.data[0]?.currency || 'usd' };
 }
 
-export async function getRemainingPayout(stripeAccountId) {
+export async function getRemainingPayout(stripeAccountId: Users['stripeAccountId']) {
   try {
     const balance = await stripe.balance.retrieve({
       stripeAccount: stripeAccountId,
@@ -69,7 +67,7 @@ export async function getRemainingPayout(stripeAccountId) {
   }
 }
 
-export async function getPayoutHistory(stripeAccountId) {
+export async function getPayoutHistory(stripeAccountId: Users['stripeAccountId']) {
   try {
     const payouts = await stripe.payouts.list({ limit: 100 }, { stripeAccount: stripeAccountId });
 
@@ -86,7 +84,7 @@ export async function getPayoutHistory(stripeAccountId) {
   }
 }
 
-export async function getSales(sellerId, months = 12) {
+export async function getSales(sellerId: Users['id'], months = 12) {
   try {
     const endDate = new Date();
     const startDate = new Date();
@@ -126,7 +124,7 @@ export async function getSales(sellerId, months = 12) {
   }
 }
 
-export async function getSellerRevenue(sellerId, months = 12) {
+export async function getSellerRevenue(sellerId: Users['id'], months = 12) {
   try {
     const endDate = new Date();
     const startDate = new Date();
