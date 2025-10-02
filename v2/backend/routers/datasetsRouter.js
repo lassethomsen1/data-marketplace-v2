@@ -3,13 +3,12 @@ import multer from 'multer';
 import crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth.js';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { prisma } from '@data/prisma'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import emitStat from './socket/socketEmits.js';
 import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper.js';
 
 const router = new Router();
-const prisma = new PrismaClient();
 
 const s3 = new S3Client({
   region: 'auto',

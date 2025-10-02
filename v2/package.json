@@ -17,6 +17,7 @@
     "prettier": "3.5.3"
   },
   "dependencies": {
+    "@prisma/extension-accelerate": "^2.0.2",
     "prettier-plugin-svelte": "^3.3.3"
   }
 }
