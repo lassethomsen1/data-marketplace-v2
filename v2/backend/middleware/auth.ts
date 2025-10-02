@@ -2,9 +2,9 @@ import * as jwt from 'jsonwebtoken';
 import { Response, NextFunction } from 'express';
 import 'dotenv/config';
 import { Users } from "@data/prisma";
-import { datasetReqDTO } from "../types/ReqDTO";
+import { authReqDTO } from "../types/ReqDTO";
 
-export function authenticateToken(req: datasetReqDTO, res: Response, next: NextFunction) {
+export function authenticateToken(req: authReqDTO, res: Response, next: NextFunction) {
   if (!process.env.JWT_SECRET) {
     return res.status(500).send({ message: 'Server Error: JWT_SECRET not configured' });
   }
