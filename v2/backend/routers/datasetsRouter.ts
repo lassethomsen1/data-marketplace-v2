@@ -36,15 +36,24 @@ const upload = multer({
     fileSize: 100 * 1024 * 1024, // 100MB limit
   },
 });
+interface DatasetsQuery {
+  search?: string;
+  limit?: string;      // query params come in as strings
+  page?: string;
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string | null;
+  status?: string;
+}
 
-router.get('/datasets', async (req: Request, res: Response) => {
+router.get('/datasets', async (req: Request<{}, {}, {}, DatasetsQuery>, res: Response) => {
   try {
     const { //todo lav type
       search = '',
-      limit = 20,
-      page = 1,
+      limit = '20',
+      page = '1',
       category = '',
-      minPrice = 0,
+      minPrice = '0',
       maxPrice = null,
       status = 'AVAILABLE',
     } = req.query;
