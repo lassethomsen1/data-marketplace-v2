@@ -1,6 +1,6 @@
 import { Router, Response, Request } from 'express';
-import multer from 'multer';
-import crypto from 'crypto';
+import * as multer from 'multer';
+import * as crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth.js';
 import { prisma } from '@data/prisma'
