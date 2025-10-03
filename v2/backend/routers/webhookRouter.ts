@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { prisma } from '@data/prisma';
-import stripe from '../utils/stripe.js';
+import stripe from '../utils/stripe';
 import Stripe from "stripe";
 //import emitStat from './socket/socketEmits.js';
 
