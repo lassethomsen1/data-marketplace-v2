@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { prisma } from '@data/prisma';
 import stripe from '../utils/stripe.js';
+import Stripe from "stripe";
 //import emitStat from './socket/socketEmits.js';
 
 const router = express.Router();
@@ -13,7 +14,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
 
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-  } catch (err) {
+  } catch (err: any) {
     console.error('Webhook signature verification failed:', err.message);
     return res.sendStatus(400);
   }
@@ -75,7 +76,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     });*/
   }
 
-  async function handlePaymentFailed(paymentIntent) {
+  async function handlePaymentFailed(paymentIntent: Stripe.PaymentIntent) {
     const { purchaseId } = paymentIntent.metadata;
 
     if (purchaseId) {
@@ -106,8 +107,12 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       });*/
     }
   }
-  async function handleAccountUpdated(account) {
-    if (account.details_submitted && account.charges_enabled && account.payouts_enabled) {
+  async function handleAccountUpdated(account: Stripe.Account) {
+    if (
+      account.details_submitted &&
+      account.charges_enabled &&
+      account.payouts_enabled
+    ) {
       await prisma.users.updateMany({
         where: { stripeAccountId: account.id },
         data: { stripeOnboardingCompleted: true },
