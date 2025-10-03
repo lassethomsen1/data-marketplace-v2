@@ -69,6 +69,10 @@ importers:
       stripe:
         specifier: ^18.1.0
         version: 18.5.0(@types/node@24.6.2)
+    devDependencies:
+      '@types/cors':
+        specifier: ^2.8.19
+        version: 2.8.19
 
   database:
     dependencies:
