@@ -6,10 +6,15 @@ import Stripe from "stripe";
 
 const router = express.Router();
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+if (!webhookSecret) {
+  throw new Error('Missing STRIPE_WEBHOOK_SECRET environment variable');
+}
 
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
-
+  if (!sig || Array.isArray(sig)) {
+    throw new Error('Missing or invalid Stripe signature header');
+  }
   let event;
 
   try {
@@ -43,13 +48,16 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
     res.status(500).send({ error: 'Webhook handler failed' });
   }
 
-  async function handleCheckoutCompleted(session) {
+  async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+    if (!session.metadata) {
+      throw new Error("Missing metadata on checkout session");
+    }
     const { purchaseId, datasetId, buyerId } = session.metadata;
 
     const transaction = await prisma.purchases.update({
       where: { id: purchaseId },
       data: {
-        status: 'COMPLETED',
+        status: "COMPLETED",
         paidAmount: session.amount_total,
       },
       include: {
