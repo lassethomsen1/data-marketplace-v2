@@ -1,0 +1,4 @@
+node_modules
+
+/database/generated/
+/database/.env

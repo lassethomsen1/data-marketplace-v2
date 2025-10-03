@@ -1,0 +1,23 @@
+{
+  "name": "data-marketplace",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev:frontend": "pnpm --filter ./frontend dev",
+    "dev:backend": "pnpm --filter ./backend dev",
+    "dev": "concurrently \"pnpm dev:frontend\" \"pnpm dev:backend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "3.5.3"
+  },
+  "dependencies": {
+    "@prisma/extension-accelerate": "^2.0.2",
+    "prettier-plugin-svelte": "^3.3.3"
+  }
+}
