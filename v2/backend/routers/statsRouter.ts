@@ -115,6 +115,9 @@ router.get('/sellers', authenticateToken, async (req: authReqDTO, res) => {
         },
       }),
     ]);
+    if (!user || !user.stripeAccountId) {
+      return res.status(404).send({ error: 'Seller not found or Stripe account not linked' });
+    }
     const pendingBal = await getRemainingPayout(user.stripeAccountId);
     const payoutHistory = await getPayoutHistory(user.stripeAccountId);
     const recentSales = await getSales(sellerId, 12);
@@ -137,7 +140,13 @@ router.get('/sellers', authenticateToken, async (req: authReqDTO, res) => {
 
 router.get('/sellers/revenue', authenticateToken, async (req: authReqDTO, res) => {
   try {
-    const sellerId = req.user.id;
+    const sellerId = req.user?.id;
+    if (!sellerId) {
+      return res.status(401).send({
+        success: false,
+        error: 'Unauthorized',
+      });
+    }
 
     const { months = '12' } = req.query;
 
