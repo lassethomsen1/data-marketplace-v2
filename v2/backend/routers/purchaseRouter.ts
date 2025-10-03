@@ -10,7 +10,7 @@ const router = Router();
 
 router.get('/purchases', authenticateToken, async (req: authReqDTO, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id;
     const { page = '1', limit = '100' } = req.query;
 
     const pageNum = parseInt(page as string);
@@ -72,7 +72,10 @@ router.get('/purchases', authenticateToken, async (req: authReqDTO, res) => {
 router.post('/purchases/:datasetId', authenticateToken, async (req: authReqDTO, res) => {
   try {
     const { datasetId } = req.params;
-    const buyerId = req.user.id;
+    const buyerId = req.user?.id;
+    if (!buyerId) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
 
     const successUrl = process.env.FRONTEND_URL + '/profile';
     const cancelUrl = process.env.FRONTEND_URL + '/dataset/' + datasetId;
