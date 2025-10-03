@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import type { Users } from '@data/prisma';
 export interface authReqDTO extends Request {
-  user: {
+  user?: {
     id: Users['id'];
     email: Users['email'];
     name: Users['name'];
