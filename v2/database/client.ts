@@ -1,5 +1,5 @@
 import { PrismaClient } from "./generated/prisma/index.js";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { withAccelerate } from "@prisma/extension-accelerate" //todo når den skal i produktion skal der være noget config;
 
 // Instantiate the extended Prisma client to infer its type
 const extendedPrisma = new PrismaClient().$extends(withAccelerate());
