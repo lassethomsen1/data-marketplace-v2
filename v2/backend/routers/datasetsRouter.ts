@@ -6,7 +6,7 @@ import { authenticateToken } from '../middleware/auth';
 import { DatasetStatus, Prisma, prisma } from "@data/prisma";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 //import emitStat from './socket/socketEmits.js';
-import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper.js';
+import { extractSampleData, verifySellerStatus } from './helper/datasetsHelper';
 import { authReqDTO } from "../types/ReqDTO";
 
 const router = Router();
