@@ -8,7 +8,11 @@ import { authReqDTO } from "../types/ReqDTO";
 const router = Router();
 
 router.get('/user', authenticateToken, (req: authReqDTO, res) => {
-  const userId = req.user.id;
+  const userId = req.user?.id;
+
+  if (!userId) {
+    return res.status(401).send({ error: 'Unauthorized' });
+  }
 
   prisma.users
     .findUnique({
