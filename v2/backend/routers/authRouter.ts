@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { prisma } from '@data/prisma';
+import { prisma, Users } from "@data/prisma";
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { authenticateToken } from '../middleware/auth';
 import { authReqDTO } from "../types/ReqDTO";
+import { JwtPayload } from "jsonwebtoken";
 
 const router = Router();
 
@@ -38,11 +39,20 @@ router.get('/validate-token', async (req, res) => {
     return res.status(401).send('No token provided');
   }
 
-  let decoded; //todo: måske et problem senere hen (typen)
+  const jwtSecret = process.env.JWT_SECRET; //det her er rodet
+  if (!jwtSecret) {
+    return res.status(500).send('JWT secret not configured');
+  }
+
+  let decoded: JwtPayload | string = ''; //todo: måske et problem senere hen (typen)
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, jwtSecret);
   } catch (err) {
     return res.status(401).send('Invalid token');
+  }
+
+  if (typeof decoded === 'string') {
+    return res.status(401).send('Invalid token format');
   }
 
   const verifiedUser = await prisma.users.findUnique({
@@ -68,6 +78,11 @@ router.get('/validate-token', async (req, res) => {
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    return res.status(500).send('JWT secret not configured');
+  }
+
   const user = await prisma.users.findUnique({
     where: { email },
   });
@@ -88,7 +103,7 @@ router.post('/login', async (req, res) => {
       role: user.role,
       stripeOnboardingCompleted: user.stripeOnboardingCompleted,
     },
-    process.env.JWT_SECRET,
+    jwtSecret,
     {
       expiresIn: '24h', // for demo purposes
     }
@@ -108,6 +123,11 @@ router.post('/login', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
+
+  const jwtSecret = process.env.JWT_SECRET;
+  if (!jwtSecret) {
+    return res.status(500).send('JWT secret not configured');
+  }
 
   const existingUser = await prisma.users.findUnique({
     where: { email },
@@ -132,7 +152,7 @@ router.post('/signup', async (req, res) => {
       role: newUser.role,
       stripeOnboardingCompleted: newUser.stripeOnboardingCompleted,
     },
-    process.env.JWT_SECRET,
+    jwtSecret,
     {
       expiresIn: '24h', // for demo purposes
     }
