@@ -1,6 +1,6 @@
 import { Router, Response, Request } from 'express';
-import * as multer from 'multer';
-import * as crypto from 'crypto';
+import multer from 'multer';
+import crypto from 'crypto';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 import { authenticateToken } from '../middleware/auth';
 import { DatasetStatus, Prisma, prisma } from "@data/prisma";
@@ -127,7 +127,7 @@ router.get('/datasets', async (req: Request<{}, {}, {}, DatasetsQuery>, res: Res
 
 router.get('/datasets/performance', authenticateToken, async (req: authReqDTO, res: Response) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id;
 
     if (!userId) {
       return res.status(401).send({ error: 'Unauthorized' });
@@ -206,7 +206,11 @@ router.get('/datasets/:datasetId', async (req: Request, res: Response) => {
 router.get('/datasets/:datasetId/download', authenticateToken, async (req: authReqDTO, res:Response) => {
   try {
     const { datasetId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
 
     const dataset = await prisma.datasets.findUnique({
       where: { id: datasetId },
@@ -246,14 +250,17 @@ router.get('/datasets/:datasetId/download', authenticateToken, async (req: authR
     console.error('Download error:', error);
     return res.status(500).send({
       error: 'Failed to generate download link',
-      message: error.message,
     });
   }
 });
 
 router.post('/datasets/upload', authenticateToken, upload.single('file'), async (req: authReqDTO, res: Response) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
 
     await verifySellerStatus(userId);
 
@@ -338,7 +345,6 @@ router.post('/datasets/upload', authenticateToken, upload.single('file'), async 
     console.error('Upload error:', error);
     return res.status(500).send({
       error: 'Failed to upload dataset',
-      message: error.message,
     });
   }
 });
