@@ -98,6 +98,9 @@ importers:
 
   frontend:
     dependencies:
+      '@data/prisma':
+        specifier: workspace:*
+        version: link:../database
       lucide-svelte:
         specifier: ^0.544.0
         version: 0.544.0(svelte@5.39.8)

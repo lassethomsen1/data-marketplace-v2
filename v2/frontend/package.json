@@ -44,6 +44,7 @@
 	},
 	"dependencies": {
 		"lucide-svelte": "^0.544.0",
-		"papaparse": "^5.5.3"
+      "@data/prisma": "workspace:*",
+      "papaparse": "^5.5.3"
 	}
 }
