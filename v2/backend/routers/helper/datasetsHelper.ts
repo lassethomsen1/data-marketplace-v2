@@ -1,5 +1,5 @@
 import { prisma } from '@data/prisma';
-import type { Users } from "@data/prisma";
+import type { User } from "@data/prisma";
 
 export async function extractSampleData(buffer: Buffer<ArrayBufferLike>, filetype: string) {
   if (filetype.includes('csv') || filetype.includes('vnd.ms-excel')) {
@@ -16,8 +16,8 @@ export async function extractSampleData(buffer: Buffer<ArrayBufferLike>, filetyp
   return 'Sample preview not available for this file type';
 }
 
-export async function verifySellerStatus(userId: Users['id']) {
-  const user = await prisma.users.findUnique({
+export async function verifySellerStatus(userId: User['id']) {
+  const user = await prisma.user.findUnique({
     where: { id: userId },
   });
 
