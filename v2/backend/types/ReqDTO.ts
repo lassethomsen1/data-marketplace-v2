@@ -1,12 +1,12 @@
 import { Request } from 'express';
-import type { Users } from '@data/prisma';
+import type { User } from '@data/prisma';
 export interface authReqDTO extends Request {
   user?: {
-    id: Users['id'];
-    email: Users['email'];
-    name: Users['name'];
-    role: Users['role'];
-    stripeAccountId: Users['stripeAccountId'];
-    stripeOnboardingCompleted: Users['stripeOnboardingCompleted'];
+    id: User['id'];
+    email: User['email'];
+    name: User['name'];
+    role: User['role'];
+    stripeAccountId: User['stripeAccountId'];
+    stripeOnboardingCompleted: User['stripeOnboardingCompleted'];
   }
 }

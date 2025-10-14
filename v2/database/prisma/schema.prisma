@@ -9,7 +9,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model User {
   id                        String      @id @default(uuid())
   email                     String      @unique
   name                      String?
@@ -30,9 +30,9 @@ enum Role {
 model Purchases {
   id              String         @id @default(uuid())
   buyerId         String
-  datasetId       String
-  buyer           Users          @relation("UserPurchases", fields: [buyerId], references: [id])
-  dataset         Datasets       @relation(fields: [datasetId], references: [id])
+  datasetId String
+  buyer     User     @relation("UserPurchases", fields: [buyerId], references: [id])
+  dataset   Datasets @relation(fields: [datasetId], references: [id])
   stripeSessionId String?
   status          PurchaseStatus @default(PENDING)
   paidAmount      Int? // amount paid in cents
@@ -61,7 +61,7 @@ model Datasets {
   status          DatasetStatus @default(PROCESSING)
   category        String?
   additionalFiles Json?
-  seller          Users         @relation("UserDatasets", fields: [sellerId], references: [id])
+  seller          User        @relation("UserDatasets", fields: [sellerId], references: [id])
   purchases       Purchases[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
