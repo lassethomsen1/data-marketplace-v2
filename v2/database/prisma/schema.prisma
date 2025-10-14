@@ -20,6 +20,7 @@ model User {
   stripeAccountId           String?
   stripeOnboardingCompleted Boolean     @default(false)
   createdAt                 DateTime    @default(now())
+  Account                   Account[]
 }
 
 enum Role {
@@ -30,9 +31,9 @@ enum Role {
 model Purchases {
   id              String         @id @default(uuid())
   buyerId         String
-  datasetId String
-  buyer     User     @relation("UserPurchases", fields: [buyerId], references: [id])
-  dataset   Datasets @relation(fields: [datasetId], references: [id])
+  datasetId       String
+  buyer           User           @relation("UserPurchases", fields: [buyerId], references: [id])
+  dataset         Datasets       @relation(fields: [datasetId], references: [id])
   stripeSessionId String?
   status          PurchaseStatus @default(PENDING)
   paidAmount      Int? // amount paid in cents
@@ -61,7 +62,7 @@ model Datasets {
   status          DatasetStatus @default(PROCESSING)
   category        String?
   additionalFiles Json?
-  seller          User        @relation("UserDatasets", fields: [sellerId], references: [id])
+  seller          User          @relation("UserDatasets", fields: [sellerId], references: [id])
   purchases       Purchases[]
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
@@ -71,4 +72,19 @@ enum DatasetStatus {
   PROCESSING
   AVAILABLE
   UNAVAILABLE
+}
+
+model Account {
+  // better-auth
+  id                String   @id @default(uuid())
+  userId            String
+  providerId        String
+  providerAccountId String   @default(uuid())
+  password          String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, providerAccountId])
 }
