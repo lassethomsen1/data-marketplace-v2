@@ -8,6 +8,8 @@ import stripeRouter from './routers/stripeRouter';
 import webhookRouter from './routers/webhookRouter';
 import purchaseRouter from './routers/purchaseRouter';
 import statsRouter from './routers/statsRouter';
+import { fromNodeHeaders, toNodeHandler } from "better-auth/node";
+import { auth } from "./auth/auth";
 //import devRouter from './routers/devRouter.js';
 
 //import { initSocket } from './routers/socket/socketServer.js';
@@ -24,12 +26,22 @@ app.use(
     credentials: true,
   })
 );
+
+app.all("/api/auth/*splat", toNodeHandler(auth));
+
+app.get("/api/me", async (req, res) => {
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+  res.json(session);
+});
+
 app.use(express.json());
 app.use('/api', datasetRouter);
 app.use('/api/', purchaseRouter);
 app.use('/api/stats', statsRouter);
 app.use('/api/stripe', stripeRouter);
-app.use('/auth', authRouter);
+//app.use('/auth', authRouter);
 //app.use('/dev', devRouter);
 
 app.get('/', (req, res) => {
