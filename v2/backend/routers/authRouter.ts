@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { prisma, Users } from "@data/prisma";
+import { prisma, User } from "@data/prisma";
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { authenticateToken } from '../middleware/auth';
@@ -15,7 +15,7 @@ router.get('/user', authenticateToken, (req: authReqDTO, res) => {
     return res.status(401).send({ error: 'Unauthorized' });
   }
 
-  prisma.users
+  prisma.user
     .findUnique({
       where: { id: userId },
     })
@@ -55,7 +55,7 @@ router.get('/validate-token', async (req, res) => {
     return res.status(401).send('Invalid token format');
   }
 
-  const verifiedUser = await prisma.users.findUnique({
+  const verifiedUser = await prisma.user.findUnique({
     where: { id: decoded.id },
   });
 
@@ -83,7 +83,7 @@ router.post('/login', async (req, res) => {
     return res.status(500).send('JWT secret not configured');
   }
 
-  const user = await prisma.users.findUnique({
+  const user = await prisma.user.findUnique({
     where: { email },
   });
 
@@ -129,7 +129,7 @@ router.post('/signup', async (req, res) => {
     return res.status(500).send('JWT secret not configured');
   }
 
-  const existingUser = await prisma.users.findUnique({
+  const existingUser = await prisma.user.findUnique({
     where: { email },
   });
 
@@ -139,7 +139,7 @@ router.post('/signup', async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await prisma.users.create({
+  const newUser = await prisma.user.create({
     data: {
       email,
       password: hashedPassword,
