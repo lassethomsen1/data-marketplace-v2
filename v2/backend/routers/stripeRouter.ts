@@ -9,7 +9,7 @@ const router = Router();
 router.post('/onboard-seller', authenticateToken, async (req: authReqDTO, res) => {
   const userId = req.user?.id;
 
-  const user = await prisma.users.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return res.status(404).send({ error: 'User not found' });
 
   let accountId = user.stripeAccountId;
@@ -24,7 +24,7 @@ router.post('/onboard-seller', authenticateToken, async (req: authReqDTO, res) =
       },
     });
 
-    await prisma.users.update({
+    await prisma.user.update({
       where: { id: user.id },
       data: { stripeAccountId: account.id },
     });
