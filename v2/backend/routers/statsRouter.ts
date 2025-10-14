@@ -70,7 +70,7 @@ router.get('/sellers', authenticateToken, async (req: authReqDTO, res) => {
   if (!req.user) {
     return res.status(403).send('Access denied');
   }
-  const isStripeOnboardingComplete = await prisma.users.findUnique({
+  const isStripeOnboardingComplete = await prisma.user.findUnique({
     where: { id: req.user.id },
     select: {
       stripeOnboardingCompleted: true,
@@ -83,7 +83,7 @@ router.get('/sellers', authenticateToken, async (req: authReqDTO, res) => {
     const sellerId = req.user.id;
 
     const [user, totalEarningsResult, totalSales, activeDatasets] = await prisma.$transaction([
-      prisma.users.findUnique({
+      prisma.user.findUnique({
         where: { id: sellerId },
         select: {
           stripeAccountId: true,
@@ -152,7 +152,7 @@ router.get('/sellers/revenue', authenticateToken, async (req: authReqDTO, res) =
 
     const monthsNum = parseInt(months as string);
 
-    const seller = await prisma.users.findUnique({
+    const seller = await prisma.user.findUnique({
       where: {
         id: sellerId,
         stripeOnboardingCompleted: true,
