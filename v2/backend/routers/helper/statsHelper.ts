@@ -1,4 +1,4 @@
-import { prisma, Users } from "@data/prisma";
+import { prisma, User } from "@data/prisma";
 import stripe from '../../utils/stripe';
 
 type RevenueStats = {
@@ -9,7 +9,7 @@ type RevenueStats = {
 
 export async function getDatabaseStats() {
   const [users, datasets, failedPurchases, completedPurchases] = await prisma.$transaction([
-    prisma.users.count(),
+    prisma.user.count(),
     prisma.datasets.count(),
     prisma.purchases.count({
       where: { status: 'FAILED' },
@@ -56,7 +56,7 @@ export async function getTotalRevenue() {
   return { total: total / 100, currency: paymentIntents.data[0]?.currency || 'usd' };
 }
 
-export async function getRemainingPayout(stripeAccountId: Users['stripeAccountId']) {
+export async function getRemainingPayout(stripeAccountId: User['stripeAccountId']) {
   try {
     if (!stripeAccountId) {
       throw new Error('Seller has not completed payment setup');
@@ -76,7 +76,7 @@ export async function getRemainingPayout(stripeAccountId: Users['stripeAccountId
   }
 }
 
-export async function getPayoutHistory(stripeAccountId: Users['stripeAccountId']) {
+export async function getPayoutHistory(stripeAccountId: User['stripeAccountId']) {
   try {
     if (!stripeAccountId) {
       throw new Error('Seller has not completed payment setup');
@@ -96,7 +96,7 @@ export async function getPayoutHistory(stripeAccountId: Users['stripeAccountId']
   }
 }
 
-export async function getSales(sellerId: Users['id'], months = 12) {
+export async function getSales(sellerId: User['id'], months = 12) {
   try {
     const endDate = new Date();
     const startDate = new Date();
@@ -136,7 +136,7 @@ export async function getSales(sellerId: Users['id'], months = 12) {
   }
 }
 
-export async function getSellerRevenue(sellerId: Users['id'], months = 12) {
+export async function getSellerRevenue(sellerId: User['id'], months = 12) {
   try {
     const endDate = new Date();
     const startDate = new Date();
