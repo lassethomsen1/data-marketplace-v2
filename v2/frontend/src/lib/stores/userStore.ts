@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-//import { fetchUser } from '@/api/userApi.js';
+import { fetchUser } from '$lib/api/userApi';
 import { goto } from '$app/navigation';
 import { fetchPurchasedDatasets } from '$lib/api/datasetsApi.js';
 import { formatDataset } from '$lib/utils/datasetUtil.js';
@@ -13,23 +13,23 @@ export const purchases = writable([]);
 
 token.subscribe(value => {
 	if (value) {
-		//localStorage.setItem('token', value);
+		localStorage.setItem('token', value);
 	} else {
-		//localStorage.removeItem('token');
+		localStorage.removeItem('token');
 	}
 });
 user.subscribe(value => {
 	if (value) {
-		//localStorage.setItem('user', JSON.stringify(value));
+		localStorage.setItem('user', JSON.stringify(value));
 	} else {
-		//localStorage.removeItem('user');
+		localStorage.removeItem('user');
 	}
 });
 
 export async function fetchAndSetUser() {
 	try {
-		//const fetchedUser = await fetchUser();
-		const fetchedUser = null; //todo: fix types
+		const fetchedUser = await fetchUser();
+		//const fetchedUser = null; //todo: fix types
 		user.set(fetchedUser);
 	} catch (error) {
 		console.error('Failed to fetch user:', error);
@@ -53,7 +53,7 @@ export async function fetchAndSetPurchases() {
 export async function logout() {
 	user.set(null);
 	token.set(null);
-	//localStorage.removeItem('user');
-	//localStorage.removeItem('token');
+	localStorage.removeItem('user');
+	localStorage.removeItem('token');
 	await goto('/');
 }
