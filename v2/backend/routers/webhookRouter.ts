@@ -121,7 +121,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
       account.charges_enabled &&
       account.payouts_enabled
     ) {
-      await prisma.users.updateMany({
+      await prisma.user.updateMany({
         where: { stripeAccountId: account.id },
         data: { stripeOnboardingCompleted: true },
       });
