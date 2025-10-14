@@ -1,6 +1,31 @@
-import { PrismaClient } from '../generated/prisma/index.js';
-import * as bcrypt from "bcryptjs";
+import { PrismaClient, User } from "../generated/prisma/index.js";
+import { scryptSync, randomBytes } from 'crypto';
 const prisma = new PrismaClient();
+
+
+function hashPassword(password: string) { // scrypt-hash for better auth
+  const salt = randomBytes(16).toString('hex');
+  const hash = scryptSync(password, salt, 64).toString('hex');
+  return `${salt}:${hash}`;
+}
+
+async function insertAccount(user: User){
+  await prisma.account.upsert({
+    where: {
+      providerId_providerAccountId: {
+        providerId: 'credential',
+        providerAccountId: user.email,
+      },
+    },
+    update: {},
+    create: {
+      userId: user.id,
+      providerId: 'credential',
+      providerAccountId: user.email,
+      password: user.password,
+    },
+  });
+}
 
 async function main() {
   const user = await prisma.user.upsert({
@@ -14,7 +39,7 @@ async function main() {
       email: 'user@test.com',
       name: 'User',
       role: 'USER',
-      password: await bcrypt.hash('user', 10),
+      password: hashPassword("user"),
       stripeAccountId: 'acct_1RT3j6PTSm4OXnep',
       stripeOnboardingCompleted: true,
     },
@@ -26,7 +51,7 @@ async function main() {
       email: 'admin@test.com',
       name: 'Admin',
       role: 'ADMIN',
-      password: await bcrypt.hash('admin', 10),
+      password: hashPassword("admin"),
     },
   });
   const userNotOnboarded = await prisma.user.upsert({
@@ -40,11 +65,15 @@ async function main() {
       email: 'user-not-onboarded@test.com',
       name: 'UserNotOnboarded',
       role: 'USER',
-      password: await bcrypt.hash('user', 10),
+      password: hashPassword('user'),
       stripeAccountId: null,
       stripeOnboardingCompleted: false,
     },
   });
+  await insertAccount(user);
+  await insertAccount(admin);
+  await insertAccount(userNotOnboarded);
+
   await prisma.datasets.upsert({
     where: { id: 'fddbd358-7052-479b-9638-fce4791bc220' },
     update: {},
