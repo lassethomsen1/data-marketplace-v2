@@ -101,6 +101,9 @@ importers:
       '@data/prisma':
         specifier: workspace:*
         version: link:../database
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       lucide-svelte:
         specifier: ^0.544.0
         version: 0.544.0(svelte@5.39.8)
