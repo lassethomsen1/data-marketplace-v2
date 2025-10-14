@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import http from 'http';
 import datasetRouter from './routers/datasetsRouter';
-import authRouter from './routers/authRouter';
 import stripeRouter from './routers/stripeRouter';
 import webhookRouter from './routers/webhookRouter';
 import purchaseRouter from './routers/purchaseRouter';
@@ -41,7 +40,6 @@ app.use('/api', datasetRouter);
 app.use('/api/', purchaseRouter);
 app.use('/api/stats', statsRouter);
 app.use('/api/stripe', stripeRouter);
-//app.use('/auth', authRouter);
 //app.use('/dev', devRouter);
 
 app.get('/', (req, res) => {
